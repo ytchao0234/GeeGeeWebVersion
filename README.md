@@ -13,3 +13,5 @@
 | 將你資料夾中所有資料更新到github專案上| git add .|
 |                                 | git commit -m "本次更新內容紀錄(ex.update README.md)"|
 |                                 | git push origin 你的分支 (frontEnd backEnd)|
+
+## 請務必記得先做 pull
