@@ -36,11 +36,10 @@
     </style>
 </head>
 
-<body style="background-color: lightgoldenrodyellow; font-size: 1.2em;font-family: 'Work Sans', 'Noto Serif TC',sans-serif;">
+<body class="bg-dark" style="font-size: 1.2em;font-family: 'Work Sans', 'Noto Serif TC',sans-serif;">
     <!-- <hr> -->
-        <nav id="menu" class="navbar navbar-expand-lg navbar-light" style="background-color:sienna;">
-            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#up"
-                aria-controls="up" aria-expanded="false" aria-label="Toggle navigation">
+        <nav id="menu" class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#up">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -75,22 +74,24 @@
         </nav>
 
     <div id="navbar">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
             <a class="navbar-brand" href="#">Logo</a>
             
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <form class="form-inline my-2 my-lg-0 mr-auto">
+                <form class="form-inline my-2 my-lg-0 mr-auto w-25 d-inline">
                     <div class="input-group">
                         <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search">
                         <span class="input-group-append">
                             <button class="btn rounded-pill border-0 ml-n5" type="button">
                                   <i class="fa fa-search"></i>
+                            </button>
+                            <button class="btn rounded-pill bg-light ml-3" type="button">
+                                <i class="fa fa-cog"></i>
                             </button>
                         </span>
                     </div>
@@ -109,6 +110,51 @@
                 </ul>
             </div>
         </nav>
+    </div>
+
+    <div class="card-deck mt-3 ml-2 mr-2 mb-2">
+        <div class="card overflow-auto" style="height:80vh; background-color: rgb(165, 140, 101);">
+            <div class="card-body">
+
+                <div class="card mb-2" style="background-color: rgb(247, 233, 171);">
+                    <div class="card-body">
+                        <p class="card-text">123<br>123<br>123<br>123<br>123<br>123<br>123<br>123<br>123</p>
+                    </div>
+                </div>
+
+                <div class="card mb-2" style="background-color: rgb(247, 233, 171);">
+                    <div class="card-body">
+                        <p class="card-text">123<br>123<br>123<br>123<br>123<br>123<br>123<br>123<br>123</p>
+                    </div>
+                </div>
+
+                <div class="card mb-2" style="background-color: rgb(247, 233, 171);">
+                    <div class="card-body">
+                        <p class="card-text">123<br>123<br>123<br>123<br>123<br>123<br>123<br>123<br>123</p>
+                    </div>
+                </div>
+
+                <div class="card mb-2" style="background-color: rgb(247, 233, 171);">
+                    <div class="card-body">
+                        <p class="card-text">123<br>123<br>123<br>123<br>123<br>123<br>123<br>123<br>123</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card overflow-auto" style="height:80vh; background-color: rgb(165, 140, 101);">
+            <div class="card-body text-center">
+                <h5 class="card-title">已選硬體列表</h5>
+                <p class="card-text"></p>
+            </div>
+        </div>
+        <div class="card overflow-auto" style="height:80vh; background-color: rgb(165, 140, 101);">
+            <div class="card-body text-center">
+                <h5 class="card-title">相容性提示</h5>
+                <p class="card-text"></p>
+            </div>
+        </div>
     </div>
 </body>
 
