@@ -1,25 +1,85 @@
-body { 
-    font-size: 1.2em;
-    font-family: 'Work Sans', 'Noto Serif TC',sans-serif;
-    background-color: rgb(231, 242, 255);
+@font-face{
+    font-family: "王漢宗顏楷體";
+    src: url(wt064.ttf);
 }
 
+@font-face{
+    font-family: "Signika";
+    src: url(Signika-Light.ttf);
+}
+
+body { 
+    font-size: 1.2em;
+    font-family: 'Signika', '王漢宗顏楷體',sans-serif;
+    background-color: rgb(162, 180, 202);
+}
+
+/* navbar */
 nav {
     background-color: rgb(64, 84, 104);
 }
 
+/* navbar element highlighting*/
 nav a:hover.menu-item { 
-    background-color: rgb(63, 98, 139);
+    background-color: rgb(87, 106, 126);
 }
 
+nav a#menu-item-0 { 
+    background-color: rgb(87, 106, 126);
+}
+
+/* GeeGee Logo */
+nav .Logo {
+    width: 40px;
+    height: 40px;
+    padding-top: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* navbar element font color */
+.nav-link {
+    color: lightgoldenrodyellow !important;
+}
+
+/* bottom card container */
 .card-big { 
     height:80vh; 
-    background-color: rgb(98, 130, 170); 
+    background-color: rgb(94, 121, 155); 
 }
 
-.card-small { 
-    background-color: rgb(233, 236, 240); 
+/* bottom card container titles */
+.card-big .badge { 
+    font-size: 24px;
+    color: rgb(231, 242, 255);
+    border-color: rgb(231, 242, 255);
 }
+
+/* top cards */
+.card-small { 
+    background-color: rgb(233, 236, 241); 
+}
+
+.card-small.chosen-menu-item { 
+    background-color: rgb(203, 206, 209); 
+}
+
+#chosen-menu-item-0 { 
+    background-color: rgb(233, 236, 241); 
+}
+
+.plusButton {
+    background-color: rgb(89, 136, 51);
+}
+.minusButton {
+    background-color: rgb(182, 26, 26);
+}
+
+table tbody th {
+    font-weight: lighter;
+}
+
+#accordion { display: none; }
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
 .toggle.ios .toggle-handle { border-radius: 20px; }
@@ -32,3 +92,29 @@ nav a:hover.menu-item {
 .toggling > .toggle {
     width: 110px !important
 }   
+
+div::-webkit-scrollbar {
+  background-color:#00000000;
+  width:8px
+}
+
+/* background of the scrollbar except button or resizer */
+div::-webkit-scrollbar-track {
+  background-color:#00000000
+}
+
+/* scrollbar itself */
+div::-webkit-scrollbar-thumb {
+  background-color:#babac0;
+  border-radius:16px;
+  border:0px solid #00000000
+}
+
+div::-webkit-scrollbar-thumb:hover {
+  background-color:#ffffffd5;
+  border-radius:16px;
+  border:0px solid #00000000
+}
+
+/* set button(top and bottom of the scrollbar) */
+div::-webkit-scrollbar-button {display:none}
