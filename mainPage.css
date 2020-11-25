@@ -24,7 +24,7 @@ nav a:hover {
     background-color: rgb(87, 106, 126);
 }
 
-nav a#menu-item-0 { 
+nav a.chosen { 
     background-color: rgb(87, 106, 126);
 }
 
@@ -49,6 +49,10 @@ nav a:hover.navbar-brand {
     color: lightgoldenrodyellow !important;
 }
 
+.modal-title {
+    color: lightgoldenrodyellow !important;
+}
+
 /* bottom card container */
 .card-big { 
     height:80vh; 
@@ -59,6 +63,7 @@ nav a:hover.navbar-brand {
 .card-big .badge { 
     font-size: 24px;
     color: rgb(231, 242, 255);
+    font-weight: normal !important;
     border-color: rgb(231, 242, 255);
 }
 
@@ -75,11 +80,11 @@ nav a:hover.navbar-brand {
     background-color: rgb(223, 219, 219); 
 }
 
-#chosen-menu-item-0 { 
+.card-small.chosen-menu-item.chosen { 
     background-color: rgb(233, 236, 241); 
 }
 
-#chosen-menu-item-0 .form-control { 
+.card-small.chosen-menu-item .form-control.chosen { 
     background-color: rgb(255, 255, 255); 
 }
 
