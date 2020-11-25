@@ -1,5 +1,7 @@
 # GeeGeeWebVersion
 
+[mainPage](https://ytchao0234.github.io/GeeGeeWebVersion/mainPage.html)
+
 ## 首先請下載 git bash
 1. 在你的電腦上建立一個資料夾
 2. 點開資料夾後, 按滑鼠右鍵選擇 git bash
