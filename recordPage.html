@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>GeeGee-大力出奇機</title>
+
+        <!-- icon next to title -->
+        <link rel="icon" href="./Logo.png" type="image/x-icon">
+
+        <!-- bootstrap and jQuery -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+
+        <!-- mode switch button -->
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+        <!-- icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- main css -->
+        <link rel="stylesheet" type="text/css" href="./mainPage.css">
+
+        <!-- record css -->
+        <link rel="stylesheet" type="text/css" href="./recordPage.css">
+    </head>
+
+    <body>
+        <!-- feature bar -->
+        <div id="navbar">
+            <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
+                
+                <!-- GeeGee Logo -->
+                <a class="navbar-brand" href="#"><img class="Logo" src="./Logo.png" alt="Logo"/></a>
+                
+                <!-- toggle button for RWD -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#featureBar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- feature items -->
+                <div class="collapse navbar-collapse" id="featureBar">
+
+                    <!-- searchText searchButton and customButton -->
+                    <form class="form-inline ml-2 my-2 my-lg-0 mr-auto d-inline">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">全選</label>
+                          </div>
+                    </form>
+
+                    <!-- feature bar right side buttons -->
+                    <ul class="navbar-nav nav-fill">
+                        <!-- record link -->
+                        <li class="nav-item active">
+                            <a class="nav-link mr-2" href="#">載入</a>
+                        </li>
+                        <!-- record link -->
+                        <li class="nav-item active">
+                            <a class="nav-link mr-2" href="#">刪除</a>
+                        </li>
+                        <!-- record link -->
+                        <li class="nav-item active">
+                            <a class="nav-link mr-2" href="#">匯出</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+    <!-- three main cards -->
+    <div class="card-deck mt-3 ml-2 mr-2 mb-2">
+
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+
+                            <!-- detail table -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="2"><h4>2020/11/25 16:57:37</h4></th>
+                                        <!-- <script>
+                                            var today = new Date();
+                                            $( "table th h4" ).text( today.toLocaleString('zh-TW', { hour12: false }) );
+                                        </script> -->
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th>CPU</th>
+                                        <td>Intel Core i3-10100</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CPU散熱器</th>
+                                        <td>未選取</td>
+                                    </tr>
+                                    <tr>
+                                        <th>主機板</th>
+                                        <td>Asrock H470M Pro4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>記憶體</th>
+                                        <td>UMAX 16GB DDR4-2400 * 4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>硬碟</th>
+                                        <td>金士頓 A2000 1TB M.2 PCIe</td>
+                                    </tr>
+                                    <tr>
+                                        <th>顯示卡</th>
+                                        <td>華碩 TUF-RTX3090</td>
+                                    </tr>
+                                    <tr>
+                                        <th>電源供應器</th>
+                                        <td>振華 LEADEX 1000W 鈦金</td>
+                                    </tr>
+                                    <tr>
+                                        <th>機殼</th>
+                                        <td>視博通 摩娑戰士</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+
+                            <!-- detail table -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="2"><h4>2020/11/25 17:19:36</h4></th>
+                                        <!-- <script>
+                                            var today = new Date();
+                                            $( "table th h4" ).text( today.toLocaleString('zh-TW', { hour12: false }) );
+                                        </script> -->
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th>CPU</th>
+                                        <td>Intel Core i3-10100</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CPU散熱器</th>
+                                        <td>未選取</td>
+                                    </tr>
+                                    <tr>
+                                        <th>主機板</th>
+                                        <td>Asrock H470M Pro4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>記憶體</th>
+                                        <td>UMAX 16GB DDR4-2400 * 4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>硬碟</th>
+                                        <td>金士頓 A2000 1TB M.2 PCIe</td>
+                                    </tr>
+                                    <tr>
+                                        <th>顯示卡</th>
+                                        <td>華碩 TUF-RTX3090</td>
+                                    </tr>
+                                    <tr>
+                                        <th>電源供應器</th>
+                                        <td>振華 LEADEX 1000W 鈦金</td>
+                                    </tr>
+                                    <tr>
+                                        <th>機殼</th>
+                                        <td>視博通 摩娑戰士</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+
+                            <!-- detail table -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="2"><h4>2020/11/25 17:43:12</h4></th>
+                                        <!-- <script>
+                                            var today = new Date();
+                                            $( "table th h4" ).text( today.toLocaleString('zh-TW', { hour12: false }) );
+                                        </script> -->
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th>CPU</th>
+                                        <td>Intel Core i3-10100</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CPU散熱器</th>
+                                        <td>未選取</td>
+                                    </tr>
+                                    <tr>
+                                        <th>主機板</th>
+                                        <td>Asrock H470M Pro4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>記憶體</th>
+                                        <td>UMAX 16GB DDR4-2400 * 4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>硬碟</th>
+                                        <td>金士頓 A2000 1TB M.2 PCIe</td>
+                                    </tr>
+                                    <tr>
+                                        <th>顯示卡</th>
+                                        <td>華碩 TUF-RTX3090</td>
+                                    </tr>
+                                    <tr>
+                                        <th>電源供應器</th>
+                                        <td>振華 LEADEX 1000W 鈦金</td>
+                                    </tr>
+                                    <tr>
+                                        <th>機殼</th>
+                                        <td>視博通 摩娑戰士</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- three main cards -->
+    <div class="card-deck mt-3 ml-2 mr-2 mb-2">
+
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+
+                            <!-- detail table -->
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="2"><h4>2020/11/25 16:57:37</h4></th>
+                                        <!-- <script>
+                                            var today = new Date();
+                                            $( "table th h4" ).text( today.toLocaleString('zh-TW', { hour12: false }) );
+                                        </script> -->
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th>CPU</th>
+                                        <td>Intel Core i3-10100</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CPU散熱器</th>
+                                        <td>未選取</td>
+                                    </tr>
+                                    <tr>
+                                        <th>主機板</th>
+                                        <td>Asrock H470M Pro4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>記憶體</th>
+                                        <td>UMAX 16GB DDR4-2400 * 4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>硬碟</th>
+                                        <td>金士頓 A2000 1TB M.2 PCIe</td>
+                                    </tr>
+                                    <tr>
+                                        <th>顯示卡</th>
+                                        <td>華碩 TUF-RTX3090</td>
+                                    </tr>
+                                    <tr>
+                                        <th>電源供應器</th>
+                                        <td>振華 LEADEX 1000W 鈦金</td>
+                                    </tr>
+                                    <tr>
+                                        <th>機殼</th>
+                                        <td>視博通 摩娑戰士</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big" style="visibility: hidden;">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- hardware list (left) -->
+        <div class="card overflow-auto card-big" style="visibility: hidden;">
+            <div class="card-body">
+
+                <!-- hardware item -->
+                <div class="card mb-2 card-small">
+                    <div class="card-body">
+                        <div class="card-text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">
+                        硬體列表
+                    </button>
+                </h5>
+            </div>
+      
+            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                <div class="card overflow-auto card-big">
+                    <div class="card-body">
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <p class="card-text">123333333333333333333<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                            </div>
+                        </div>
+
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                            </div>
+                        </div>
+
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                            </div>
+                        </div>
+
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo">
+                        Collapsible Group Item #2
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree">
+                        Collapsible Group Item #3
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
