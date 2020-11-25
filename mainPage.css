@@ -1,16 +1,16 @@
 @font-face{
     font-family: "王漢宗顏楷體";
-    src: url(wt064.ttf);
+    src: url(fonts/wt064.ttf);
 }
 
 @font-face{
     font-family: "Signika";
-    src: url(Signika-Light.ttf);
+    src: url(fonts/Signika-Light.ttf);
 }
 
 body { 
     font-size: 1.2em;
-    font-family: 'Signika', '王漢宗顏楷體',sans-serif;
+    font-family: 'Signika', '王漢宗顏楷體', sans-serif;
     background-color: rgb(162, 180, 202);
 }
 
@@ -20,7 +20,7 @@ nav {
 }
 
 /* navbar element highlighting*/
-nav a:hover.menu-item { 
+nav a:hover { 
     background-color: rgb(87, 106, 126);
 }
 
@@ -35,6 +35,13 @@ nav .Logo {
     padding-top: 4px;
     padding-left: 2px;
     padding-right: 2px;
+}
+
+nav a:hover.navbar-brand {
+    background-color: rgb(64, 84, 104);
+    padding-top: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 /* navbar element font color */
