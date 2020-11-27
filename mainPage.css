@@ -102,6 +102,8 @@ table tbody th {
 
 /* main cards for RWD */
 #accordion { display: none; }
+#accordion .card-header { text-align: center; }
+/* .card-deck { display: none; } */
 
 /* mode switch button */
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
