@@ -84,7 +84,7 @@ nav a:hover.navbar-brand {
     background-color: rgb(233, 236, 241); 
 }
 
-.card-small.chosen-menu-item .form-control.chosen { 
+.card-small .form-control.chosen { 
     background-color: rgb(255, 255, 255); 
 }
 
