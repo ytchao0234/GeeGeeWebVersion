@@ -18,6 +18,11 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
 
+    <!-- swal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js"
+        type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
+
     <!-- mode switch button -->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -234,7 +239,7 @@
 
         <!-- hardware list (left) -->
         <div class="card overflow-auto card-big">
-            <div class="card-body">
+            <div id="listLeft" class="card-body">
 
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
@@ -423,7 +428,7 @@
                             <!-- body -->
                             <p class="card-text">
                                 <!-- first line -->
-                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline ">
                                 <div class="input-group mt-2">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
@@ -439,6 +444,7 @@
                                             placeholder="0" />
                                     </span>
                                 </div>
+
                             </form>
                             </p>
                         </div>
@@ -471,6 +477,7 @@
                                     <div class="form-control ml-2 rounded-pill text-left chosen">custom m.2 sata 500G
                                     </div>
                                 </div>
+
                             </form>
                             </p>
                         </div>
@@ -965,6 +972,7 @@
                                                 <input class="form-control rounded-pill ml-2" type="number" min="0"
                                                     max="64" placeholder="0" />
                                             </span>
+
                                         </div>
                                     </form>
                                     </p>
@@ -1120,6 +1128,8 @@
     </div>
 
     <script src="mainPage.js"></script>
+
+
 </body>
 
 </html>
