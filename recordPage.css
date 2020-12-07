@@ -5,3 +5,11 @@
 .form-check-label {
     color: lightgoldenrodyellow;
 }
+
+.card-small { 
+    background-color: rgb(203, 206, 209); 
+}
+
+.card-small.chosen { 
+    background-color: rgb(233, 236, 241); 
+}
