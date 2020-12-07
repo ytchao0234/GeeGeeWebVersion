@@ -43,14 +43,14 @@ $("div.fnt-weight-bold button").on("click", function () {
     data.cpu_cooler = $("#cpu-cooler div.text-left").text();
     data.mother_board = $("#mother-board div.text-left").text();
     data.memory_block = $("#memory-block div.text-left").text();
-    data.memory_block_num = document.getElementById("memoryNum").value;
+    data.memory_block_num = $("#memoryNum").val();
+
+    if (data.memory_block_num==0) data.memory_block_num = "未選取" ;
+
     data.disk_block = $("#disk-block div.text-left").text();
     data.graphic = $("#graphic div.text-left").text();
     data.power = $("#power div.text-left").text();
     data.case = $("#case div.text-left").text();
-
-    var time = new Date();
-    localStorage.setItem("GeeGee-" + time.getTime(), JSON.stringify(data));
 
     swal({
         title: "已選清單",
@@ -106,7 +106,11 @@ $("div.fnt-weight-bold button").on("click", function () {
                 title: "已儲存！",
                 type: "success",
             })
+            var time = new Date();
+            localStorage.setItem("GeeGee-" + time.getTime(), JSON.stringify(data));
         }
+    }, function( dismiss ) {
+        if ( dismiss === 'cancel' );
     });
 
 })
