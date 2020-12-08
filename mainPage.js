@@ -43,7 +43,7 @@ $("div.fnt-weight-bold button").on("click", function () {
     data.cpu_cooler = $("#cpu-cooler div.text-left").text();
     data.mother_board = $("#mother-board div.text-left").text();
     data.memory_block = $("#memory-block div.text-left").text();
-    data.memory_block_num = document.getElementById("memoryNum").value;
+    data.memory_block_num = $("#memoryNum").val();
     data.disk_block = $("#disk-block div.text-left").text();
     data.graphic = $("#graphic div.text-left").text();
     data.power = $("#power div.text-left").text();
