@@ -95,6 +95,10 @@ nav a:hover.navbar-brand {
     background-color: rgb(182, 26, 26);
 }
 
+#chosenItems .input-group-prepend {
+    height: 40px;
+}
+
 /* hardware list table */
 table tbody th {
     font-weight: lighter;
