@@ -8,9 +8,8 @@ $("#menu-main-nav a").on("click", function () {
     $("#chosenItems div").removeClass("chosen");
     $("#chosenItems #" + id).addClass("chosen");
 
-    $("div.chosen .rounded-pill").removeClass("chosen");
-    $("div.chosen .rounded-pill").addClass("chosen");
-
+    $("div.chosen .text-left").removeClass("chosen");
+    $("div.chosen .text-left").addClass("chosen");
 
 })
 
@@ -20,8 +19,8 @@ $("#chosenItems div").on("click", function () {
     $(this).addClass("chosen");
 
     var id = $(this).attr('id');
-    $("#chosenItems .rounded-pill").removeClass("chosen");
-    $("#" + id + " .rounded-pill").addClass("chosen");
+    $("div.chosen .text-left").removeClass("chosen");
+    $("div.chosen .text-left").addClass("chosen");
 
     //連動上面會亮
     $("#menu-main-nav a").removeClass("chosen");
