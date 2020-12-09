@@ -43,9 +43,7 @@ $("div.fnt-weight-bold button").on("click", function () {
     data.mother_board = $("#mother-board div.text-left").text();
     data.memory_block = $("#memory-block div.text-left").text();
     data.memory_block_num = $("#memoryNum").val();
-
     if (data.memory_block_num==0) data.memory_block_num = "未選取" ;
-
     data.disk_block = $("#disk-block div.text-left").text();
     data.graphic = $("#graphic div.text-left").text();
     data.power = $("#power div.text-left").text();
