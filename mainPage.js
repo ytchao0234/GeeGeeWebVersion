@@ -102,14 +102,11 @@ $("div.fnt-weight-bold button").on("click", function () {
                 //儲存
                 title: "已儲存！",
                 type: "success",
-            })
+            }).then((result) => {}, ( dismiss ) => {});
             var time = new Date();
             localStorage.setItem("GeeGee-" + time.getTime(), JSON.stringify(data));
         }
-    }, function( dismiss ) {
-        if ( dismiss === 'cancel' );
-    });
-
+    }, ( dismiss ) => {});
 })
 
 
