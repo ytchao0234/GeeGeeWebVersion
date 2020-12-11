@@ -93,7 +93,9 @@ $("div.fnt-weight-bold button").on("click", function () {
                 +'</tr>'
             +'</tbody>'
         +'</table>',
+        showCancelButton: true,
         confirmButtonText: "確定",
+        cancelButtonText: "取消",
         animation: false
 
     }).then((result) => {
@@ -102,6 +104,8 @@ $("div.fnt-weight-bold button").on("click", function () {
                 //儲存
                 title: "已儲存！",
                 type: "success",
+                showConfirmButton: false,
+                timer: 1000,
             }).then((result) => {}, ( dismiss ) => {});
             var time = new Date();
             localStorage.setItem("GeeGee-" + time.getTime(), JSON.stringify(data));
