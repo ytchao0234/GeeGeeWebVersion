@@ -230,7 +230,7 @@
                         event.stopPropagation();
                         $('#mode-switch-button').click();
                     })
-                </script> -->
+            </script> -->
         </div>
     </nav>
 
@@ -338,7 +338,7 @@
                 <div id="chosenItems" class="text-left card-text">
 
                     <!-- cpu block -->
-                    <div id="cpu" class="card mb-2 card-small d-block chosen-menu-item ">
+                    <div items="cpu" class="card mb-2 card-small d-block chosen-menu-item cpu">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU</h5>
@@ -355,7 +355,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5 3600</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu">AMD Ryzen 5 3600</div>
                                 </div>
                             </form>
                             </p>
@@ -363,7 +363,7 @@
                     </div>
 
                     <!-- cpu cooler block -->
-                    <div id="cpu-cooler" class="card mb-2 card-small d-block chosen-menu-item ">
+                    <div items="cpu-cooler" class="card mb-2 card-small d-block chosen-menu-item cpu-cooler">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
@@ -380,7 +380,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu-cooler">未選取</div>
                                 </div>
                             </form>
                             </p>
@@ -388,7 +388,7 @@
                     </div>
 
                     <!-- mother board block -->
-                    <div id="mother-board" class="card mb-2 card-small d-block chosen-menu-item">
+                    <div items="mother-board" class="card mb-2 card-small d-block chosen-menu-item mother-board">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
@@ -405,7 +405,8 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro ATX 2</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto mother-board">EVGA X299 Micro ATX 2
+                                    </div>
                                 </div>
                             </form>
                             </p>
@@ -413,13 +414,14 @@
                     </div>
 
                     <!-- memory block -->
-                    <div id="memory-block" class="card mb-2 card-small d-block chosen-menu-item">
+                    <div items="memory-block" class="card mb-2 card-small d-block chosen-menu-item memory-block">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">記憶體
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button"
+                                        onclick="btnMemory()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
@@ -437,11 +439,12 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB DDR3-1600</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto memory-block">UMAX 4GB DDR3-1600
+                                    </div>
                                     <!-- number spinner -->
                                     <span class="input-group-append">
-                                        <input id="memoryNum" class="form-control rounded-pill ml-2" value="0" type="number" min="0" max="64"
-                                            placeholder="0" />
+                                        <input id="memoryNum" class="form-control rounded-pill ml-2" value="0"
+                                            type="number" min="0" max="64" placeholder="0" />
                                     </span>
                                 </div>
 
@@ -451,13 +454,13 @@
                     </div>
 
                     <!-- disk block -->
-                    <div id="disk-block" class="card mb-2 card-small d-block chosen-menu-item chosen">
+                    <div items="disk-block" class="card mb-2 card-small d-block chosen-menu-item chosen disk-block">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">硬碟
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btnDisk()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
@@ -469,12 +472,13 @@
                                 <div class="input-group mt-2">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
-                                        <button class="btn rounded-circle minusButton" type="button">
+                                        <button class="btn rounded-circle minusButton" type="button" onclick="mbtn()">
                                             <i class="fa fa-minus text-light"></i>
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen">custom m.2 sata 500G
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen disk-block">custom m.2 sata
+                                        500G
                                     </div>
                                 </div>
 
@@ -484,13 +488,13 @@
                     </div>
 
                     <!-- graphic block -->
-                    <div id="graphic" class="card mb-2 card-small d-block chosen-menu-item">
+                    <div items="graphic" class="card mb-2 card-small d-block chosen-menu-item graphic">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">顯示卡
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btn()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
@@ -507,7 +511,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto graphic">未選取</div>
                                 </div>
                             </form>
                             </p>
@@ -515,7 +519,7 @@
                     </div>
 
                     <!-- power block -->
-                    <div id="power" class="card mb-2 card-small d-block chosen-menu-item">
+                    <div items="power" class="card mb-2 card-small d-block chosen-menu-item power">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">電源供應器</h5>
@@ -531,7 +535,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto power">未選取</div>
                                 </div>
                             </form>
                             </p>
@@ -539,7 +543,7 @@
                     </div>
 
                     <!-- case block -->
-                    <div id="case" class="card mb-2 card-small d-block chosen-menu-item">
+                    <div items="case" class="card mb-2 card-small d-block chosen-menu-item case">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
@@ -555,7 +559,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto">銀欣 小烏鴉2</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto case">銀欣 小烏鴉2</div>
                                 </div>
                             </form>
                             </p>
@@ -564,6 +568,8 @@
                 </div>
             </div>
         </div>
+
+
 
 
         <!-- suggestions list (right) -->
@@ -882,7 +888,8 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5 3600</div>
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5
+                                                3600</div>
                                         </div>
                                     </form>
                                     </p>
@@ -932,7 +939,8 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro ATX 2
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro
+                                                ATX 2
                                             </div>
                                         </div>
                                     </form>
@@ -965,7 +973,8 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB DDR3-1600
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB
+                                                DDR3-1600
                                             </div>
                                             <!-- number spinner -->
                                             <span class="input-group-append">
@@ -1128,6 +1137,7 @@
     </div>
 
     <script src="mainPage.js"></script>
+
 </body>
 
 </html>

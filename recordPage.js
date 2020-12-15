@@ -19,15 +19,17 @@ $("li.nav-item").click(function (){
         alert("還沒有選擇表格歐！");
     }
     else {
-        if ($(this).text().trim()=="載入"){
-            if ( $(".chosen").length>1){
-                alert("一次只能 載入/匯出 一份儲存紀錄歐！");
+        if (($(this).text().trim()=="載入")||($(this).text().trim()=="匯出")){
+            if ($(".chosen").length>1){
+                swal({
+                    type: "error",
+                    title: 'Oops...',
+                    text: "一次只能 載入/匯出 一份儲存紀錄歐！",
+                    timer: 1000,
+                })
             }
-    
-        }
-        if ($(this).text().trim()=="匯出"){
-            if ( $(".chosen").length>1){
-                alert("一次只能 載入/匯出 一份儲存紀錄歐！");
+            else if (($(this).text().trim()=="匯出")&&($(".chosen").length==1)){
+                console.log($(".chosen").text());
             }
         }
     }
