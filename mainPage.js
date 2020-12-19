@@ -25,6 +25,8 @@ $("#chosenItems div").on("click", function () {
     var id = $(this).attr('items');
 
     $("#chosenItems ." + id).eq(0).addClass("chosen");
+
+    //form-control那塊
     $("#chosenItems ." + id).eq(-1).addClass("chosen");
 
     //連動上面會亮
@@ -38,6 +40,16 @@ $("#chosenItems div").on("click", function () {
         $("input.ml-2").removeClass("chosen");
     }
 
+    // var hasBeenClicked = false;
+    // $(".text-left").click(function () {
+    //     window.alart(2342);
+    // });
+    
+    // if (hasBeenClicked) {
+    //     console.log(1);
+    // } else {
+    //     console.log(2);
+    // }
 
 })
 
@@ -52,16 +64,16 @@ $("div.fnt-weight-bold button").on("click", function () {
 
     var data = new Object;
     data.time = new Date().toLocaleString('zh-TW', { hour12: false });
-    data.cpu = $("#cpu div.text-left").text();
-    data.cpu_cooler = $("#cpu-cooler div.text-left").text();
-    data.mother_board = $("#mother-board div.text-left").text();
-    data.memory_block = $("#memory-block div.text-left").text();
-    data.memory_block_num = $("#memory-block input.ml-2").val();
+    data.cpu = $("div.cpu:last").text();
+    data.cpu_cooler = $("div.cpu-cooler:last").text();
+    data.mother_board = $("div.mother-board:last").text();
+    data.memory_block = $("div.memory-block:last").text();
+    data.memory_block_num = $("input.ml-2").val();
     if (data.memory_block_num == 0) data.memory_block_num = "未選取";
-    data.disk_block = $("#disk-block div.text-left").text();
-    data.graphic = $("#graphic div.text-left").text();
-    data.power = $("#power div.text-left").text();
-    data.case = $("#case div.text-left").text();
+    data.disk_block = $("div.disk-block:last").text();
+    data.graphic = $("div.graphic:last").text();
+    data.power = $("div.power:last").text();
+    data.case = $("div.case:last").text();
 
 
     swal({
@@ -76,35 +88,35 @@ $("div.fnt-weight-bold button").on("click", function () {
             + '<tbody>'
             + '<tr>'
             + '<th class="text-nowrap">CPU</th>'
-            + '<td>' + $("#cpu div.text-left").text() + '</td>'
+            + '<td>' + data.cpu + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">CPU散熱器</th>'
-            + '<td>' + $("#cpu-cooler div.text-left").text() + '</td>'
+            + '<td>' + data.cpu_cooler + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">主機板</th>'
-            + '<td>' + $("#mother-board div.text-left").text() + '</td>'
+            + '<td>' + data.mother_board + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">記憶體</th>'
-            + '<td>' + $("#memory-block div.text-left").text() + '*' + document.getElementById("memoryNum").value + '</td>'
+            + '<td>' + data.memory_block + '*' + document.getElementById("memoryNum").value + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">硬碟</th>'
-            + '<td>' + $("#disk-block div.text-left").text() + '</td>'
+            + '<td>' + data.disk_block + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">顯示卡</th>'
-            + '<td>' + $("#graphic div.text-left").text() + '</td>'
+            + '<td>' + data.graphic + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">電源供應器</th>'
-            + '<td>' + $("#power div.text-left").text() + '</td>'
+            + '<td>' + data.power + '</td>'
             + '</tr>'
             + '<tr>'
             + '<th class="text-nowrap">機殼</th>'
-            + '<td>' + $("#case div.text-left").text() + '</td>'
+            + '<td>' + data.case + '</td>'
             + '</tr>'
             + '</tbody>'
             + '</table>',
@@ -129,23 +141,23 @@ $("div.fnt-weight-bold button").on("click", function () {
 })
 
 //案加
-function btnMemory(){
+function btnMemory() {
     setTimeout(function () {
         $("div.chosen .text-left").removeClass("chosen");
         $("div.chosen input.ml-2").removeClass("chosen");
 
-        $("div.chosen form.w-100").append(    
+        $("div.chosen form.w-100").append(
             '<div class="input-group mt-2">'
-            +'<span class="input-group-prepend">'
-            +'<button class="btn rounded-circle minusButton" type="button">'
-            +'<i class="fa fa-minus text-light"></i>'
-            +'</button>'
-            +'</span>'
-            +'<div class="form-control ml-2 rounded-pill text-left h-auto memory-block chosen">未選取</div>'
-            +'<span class="input-group-append">'
-            +'<input class="form-control rounded-pill ml-2 chosen" value="0" type="number" min="0" max="64" placeholder="0" >'
-            +' </span>'
-            +'</div>'
+            + '<span class="input-group-prepend">'
+            + '<button class="btn rounded-circle minusButton" type="button">'
+            + '<i class="fa fa-minus text-light"></i>'
+            + '</button>'
+            + '</span>'
+            + '<div class="form-control ml-2 rounded-pill text-left h-auto memory-block chosen">未選取</div>'
+            + '<span class="input-group-append">'
+            + '<input class="form-control rounded-pill ml-2 chosen" value="0" type="number" min="0" max="64" placeholder="0" >'
+            + ' </span>'
+            + '</div>'
         );
 
     }, 1);
