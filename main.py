@@ -1,10 +1,10 @@
-import flask
+from flask import *
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('./mainPage.html')
+    return render_template('mainPage.html')
 
 @app.route('/home')
 def home():
