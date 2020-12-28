@@ -1,13 +1,3 @@
-@font-face{
-    font-family: "王漢宗顏楷體";
-    src: /static/fonts/Signika-Light.ttf;
-}
-
-@font-face{
-    font-family: "Signika";
-    src: /static/fonts/Signika-Light.ttf;
-}
-
 body { 
     font-size: 1.2em;
     font-family: 'Signika', '王漢宗顏楷體', sans-serif;
