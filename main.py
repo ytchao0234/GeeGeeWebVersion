@@ -1,6 +1,6 @@
-from flask import *
+from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder = 'Templates')
 
 @app.route('/')
 def index():
@@ -8,7 +8,7 @@ def index():
 
 @app.route('/home')
 def home():
-    return render_template('./mainPage.html')
+    return render_template('mainPage.html')
 
 if __name__ == '__main__':
     app.run()
