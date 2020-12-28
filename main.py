@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
 
-app = Flask(__name__,template_folder='/templates', static_url_path='/static')
+app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def index():
@@ -12,7 +12,7 @@ def home():
 
 @app.route('/record')
 def record():
-    return render_template('record.html')
+    return render_template('recordPage.html')
 
 if __name__ == '__main__':
     app.run()
