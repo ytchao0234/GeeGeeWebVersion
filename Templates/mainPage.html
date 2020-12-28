@@ -1,186 +1,245 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <title>GeeGee-大力出奇機</title>
+<head>
+    <meta charset="utf-8">
+    <title>GeeGee-大力出奇機</title>
 
-        <!-- icon next to title -->
-        <link rel="icon" href="./Logo.png" type="image/x-icon">
+    <!-- icon next to title -->
+    <link rel="icon" href="./Logo.png" type="image/x-icon">
 
-        <!-- bootstrap and jQuery -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-            integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-            crossorigin="anonymous"></script>
+    <!-- bootstrap and jQuery -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
 
-        <!-- mode switch button -->
-        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <!-- swal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.js"
+        type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.3/sweetalert2.css" />
 
-        <!-- icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- mode switch button -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-        <!-- my css -->
-        <link rel="stylesheet" type="text/css" href="./mainPage.css">
-    </head>
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <body>
-        <!-- hardware menu bar -->
-        <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
+    <!-- main css -->
+    <link rel="stylesheet" type="text/css" href="./mainPage.css">
+</head>
 
-            <!-- toggle button for RWD -->
-            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#hardware-menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body>
+    <!-- hardware menu bar -->
+    <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
 
-            <!-- hardware items -->
-            <div class="collapse navbar-collapse" id="hardware-menu">
-                <ul id="menu-main-nav" class="navbar-nav nav-fill w-100 mt-2">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-0">CPU</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-1">CPU散熱器</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-2">主機板</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-3">記憶體</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-4">硬碟</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-5">顯示卡</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-6">電源供應器</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link menu-item" id="menu-item-7">機殼</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <!-- toggle button for RWD -->
+        <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#hardware-menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <!-- feature bar -->
-        <div id="navbar">
-            <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
-                
-                <!-- GeeGee Logo -->
-                <a class="navbar-brand" href="#"><img class="Logo" src="./Logo.png" alt="Logo"/></a>
-                
-                <!-- toggle button for RWD -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#featureBar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <!-- hardware items -->
+        <div class="collapse navbar-collapse" id="hardware-menu">
+            <ul id="menu-main-nav" class="navbar-nav nav-fill w-100 mt-2">
+                <li class="nav-item">
+                    <a href="#" id="cpu" class="nav-link menu-item">CPU</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="cpu-cooler" class="nav-link menu-item">CPU散熱器</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="mother-board" class="nav-link menu-item">主機板</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="memory-block" class="nav-link menu-item">記憶體</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="disk-block" class="nav-link menu-item chosen">硬碟</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="graphic" class="nav-link menu-item">顯示卡</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="power" class="nav-link menu-item">電源供應器</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="case" class="nav-link menu-item">機殼</a>
+                </li>
+            </ul>
+        </div>
 
-                <!-- feature items -->
-                <div class="collapse navbar-collapse" id="featureBar">
 
-                    <!-- searchText searchButton and customButton -->
-                    <form class="form-inline my-2 my-lg-0 mr-auto w-25 d-inline">
-                        <div class="input-group mt-2">
+    </nav>
 
-                            <!-- searchText -->
-                            <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search">
+    <!-- feature bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
 
-                            <span class="input-group-append">
+        <!-- GeeGee Logo -->
+        <a class="navbar-brand" href="#"><img class="Logo" src="./Logo.png" alt="Logo" /></a>
 
-                                <!-- searchButton -->
-                                <button class="btn rounded-circle bg-light ml-2" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                                <!-- customButton -->
-                                <button type="button" class="btn rounded-circle bg-light ml-3" data-toggle="modal" data-target="#customDialog">
-                                    <i class="fa fa-cog"></i>
-                                </button>
+        <!-- toggle button for RWD -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#featureBar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                                <!-- customButton dialog when click it -->
-                                <div class="modal" tabindex="-1" role="dialog" id="customDialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
+        <!-- feature items -->
+        <div class="collapse navbar-collapse" id="featureBar">
 
-                                            <!-- header -->
-                                            <div class="modal-header" style="background-color: rgb(64, 84, 104);">
-                                                <h5 class="modal-title text-light">自訂硬碟</h5>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span class="text-light">&times;</span>
-                                                </button>
-                                            </div>
+            <!-- searchText searchButton and customButton -->
+            <form class="form-inline my-2 my-lg-0 mr-auto w-25 d-inline">
+                <div class="input-group mt-2">
 
-                                            <!-- body -->
-                                            <div class="modal-body px-5" style="background-color: rgb(234, 240, 248);">
-                                                    <!-- first line -->
-                                                    <div class="input-group mt-3">
-                                                        <select class="form-control pr-5 rounded-pill" id="type">
-                                                            <option>M.2</option>
-                                                            <option>SSD</option>
-                                                            <option>HDD</option>
-                                                        </select>
-                                                        
-                                                    </div>
-                                                    <!-- second line -->
-                                                    <div class="input-group mt-3">
-                                                        <select class="form-control rounded-pill w-auto">
-                                                            <option>PCIe</option>
-                                                            <option>SATA</option>
-                                                        </select>
-                                                    </div>
-                                                    <!-- third line -->
-                                                    <div class="input-group mt-3">
-                                                        <input class="form-control rounded-pill" type="number" min="0" max="999" value="0" />
-                                                        <span class="input-group-append">
-                                                            <select class="form-control ml-2 rounded-pill w-auto">
-                                                                <option>G</option>
-                                                                <option>T</option>
-                                                            </select>
-                                                        </span>
-                                                    </div>
-                                            </div>
+                    <!-- searchText -->
+                    <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search">
 
-                                            <!-- footer ok and cancel button -->
-                                            <div class="modal-footer">
-                                                <button id="customDiskButton" type="button" class="btn btn-primary" data-dismiss="modal">確定</button>
-                                                <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">取消</button>
-                                            </div>
+                    <span class="input-group-append">
+
+                        <!-- searchButton -->
+                        <button class="btn rounded-circle bg-light ml-2" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <!-- customButton -->
+                        <button type="button" class="btn rounded-circle bg-light ml-3" data-toggle="modal"
+                            data-target="#customDialog">
+                            <i class="fa fa-cog"></i>
+                        </button>
+
+                        <!-- customButton dialog when click it -->
+                        <div class="modal" tabindex="-1" role="dialog" id="customDialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+
+                                    <!-- header -->
+                                    <div class="modal-header" style="background-color: rgb(64, 84, 104);">
+                                        <h5 class="modal-title">自訂硬碟</h5>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span class="text-light">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- body -->
+                                    <div class="modal-body px-5" style="background-color: rgb(234, 240, 248);">
+                                        <!-- first line -->
+                                        <div class="input-group mt-3">
+                                            <select class="form-control pr-5 rounded-pill" id="type">
+                                                <option>M.2</option>
+                                                <option>SSD</option>
+                                                <option>HDD</option>
+                                            </select>
+
+                                        </div>
+                                        <!-- second line -->
+                                        <div class="input-group mt-3">
+                                            <select class="form-control rounded-pill w-auto">
+                                                <option>PCIe</option>
+                                                <option>SATA</option>
+                                            </select>
+                                        </div>
+                                        <!-- third line -->
+                                        <div class="input-group mt-3">
+                                            <input class="form-control rounded-pill" type="number" min="0" max="999"
+                                                value="0" />
+                                            <span class="input-group-append">
+                                                <select class="form-control ml-2 rounded-pill w-auto">
+                                                    <option>G</option>
+                                                    <option>T</option>
+                                                </select>
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                            </span>
-                        </div>
-                    </form>
 
-                    <!-- feature bar right side buttons -->
-                    <ul class="navbar-nav nav-fill">
-                        <!-- record link -->
-                        <li class="nav-item active">
-                            <a class="nav-link mr-2" href="#">儲存記錄</a>
-                        </li>
-                        <!-- mode switch button -->
-                        <li class="nav-item">
-                            <label>
-                                <input id="a123" type="checkbox" data-toggle="toggle" data-style="ios" data-onstyle="success" data-offstyle="secondary" data-width="110px"
-                                data-on="智慧模式" data-off="一般模式">
-                            </label>
-                        </li>
-                    </ul>
+                                    <!-- footer ok and cancel button -->
+                                    <div class="modal-footer">
+                                        <button id="customDiskButton" type="button" class="btn btn-primary"
+                                            data-dismiss="modal">確定</button>
+                                        <button type="button" class="btn btn-secondary ml-2"
+                                            data-dismiss="modal">取消</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
                 </div>
-            </nav>
+            </form>
+
+            <!-- feature bar right side buttons -->
+            <ul class="navbar-nav nav-fill">
+                <!-- record link -->
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="./recordPage.html">儲存記錄</a>
+                </li>
+                <!-- mode switch button -->
+                <li class="nav-item">
+                    <button id="mode-switch-button" type="checkbox" checked data-toggle="modal"
+                        data-target="#modeDialog" style="display: none;"></button>
+                    <span id="test">
+                        <input id="mode-switch" type="checkbox" checked data-toggle="toggle" data-style="ios"
+                            data-onstyle="success" data-offstyle="secondary" data-width="110px" data-on="智慧模式"
+                            data-off="一般模式">
+                    </span>
+
+                    <!-- customButton dialog when click it -->
+                    <div class="modal" tabindex="-1" role="dialog" id="modeDialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+
+                                <!-- header -->
+                                <div class="modal-header" style="background-color: rgb(64, 84, 104);">
+                                    <h5 class="modal-title">更換相容性模式</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span class="text-light">&times;</span>
+                                    </button>
+                                </div>
+
+                                <!-- body -->
+                                <div class="modal-body px-5" style="background-color: rgb(234, 240, 248);">
+                                    <p>是否確定要更換為智慧模式？</p>
+                                </div>
+
+                                <!-- footer ok and cancel button -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary customDiskButton"
+                                        data-dismiss="modal">確定</button>
+                                    <button type="button" class="btn btn-secondary ml-2 customDiskButton"
+                                        data-dismiss="modal">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- <script>
+                    $( ".customDiskButton" ).on("click", function() {
+                        console.log( $(this).text() );
+                        let choice = $(this).text();
+                        if( choice.startsWith( "確定" ))
+                        {
+                            $("#test input[type='checkbox']")[0].click();
+                        }
+                    });
+                    $( "#mode-switch-button" ).on( "click", function( event ) { 
+                        event.stopPropagation();
+                        $( "#modeDialog" ).modal( "show" ); 
+                    } ); 
+                    $("#test").on( "click", function( event ) {
+                        event.stopPropagation();
+                        $('#mode-switch-button').click();
+                    })
+            </script> -->
         </div>
+    </nav>
 
     <!-- three main cards -->
     <div class="card-deck mt-3 ml-2 mr-2 mb-2">
 
         <!-- hardware list (left) -->
         <div class="card overflow-auto card-big">
-            <div class="card-body">
+            <div id="listLeft" class="card-body">
 
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
@@ -191,50 +250,28 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col" colspan="2"><h4>Intel Core i3-10100</h4></th>
+                                        <th scope="col" colspan="2">
+                                            <h4>美光Crucia MX500 500G/M.2 SATA 2280/讀:560M/寫:510M/TLC</h4>
+                                        </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr>
                                         <th>價位</th>
-                                        <td>$$</td>
+                                        <td>$</td>
                                     </tr>
                                     <tr>
-                                        <th>腳位</th>
-                                        <td>FCLGA1200</td>
+                                        <th>類型</th>
+                                        <td>M.2 SSD</td>
                                     </tr>
                                     <tr>
-                                        <th>核心數</th>
-                                        <td>4</td>
+                                        <th>尺寸</th>
+                                        <td>2.5吋</td>
                                     </tr>
                                     <tr>
-                                        <th>線程數</th>
-                                        <td>8</td>
-                                    </tr>
-                                    <tr>
-                                        <th>基本頻率</th>
-                                        <td>3.6GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>boots頻率</th>
-                                        <td>4.3GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>最大記憶體大小</th>
-                                        <td>128GB</td>
-                                    </tr>
-                                    <tr>
-                                        <th>記憶體類型</th>
-                                        <td>DDR4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>內顯</th>
-                                        <td>UHD Graphics 630</td>
-                                    </tr>
-                                    <tr>
-                                        <th>TDP</th>
-                                        <td>65W</td>
+                                        <th>容量</th>
+                                        <td>500G</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -251,110 +288,28 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col" colspan="2"><h4>Intel Core i3-10100T</h4></th>
+                                        <th scope="col" colspan="2">
+                                            <h4>WD Blue 500G/M.2 SATA 2280(藍標)/讀:545M/寫:525M</h4>
+                                        </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr>
                                         <th>價位</th>
-                                        <td>$$</td>
+                                        <td>$</td>
                                     </tr>
                                     <tr>
-                                        <th>腳位</th>
-                                        <td>FCLGA1200</td>
+                                        <th>類型</th>
+                                        <td>M.2 SSD</td>
                                     </tr>
                                     <tr>
-                                        <th>核心數</th>
-                                        <td>4</td>
+                                        <th>尺寸</th>
+                                        <td>2.5吋</td>
                                     </tr>
                                     <tr>
-                                        <th>線程數</th>
-                                        <td>8</td>
-                                    </tr>
-                                    <tr>
-                                        <th>基本頻率</th>
-                                        <td>3GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>boots頻率</th>
-                                        <td>3.8GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>最大記憶體大小</th>
-                                        <td>128GB</td>
-                                    </tr>
-                                    <tr>
-                                        <th>記憶體類型</th>
-                                        <td>DDR4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>內顯</th>
-                                        <td>UHD Graphics 630</td>
-                                    </tr>
-                                    <tr>
-                                        <th>TDP</th>
-                                        <td>35W</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- hardware item -->
-                <div class="card mb-2 card-small">
-                    <div class="card-body">
-                        <div class="card-text">
-                            
-                            <!-- detail table -->
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" colspan="2"><h4>Intel Core i3-10300</h4></th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <th>價位</th>
-                                        <td>$$</td>
-                                    </tr>
-                                    <tr>
-                                        <th>腳位</th>
-                                        <td>FCLGA1200</td>
-                                    </tr>
-                                    <tr>
-                                        <th>核心數</th>
-                                        <td>4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>線程數</th>
-                                        <td>8</td>
-                                    </tr>
-                                    <tr>
-                                        <th>基本頻率</th>
-                                        <td>3.7GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>boots頻率</th>
-                                        <td>4.4GHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th>最大記憶體大小</th>
-                                        <td>128GB</td>
-                                    </tr>
-                                    <tr>
-                                        <th>記憶體類型</th>
-                                        <td>DDR4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>內顯</th>
-                                        <td>UHD Graphics 630</td>
-                                    </tr>
-                                    <tr>
-                                        <th>TDP</th>
-                                        <td>65W</td>
+                                        <th>容量</th>
+                                        <td>500G</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -369,20 +324,21 @@
             <div class="card-body text-center">
 
                 <!-- first line -->
-                <div class="card-title font-weight-bold mt-5 d-inline">
+                <div class="card-title fnt-weight-bold mt-5 d-inline">
                     <h5 class="badge badge-outlined border" style="font-weight: normal;">已選硬體列表</h5>
+                    <!-- save button -->
                     <form class="form-inline my-2 my-lg-0 d-inline float-right">
                         <button class="btn rounded-pill bg-light ml-3" type="button">
                             <i class="fa fa-floppy-o mr-2"></i>儲存
                         </button>
                     </form>
                 </div>
-                
+
                 <!-- chosen items -->
-                <div class="text-left card-text">
+                <div id="chosenItems" class="text-left card-text">
 
                     <!-- cpu block -->
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-0">
+                    <div items="cpu" class="card mb-2 card-small d-block chosen-menu-item cpu">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU</h5>
@@ -390,178 +346,240 @@
                             <!-- body -->
                             <p class="card-text">
                                 <!-- first line -->
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                    </div>
-                                </form>
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu">AMD Ryzen 5 3600</div>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
 
                     <!-- cpu cooler block -->
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-1">
+                    <div items="cpu-cooler" class="card mb-2 card-small d-block chosen-menu-item cpu-cooler">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
+
                             <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                    </div>
-                                </form>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu-cooler">未選取</div>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-2">
+
+                    <!-- mother board block -->
+                    <div items="mother-board" class="card mb-2 card-small d-block chosen-menu-item mother-board">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
+
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto mother-board">EVGA X299 Micro ATX 2
                                     </div>
-                                </form>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-3">
+
+                    <!-- memory block -->
+                    <div items="memory-block" class="card mb-2 card-small d-block chosen-menu-item memory-block">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">記憶體
+                                <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button"
+                                        onclick="btnMemory()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
+
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                        <span class="input-group-append">
-                                            <input class="form-control rounded-pill ml-2" type="number" min="0" max="64" placeholder="0" />
-                                        </span>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline ">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto memory-block">UMAX 4GB DDR3-1600
                                     </div>
-                                </form>
+                                    <!-- number spinner -->
+                                    <span class="input-group-append">
+                                        <input id="memoryNum" class="form-control rounded-pill ml-2" value="0"
+                                            type="number" min="0" max="64" placeholder="0" />
+                                    </span>
+                                </div>
+
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-4">
+
+                    <!-- disk block -->
+                    <div items="disk-block" class="card mb-2 card-small d-block chosen-menu-item chosen disk-block">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">硬碟
+                                <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btnDisk()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button" onclick="mbtn()">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen disk-block">custom m.2 sata
+                                        500G
                                     </div>
-                                </form>
+                                </div>
+
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-5">
+
+                    <!-- graphic block -->
+                    <div items="graphic" class="card mb-2 card-small d-block chosen-menu-item graphic">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">顯示卡
+                                <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btn()">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                    </div>
-                                </form>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto graphic">未選取</div>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-6">
+
+                    <!-- power block -->
+                    <div items="power" class="card mb-2 card-small d-block chosen-menu-item power">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">電源供應器</h5>
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                    </div>
-                                </form>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto power">未選取</div>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
-                    
-                    <div class="card mb-2 card-small d-block chosen-menu-item" id="chosen-menu-item-7">
+
+                    <!-- case block -->
+                    <div items="case" class="card mb-2 card-small d-block chosen-menu-item case">
                         <div class="card-body">
+                            <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
+                            <!-- body -->
                             <p class="card-text">
-                                <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                    <div class="input-group mt-2">
-                                        <span class="input-group-prepend">
-                                            <button class="btn rounded-circle minusButton" type="button">
-                                                <i class="fa fa-minus text-light"></i>
-                                            </button>
-                                        </span>
-                                        <div class="form-control ml-2 rounded-pill text-left">未選取</div>
-                                    </div>
-                                </form>
+                                <!-- first line -->
+                            <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                <div class="input-group mt-2">
+                                    <!-- minus button -->
+                                    <span class="input-group-prepend">
+                                        <button class="btn rounded-circle minusButton" type="button">
+                                            <i class="fa fa-minus text-light"></i>
+                                        </button>
+                                    </span>
+                                    <!-- infomation -->
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto case">銀欣 小烏鴉2</div>
+                                </div>
+                            </form>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
+
+
+
+        <!-- suggestions list (right) -->
         <div class="card overflow-auto card-big">
             <div class="card-body text-center">
+                <!-- first line -->
                 <div class="card-title font-weight-bold mt-5 d-inline">
                     <h5 class="badge badge-outlined border" style="font-weight: normal;">相容性提示</h5>
                 </div>
+                <!-- first suggestion -->
                 <div class="text-left card-text">
                     <div class="card mb-2 card-small d-block">
                         <div class="card-body">
@@ -574,7 +592,8 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- layout for RWD -->
     <div id="accordion">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -584,34 +603,240 @@
                     </button>
                 </h5>
             </div>
-      
+
             <div id="collapseOne" class="collapse show" data-parent="#accordion">
+
+                <!-- hardware list (left) -->
                 <div class="card overflow-auto card-big">
                     <div class="card-body">
+
+                        <!-- hardware item -->
                         <div class="card mb-2 card-small">
                             <div class="card-body">
-                                <p class="card-text">123333333333333333333<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>美光Crucia MX500 500G/M.2 SATA 2280/讀:560M/寫:510M/TLC</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- hardware item -->
                         <div class="card mb-2 card-small">
                             <div class="card-body">
-                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>WD Blue 500G/M.2 SATA 2280(藍標)/讀:545M/寫:525M</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- hardware item -->
                         <div class="card mb-2 card-small">
                             <div class="card-body">
-                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>美光Crucia MX500 500G/M.2 SATA 2280/讀:560M/寫:510M/TLC</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- hardware item -->
                         <div class="card mb-2 card-small">
                             <div class="card-body">
-                                <p class="card-text">未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取<br>未選取</p>
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>WD Blue 500G/M.2 SATA 2280(藍標)/讀:545M/寫:525M</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- hardware item -->
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>美光Crucia MX500 500G/M.2 SATA 2280/讀:560M/寫:510M/TLC</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- hardware item -->
+                        <div class="card mb-2 card-small">
+                            <div class="card-body">
+                                <div class="card-text">
+
+                                    <!-- detail table -->
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" colspan="2">
+                                                    <h4>WD Blue 500G/M.2 SATA 2280(藍標)/讀:545M/寫:525M</h4>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th>價位</th>
+                                                <td>$</td>
+                                            </tr>
+                                            <tr>
+                                                <th>類型</th>
+                                                <td>M.2 SSD</td>
+                                            </tr>
+                                            <tr>
+                                                <th>尺寸</th>
+                                                <td>2.5吋</td>
+                                            </tr>
+                                            <tr>
+                                                <th>容量</th>
+                                                <td>500G</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -621,13 +846,260 @@
             <div class="card-header" id="headingTwo">
                 <h5 class="mb-0">
                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo">
-                        Collapsible Group Item #2
+                        已選硬體列表
                     </button>
                 </h5>
             </div>
             <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+
+                <!-- chosen list (center) -->
+                <div class="card overflow-auto card-big">
+                    <div class="card-body text-center">
+
+                        <!-- first line -->
+                        <div class="card-title font-weight-bold mt-5 d-inline">
+                            <h5 class="badge badge-outlined border" style="font-weight: normal;">已選硬體列表</h5>
+                            <!-- save button -->
+                            <form class="form-inline my-2 my-lg-0 d-inline float-right">
+                                <button class="btn rounded-pill bg-light ml-3" type="button">
+                                    <i class="fa fa-floppy-o mr-2"></i>儲存
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- chosen items -->
+                        <div class="text-left card-text mt-2">
+
+                            <!-- cpu block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">CPU</h5>
+
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5
+                                                3600</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- cpu cooler block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
+
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- mother board block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
+
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro
+                                                ATX 2
+                                            </div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- memory block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">記憶體
+                                        <!-- plus button -->
+                                        <form class="form-inline my-2 my-lg-0 d-inline float-right">
+                                            <button class="btn rounded-circle plusButton ml-3" type="button">
+                                                <i class="fa fa-plus text-light"></i>
+                                            </button>
+                                        </form>
+                                    </h5>
+
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB
+                                                DDR3-1600
+                                            </div>
+                                            <!-- number spinner -->
+                                            <span class="input-group-append">
+                                                <input class="form-control rounded-pill ml-2" type="number" min="0"
+                                                    max="64" placeholder="0" />
+                                            </span>
+
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- disk block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item chosen">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">硬碟
+                                        <!-- plus button -->
+                                        <form class="form-inline my-2 my-lg-0 d-inline float-right">
+                                            <button class="btn rounded-circle plusButton ml-3" type="button">
+                                                <i class="fa fa-plus text-light"></i>
+                                            </button>
+                                        </form>
+                                    </h5>
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left chosen">custom m.2 sata
+                                                500G</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- graphic block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">顯示卡
+                                        <!-- plus button -->
+                                        <form class="form-inline my-2 my-lg-0 d-inline float-right">
+                                            <button class="btn rounded-circle plusButton ml-3" type="button">
+                                                <i class="fa fa-plus text-light"></i>
+                                            </button>
+                                        </form>
+                                    </h5>
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- power block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">電源供應器</h5>
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">未選取</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- case block -->
+                            <div class="card mb-2 card-small d-block chosen-menu-item">
+                                <div class="card-body">
+                                    <!-- header -->
+                                    <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
+                                    <!-- body -->
+                                    <p class="card-text">
+                                        <!-- first line -->
+                                    <form class="form-inline my-2 my-lg-0 w-100 d-inline">
+                                        <div class="input-group mt-2">
+                                            <!-- minus button -->
+                                            <span class="input-group-prepend">
+                                                <button class="btn rounded-circle minusButton" type="button">
+                                                    <i class="fa fa-minus text-light"></i>
+                                                </button>
+                                            </span>
+                                            <!-- infomation -->
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">銀欣 小烏鴉2</div>
+                                        </div>
+                                    </form>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -636,17 +1108,36 @@
             <div class="card-header" id="headingThree">
                 <h5 class="mb-0">
                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree">
-                        Collapsible Group Item #3
+                        相容性提示
                     </button>
                 </h5>
             </div>
             <div id="collapseThree" class="collapse" data-parent="#accordion">
-                <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <!-- suggestions list (right) -->
+                <div class="card overflow-auto card-big">
+                    <div class="card-body text-center">
+                        <!-- first line -->
+                        <div class="card-title font-weight-bold mt-5 d-inline">
+                            <h5 class="badge badge-outlined border" style="font-weight: normal;">相容性提示</h5>
+                        </div>
+                        <!-- first suggestion -->
+                        <div class="text-left card-text">
+                            <div class="card mb-2 card-small d-block">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        完全相容歐！
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="mainPage.js"></script>
+
 </body>
 
 </html>

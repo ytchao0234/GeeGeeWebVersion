@@ -24,7 +24,7 @@ nav a:hover {
     background-color: rgb(87, 106, 126);
 }
 
-nav a#menu-item-0 { 
+nav a.chosen { 
     background-color: rgb(87, 106, 126);
 }
 
@@ -49,6 +49,10 @@ nav a:hover.navbar-brand {
     color: lightgoldenrodyellow !important;
 }
 
+.modal-title {
+    color: lightgoldenrodyellow !important;
+}
+
 /* bottom card container */
 .card-big { 
     height:80vh; 
@@ -59,6 +63,7 @@ nav a:hover.navbar-brand {
 .card-big .badge { 
     font-size: 24px;
     color: rgb(231, 242, 255);
+    font-weight: normal !important;
     border-color: rgb(231, 242, 255);
 }
 
@@ -75,11 +80,11 @@ nav a:hover.navbar-brand {
     background-color: rgb(223, 219, 219); 
 }
 
-#chosen-menu-item-0 { 
+.card-small.chosen-menu-item.chosen { 
     background-color: rgb(233, 236, 241); 
 }
 
-#chosen-menu-item-0 .form-control { 
+.card-small .form-control.chosen { 
     background-color: rgb(255, 255, 255); 
 }
 
@@ -90,6 +95,10 @@ nav a:hover.navbar-brand {
     background-color: rgb(182, 26, 26);
 }
 
+#chosenItems .input-group-prepend {
+    height: 40px;
+}
+
 /* hardware list table */
 table tbody th {
     font-weight: lighter;
@@ -97,6 +106,8 @@ table tbody th {
 
 /* main cards for RWD */
 #accordion { display: none; }
+#accordion .card-header { text-align: center; }
+/* .card-deck { display: none; } */
 
 /* mode switch button */
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
