@@ -1,11 +1,11 @@
 @font-face{
     font-family: "王漢宗顏楷體";
-    src: '/static/fonts/Signika-Light.ttf';
+    src: /static/fonts/Signika-Light.ttf;
 }
 
 @font-face{
     font-family: "Signika";
-    src: '/static/fonts/Signika-Light.ttf';
+    src: /static/fonts/Signika-Light.ttf;
 }
 
 body { 
