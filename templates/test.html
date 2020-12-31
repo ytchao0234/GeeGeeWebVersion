@@ -32,16 +32,32 @@
 <body>
     <script>
         $.ajax({
-            type: "get",
-            url: "{{ url_for('suggestion') }}",
+            type: "post",
+            url: "{{ url_for('hardwareList') }}",
+            data: JSON.stringify({
+                                    "hardware": "cpu",
+                                    "chosenHardwares":
+                                    {
+                                        "mbList":
+                                        [
+                                            "Asrock Z490 Phantom Gaming-ITX/TB3",
+                                        ],
+                                        "ramList":
+                                        [
+                                            "KLEVV(科賦) 8GB DDR4-2666",
+                                            "十銓 T-Force Vulcan Z 火神散熱片系列 16GB DDR4-3000/CL16"
+                                        ],
+                                    },
+                                }),
+            contentType: "application/json",
             dataType: 'json',
             beforeSend: function()
             {
-                alert( "beforeSend" );
+                // alert( "beforeSend" );
             },
             afterSend: function()
             {
-                alert( "afterSend" );
+                // alert( "afterSend" );
             },
         })
         .done((data) =>
