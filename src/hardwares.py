@@ -59,6 +59,23 @@ class Ram:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
+    def getList(self, chosenHardwares, currentList):
+        filters = self.getOriginalList()
+
+        if chosenHardwares['cpuList']:
+            chosenCpuList = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], currentList.list['cpuList']))
+            filters = list(filter(lambda x: x['ramType'] == chosenCpuList[0]['ramGenerationSupport'], filters))
+
+        if chosenHardwares['mbList']:
+            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], currentList.list['mbList']))
+            filters = list(filter(lambda x: x['ramType'] == chosenMbList[0]['ramType'], filters))
+
+        if chosenHardwares['ramList']:
+            chosenRamList = list(filter(lambda x: x['name'] == chosenHardwares['ramList'][0], currentList.list['ramList']))
+            filters = list(filter(lambda x: x['ramType'] == chosenRamList[0]['ramType'], filters))
+
+        return filters
+        
 class Disk:
     def __init__(self, collection):
         self.collection = collection

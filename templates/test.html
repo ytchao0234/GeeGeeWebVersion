@@ -35,22 +35,26 @@
             type: "post",
             url: "{{ url_for('hardwareList') }}",
             data: JSON.stringify({
-                                    "hardware": "cooler",
+                                    "hardware": "ram",
                                     "chosenHardwares":
                                     {
+                                        "cpuList":
+                                        [
+                                            "Intel Core i3-4130T",
+                                        ],
                                         "mbList":
                                         [
-                                            "Asrock Z490 Phantom Gaming-ITX/TB3",
+                                            "Asrock Z97M Pro4",
                                         ],
                                         "ramList":
                                         [
-                                            "KLEVV(科賦) 8GB DDR4-2666",
-                                            "十銓 T-Force Vulcan Z 火神散熱片系列 16GB DDR4-3000/CL16"
+                                            "UMAX 8GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
                                         ],
                                         "crateList":
                                         [
-                                            "華碩 TUF Gaming GT301 Case "
-                                        ]
+                                            "華碩 TUF Gaming GT301 Case ",
+                                        ],
                                     },
                                 }),
             contentType: "application/json",
