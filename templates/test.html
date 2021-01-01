@@ -33,14 +33,13 @@
     <script>
         $.ajax({
             type: "post",
-            url: "{{ url_for('hardwareList') }}",
+            url: "{{ url_for('suggestion') }}",
             data: JSON.stringify({
-                                    "hardware": "motherBoard",
                                     "chosenHardwares":
                                     {
                                         "cpuList": 
                                         [
-
+                                            "Intel Core i3-11300",
                                         ],
                                         "coolerList":
                                         [
@@ -48,11 +47,20 @@
                                         ],
                                         "mbList":
                                         [
-
+                                            "Gigabyte Z390 Aorus Pro Wifi",
                                         ],
                                         "ramList":
                                         [
-
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
+                                            "UMAX 4GB DDR3-1600",
                                         ],
                                         "diskList":
                                         [
@@ -60,7 +68,10 @@
                                         ],
                                         "graphicList":
                                         [
-
+                                            "華碩 TUF-RTX3090-24G-GAMING",
+                                            "華碩 TUF-RTX3090-24G-GAMING",
+                                            "華碩 TUF-RTX3090-24G-GAMING",
+                                            "華碩 TUF-RTX3090-24G-GAMING",
                                         ],
                                         "powerList": 
                                         [
@@ -68,7 +79,7 @@
                                         ],
                                         "crateList":
                                         [
-
+                                            "銀欣 小烏鴉 ",
                                         ],
                                     },
                                 }),

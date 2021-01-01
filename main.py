@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify
 from pymongo import MongoClient, ASCENDING, DESCENDING
 import numpy as np
 from src.credential import database
-from src.hardwares import OriginList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
+from src.hardwares import SuggestionList, ChosenList, OriginList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
 
 app = Flask(__name__)
 
@@ -28,6 +28,8 @@ power   = Power(psuCollection)
 crate   = Crate(crateCollection)
 
 originList = OriginList()
+chosenList = ChosenList()
+suggestionList = SuggestionList()
 
 @app.route('/')
 def index():
@@ -52,7 +54,8 @@ def hardwareList():
     try:
         hardware = inputData['hardware']
         chosenHardwares = inputData['chosenHardwares']
-        hardwareList = switch(hardware)(chosenHardwares, originList)
+        chosenList.setList(chosenHardwares, originList)
+        hardwareList = switch(hardware)(chosenList, originList)
     except Exception as e:
         print(e)
         hardwareList = "ERROR: Failed to get data"
@@ -61,6 +64,22 @@ def hardwareList():
 
     return jsonify(hardwareList), 200
 
+@app.route('/suggestion', methods=['POST'])
+def suggestion():
+    inputData = request.get_json()
+    try:
+        chosenHardwares = inputData['chosenHardwares']
+        chosenList.setList(chosenHardwares, originList)
+        suggestionList.setList(chosenList)
+        suggestion = suggestionList.list
+    except Exception as e:
+        print(e)
+        suggestion = "ERROR: Failed to get data"
+
+        return jsonify({"error": e}), 500
+
+    return jsonify(suggestion), 200
+
 @app.route('/home', methods=['GET'])
 def home():
     return render_template('mainPage.html')
@@ -68,15 +87,6 @@ def home():
 @app.route('/record')
 def record():
     return render_template('recordPage.html')
-
-@app.route('/suggestion', methods=['GET'], strict_slashes=False)
-def suggestion():
-    try:
-        pass
-    except Exception as e:
-        pass
-
-    return jsonify({'test':'test'}), 200
 
 @app.route('/testtest', methods=['GET'])
 def testtest():
