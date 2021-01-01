@@ -57,7 +57,7 @@ class Cpu:
 
             graphicTDP = 0
             if chosenGraphicList:
-                graphicTDP = reduce(lambda x, y: x['TDP'] + y['TDP'], chosenGraphicList)
+                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenGraphicList)
 
             filters = list(filter(lambda x: 2 * (x['TDP'] + graphicTDP) <= chosenPowerList[0]['watts'], filters))
 
@@ -250,7 +250,7 @@ class Power:
                 chosenGraphicList.append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
                 
             if chosenGraphicList:
-                graphicTDP = reduce(lambda x, y: x['TDP'] + y['TDP'], chosenGraphicList)
+                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenGraphicList)
 
         filters = list(filter(lambda x: x['watts'] >= 2 * (cpuTDP + graphicTDP), filters))
 
