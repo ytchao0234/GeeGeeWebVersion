@@ -36,6 +36,15 @@ class CpuCooler:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
+    def getList(self, chosenHardwares, currentList):
+        filters = self.getOriginalList()
+
+        if chosenHardwares['crateList']:
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], currentList.list['crateList']))
+            filters = list(filter(lambda x: x['height'] <= chosenCrateList[0]['coolerHeight'], filters))
+
+        return filters
+
 class MotherBoard:
     def __init__(self, collection):
         self.collection = collection
