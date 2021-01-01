@@ -43,7 +43,7 @@ def switch(x):
         'disk': disk.getList,
         'graphic': graphic.getList,
         'power': power.getList,
-        # 'crate': crate.getList,
+        'crate': crate.getList,
     }.get(x)
 
 @app.route('/hardwareList', methods=['POST'], strict_slashes=False)

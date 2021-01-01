@@ -1,5 +1,19 @@
 from functools import reduce
 
+def switchMbSize(x):
+    result = \
+    {
+        'eatx': ['eatx', 'atx', 'matx', 'itx'],
+        'atx': ['atx', 'matx', 'itx'],
+        'matx': ['matx', 'itx'],
+        'itx': ['itx'],
+    }.get(x)
+
+    if not result:
+        return ['eatx', 'atx', 'matx', 'itx']
+    else:
+        return result
+
 class OriginList:
     def __init__(self):
         self.list = dict()
@@ -198,3 +212,34 @@ class Crate:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['crateList']
+
+        if chosenHardwares['coolerList']:
+            chosenCoolerList = list(filter(lambda x: x['name'] == chosenHardwares['coolerList'][0], originList.list['coolerList']))
+            filters = list(filter(lambda x: x['coolerHeight'] >= chosenCoolerList[0]['height'], filters))
+
+        if chosenHardwares['mbList']:
+            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
+            filters = list(filter(lambda x: chosenMbList[0]['size'] in switchMbSize(x['mbSize']), filters))
+
+        if chosenHardwares['graphicList']:
+            chosenGraphicList = list()
+            for chosenGraphic in chosenHardwares['graphicList']:
+                chosenGraphicList.append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
+                
+            filters = list(filter(lambda x: x['vgaLength'] >= chosenGraphicList[0]['length'], filters))
+
+        if chosenHardwares['powerList']:
+            chosenPowerList = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
+            filters = list(filter(lambda x: x['psuSize'] == chosenPowerList[0]['size'], filters))
+            filters = list(filter(lambda x: x['psuLength'] >= chosenPowerList[0]['length'], filters))
+        
+        if chosenHardwares['diskList']:
+            chosenDisk3_5List = list()
+            for chosenDisk3_5 in chosenHardwares['diskList']:
+                chosenDisk3_5List.append(list(filter(lambda x: x['name'] == chosenDisk3_5 and x['size'] == '3.5', originList.list['diskList']))[0])
+
+            filters = list(filter(lambda x: x['diskQuantity'] >= len(chosenDisk3_5List), filters))
+
+        return filters
