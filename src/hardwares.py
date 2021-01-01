@@ -1,11 +1,11 @@
 from functools import reduce
 
-class CurrentList:
+class OriginList:
     def __init__(self):
         self.list = dict()
 
-    def setList(self, currentList):
-        self.list = currentList
+    def setList(self, originList):
+        self.list = originList
 
 class Cpu:
     def __init__(self, collection):
@@ -14,18 +14,38 @@ class Cpu:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}).sort("generation", -1))
 
-    def getList(self, chosenHardwares, currentList):
-        filters = self.getOriginalList()
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['cpuList']
 
         if chosenHardwares['mbList']:
-            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], currentList.list['mbList']))
+            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
             filters = list(filter(lambda x: x['pin'] == chosenMbList[0]['pin'], filters))
 
         if chosenHardwares['ramList']:
-            chosenRamList = list(filter(lambda x: any(map(lambda y: y == x['name'], chosenHardwares['ramList'])), currentList.list['ramList']))
-            ramCapacity = reduce(lambda x, y: x['capacity'] + y['capacity'], chosenRamList)
+            chosenRamList = list()
+            for chosenRam in chosenHardwares['ramList']:
+                chosenRamList.append(list(filter(lambda x: x['name'] == chosenRam, originList.list['ramList']))[0])
+
+            ramCapacity = 0
+            if chosenRamList:
+                ramCapacity = reduce(lambda x, y: x['capacity'] + y['capacity'], chosenRamList)
+
             filters = list(filter(lambda x: x['ramMaximumSupport'] >= ramCapacity, filters))
             filters = list(filter(lambda x: x['ramGenerationSupport'] == chosenRamList[0]['ramType'], filters))
+
+        if chosenHardwares['powerList']:
+            chosenPowerList = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
+
+            chosenGraphicList = list()
+            if chosenHardwares['graphicList']:
+                for chosenGraphic in chosenHardwares['graphicList']:
+                    chosenGraphicList.append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
+
+            graphicTDP = 0
+            if chosenGraphicList:
+                graphicTDP = reduce(lambda x, y: x['TDP'] + y['TDP'], chosenGraphicList)
+
+            filters = list(filter(lambda x: 2 * (x['TDP'] + graphicTDP) <= chosenPowerList[0]['watts'], filters))
 
         return filters
 
@@ -36,11 +56,11 @@ class CpuCooler:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
-    def getList(self, chosenHardwares, currentList):
-        filters = self.getOriginalList()
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['coolerList']
 
         if chosenHardwares['crateList']:
-            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], currentList.list['crateList']))
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
             filters = list(filter(lambda x: x['height'] <= chosenCrateList[0]['coolerHeight'], filters))
 
         return filters
@@ -59,29 +79,67 @@ class Ram:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
-    def getList(self, chosenHardwares, currentList):
-        filters = self.getOriginalList()
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['ramList']
 
         if chosenHardwares['cpuList']:
-            chosenCpuList = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], currentList.list['cpuList']))
+            chosenCpuList = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], originList.list['cpuList']))
             filters = list(filter(lambda x: x['ramType'] == chosenCpuList[0]['ramGenerationSupport'], filters))
 
         if chosenHardwares['mbList']:
-            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], currentList.list['mbList']))
+            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
             filters = list(filter(lambda x: x['ramType'] == chosenMbList[0]['ramType'], filters))
 
         if chosenHardwares['ramList']:
-            chosenRamList = list(filter(lambda x: x['name'] == chosenHardwares['ramList'][0], currentList.list['ramList']))
+            chosenRamList = list(filter(lambda x: x['name'] == chosenHardwares['ramList'][0], originList.list['ramList']))
             filters = list(filter(lambda x: x['ramType'] == chosenRamList[0]['ramType'], filters))
 
         return filters
-        
+
 class Disk:
     def __init__(self, collection):
         self.collection = collection
 
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
+
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['diskList']
+        chosenDiskList = list()
+
+        if chosenHardwares['diskList']:
+            for chosenDisk in chosenHardwares['diskList']:
+                chosenDiskList.append(list(filter(lambda x: x['name'] == chosenDisk, originList.list['diskList']))[0])
+            
+        if chosenHardwares['mbList']:
+            chosenMbList = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
+
+            m2TypePcie = 'pcie' in chosenMbList[0]['m2Type']
+            m2TypeSata = 'sata' in chosenMbList[0]['m2Type']
+
+            if m2TypePcie and not m2TypeSata:
+                filters = list(filter(lambda x: x['diskType'] == 'pcie' or x['size'] != 'm.2', filters))
+            
+            if not m2TypePcie and m2TypeSata:
+                filters = list(filter(lambda x: x['diskType'] == 'sata' or x['size'] != 'm.2', filters))
+
+            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenDiskList))
+            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenDiskList))
+            
+            if chosenMbList[0]['sata3Quantity'] <= len(sataDisk):
+                filters = list(filter(lambda x: x['diskType'] != 'sata' or x['size'] == 'm.2', filters))
+
+            if chosenMbList[0]['m2Quantity'] <= len(m2Disk):
+                filters = list(filter(lambda x: x['size'] != 'm.2', filters))
+
+        if chosenHardwares['crateList']:
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenDiskList))
+
+            if chosenCrateList[0]['diskQuantity'] <= len(disk3_5):
+                filters = list(filter(lambda x: x['size'] != '3.5', filters))
+
+        return filters
 
 class Graphic:
     def __init__(self, collection):
@@ -90,12 +148,48 @@ class Graphic:
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
 
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['graphicList']
+
+        if chosenHardwares['crateList']:
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+            filters = list(filter(lambda x: x['length'] <= chosenCrateList[0]['vgaLength'], filters))
+
+        return filters
+
 class Power:
     def __init__(self, collection):
         self.collection = collection
 
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
+
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['powerList']
+
+        cpuTDP = 0
+        if chosenHardwares['cpuList']:
+            chosenCpuList = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], originList.list['cpuList']))
+            cpuTDP = chosenCpuList[0]['TDP']
+
+        graphicTDP = 0
+        if chosenHardwares['graphicList']:
+            chosenGraphicList = list()
+            for chosenGraphic in chosenHardwares['graphicList']:
+                chosenGraphicList.append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
+                
+            if chosenGraphicList:
+                graphicTDP = reduce(lambda x, y: x['TDP'] + y['TDP'], chosenGraphicList)
+
+        filters = list(filter(lambda x: x['watts'] >= 2 * (cpuTDP + graphicTDP), filters))
+
+        if chosenHardwares['crateList']:
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+
+            filters = list(filter(lambda x: x['size'] == chosenCrateList[0]['psuSize'], filters))
+            filters = list(filter(lambda x: x['length'] <= chosenCrateList[0]['psuLength'], filters))
+
+        return filters
 
 class Crate:
     def __init__(self, collection):

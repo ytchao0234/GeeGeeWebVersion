@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify
 from pymongo import MongoClient, ASCENDING, DESCENDING
 import numpy as np
 from src.credential import database
-from src.hardwares import CurrentList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
+from src.hardwares import OriginList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
 
 app = Flask(__name__)
 
@@ -27,7 +27,7 @@ graphic = Graphic(vgaCollection)
 power   = Power(psuCollection)
 crate   = Crate(crateCollection)
 
-currentList = CurrentList()
+originList = OriginList()
 
 @app.route('/')
 def index():
@@ -40,9 +40,9 @@ def switch(x):
         'cooler': cooler.getList,
         # 'motherBoard': mb.getList,
         'ram': ram.getList,
-        # 'disk': disk.getList,
-        # 'graphic': graphic.getList,
-        # 'power': power.getList,
+        'disk': disk.getList,
+        'graphic': graphic.getList,
+        'power': power.getList,
         # 'crate': crate.getList,
     }.get(x)
 
@@ -52,7 +52,7 @@ def hardwareList():
     try:
         hardware = inputData['hardware']
         chosenHardwares = inputData['chosenHardwares']
-        hardwareList = switch(hardware)(chosenHardwares, currentList)
+        hardwareList = switch(hardware)(chosenHardwares, originList)
     except Exception as e:
         print(e)
         hardwareList = "ERROR: Failed to get data"
@@ -80,7 +80,7 @@ def suggestion():
 
 @app.route('/testtest', methods=['GET'])
 def testtest():
-    originList = dict([
+    origin = dict([
         ('cpuList', cpu.getOriginalList()),
         ('coolerList', cooler.getOriginalList()),
         ('mbList', mb.getOriginalList()),
@@ -90,7 +90,7 @@ def testtest():
         ('powerList', power.getOriginalList()),
         ('crateList', crate.getOriginalList()),
     ])
-    currentList.setList(originList)
+    originList.setList(origin)
 
     return render_template('test.html')
 
