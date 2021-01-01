@@ -42,10 +42,10 @@ class Cpu:
 
             ramCapacity = 0
             if chosenRamList:
-                ramCapacity = reduce(lambda x, y: x['capacity'] + y['capacity'], chosenRamList)
+                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenRamList)
 
-            filters = list(filter(lambda x: x['ramMaximumSupport'] >= ramCapacity, filters))
-            filters = list(filter(lambda x: x['ramGenerationSupport'] == chosenRamList[0]['ramType'], filters))
+            filters = list(filter(lambda x: x['ramMaximumSupport'] >= ramCapacity and \
+                                            x['ramGenerationSupport'] == chosenRamList[0]['ramType'], filters))
 
         if chosenHardwares['powerList']:
             chosenPowerList = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
@@ -85,6 +85,63 @@ class MotherBoard:
 
     def getOriginalList(self):
         return list(self.collection.find({}, {'_id': False}))
+
+    def getList(self, chosenHardwares, originList):
+        filters = originList.list['mbList']
+
+        if chosenHardwares['cpuList']:
+            chosenCpuList = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], originList.list['cpuList']))
+            filters = list(filter(lambda x: x['pin'] == chosenCpuList[0]['pin'], filters))
+
+        if chosenHardwares['ramList']:
+            chosenRamList = list()
+            for chosenRam in chosenHardwares['ramList']:
+                chosenRamList.append(list(filter(lambda x: x['name'] == chosenRam, originList.list['ramList']))[0])
+
+            ramCapacity = 0
+            if chosenRamList:
+                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenRamList)
+
+            filters = list(filter(lambda x: x['ramType'] == chosenRamList[0]['ramType'] and \
+                                            x['ramMaximum'] >= ramCapacity and \
+                                            x['ramQuantity'] >= len(chosenRamList), filters))
+
+        if chosenHardwares['graphicList']:
+            chosenGraphicList = list()
+            for chosenGraphic in chosenHardwares['graphicList']:
+                chosenGraphicList.append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
+
+            filters = list(filter(lambda x: x['pcieQuantity'] >= len(chosenGraphicList), filters))
+
+        if chosenHardwares['diskList']:
+            chosenDiskList = list()
+            for chosenDisk in chosenHardwares['diskList']:
+                chosenDiskList.append(list(filter(lambda x: x['name'] == chosenDisk, originList.list['diskList']))[0])
+
+            m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenDiskList))
+            m2TypeSata = any(map(lambda x: x['diskType'] == 'sata' and x['size'] == 'm.2', chosenDiskList))
+
+            supportM2 = ''
+
+            if m2TypePcie and m2TypeSata:
+                supportM2 = 'pcie/sata'
+            elif m2TypePcie:
+                supportM2 = 'pcie'
+            elif m2TypeSata:
+                supportM2 = 'sata'
+                
+            sata3Disk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenDiskList))
+            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenDiskList))
+
+            filters = list(filter(lambda x: ((supportM2 in x['m2Type']) or x['m2Type'] == 'n/a') and \
+                                            x['sata3Quantity'] >= len(sata3Disk) and x['m2Quantity'] >= len(m2Disk), filters))
+
+        if chosenHardwares['crateList']:
+            chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+            supperMbSize = switchMbSize(chosenCrateList[0]['mbSize'])
+            filters = list(filter(lambda x: x['size'] in supperMbSize, filters))
+
+        return filters
 
 class Ram:
     def __init__(self, collection):
@@ -133,14 +190,14 @@ class Disk:
 
             if m2TypePcie and not m2TypeSata:
                 filters = list(filter(lambda x: x['diskType'] == 'pcie' or x['size'] != 'm.2', filters))
-            
-            if not m2TypePcie and m2TypeSata:
+
+            elif not m2TypePcie and m2TypeSata:
                 filters = list(filter(lambda x: x['diskType'] == 'sata' or x['size'] != 'm.2', filters))
 
-            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenDiskList))
+            sata3Disk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenDiskList))
             m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenDiskList))
             
-            if chosenMbList[0]['sata3Quantity'] <= len(sataDisk):
+            if chosenMbList[0]['sata3Quantity'] <= len(sata3Disk):
                 filters = list(filter(lambda x: x['diskType'] != 'sata' or x['size'] == 'm.2', filters))
 
             if chosenMbList[0]['m2Quantity'] <= len(m2Disk):
@@ -200,8 +257,8 @@ class Power:
         if chosenHardwares['crateList']:
             chosenCrateList = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
 
-            filters = list(filter(lambda x: x['size'] == chosenCrateList[0]['psuSize'], filters))
-            filters = list(filter(lambda x: x['length'] <= chosenCrateList[0]['psuLength'], filters))
+            filters = list(filter(lambda x: x['size'] == chosenCrateList[0]['psuSize'] and \
+                                            x['length'] <= chosenCrateList[0]['psuLength'], filters))
 
         return filters
 
@@ -232,8 +289,8 @@ class Crate:
 
         if chosenHardwares['powerList']:
             chosenPowerList = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
-            filters = list(filter(lambda x: x['psuSize'] == chosenPowerList[0]['size'], filters))
-            filters = list(filter(lambda x: x['psuLength'] >= chosenPowerList[0]['length'], filters))
+            filters = list(filter(lambda x: x['psuSize'] == chosenPowerList[0]['size'] and \
+                                            x['psuLength'] >= chosenPowerList[0]['length'], filters))
         
         if chosenHardwares['diskList']:
             chosenDisk3_5List = list()

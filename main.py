@@ -38,7 +38,7 @@ def switch(x):
     {
         'cpu': cpu.getList,
         'cooler': cooler.getList,
-        # 'motherBoard': mb.getList,
+        'motherBoard': mb.getList,
         'ram': ram.getList,
         'disk': disk.getList,
         'graphic': graphic.getList,
