@@ -23,7 +23,10 @@ class OriginList:
 
 class ChosenList:
     def __init__(self):
-        self.list = dict([
+        pass
+
+    def getList(self, chosenHardwares, originList):
+        chosen = dict([
             ('cpuList', list()),
             ('coolerList', list()),
             ('mbList', list()),
@@ -34,36 +37,108 @@ class ChosenList:
             ('crateList', list()),
         ])
 
-    def setList(self, chosenHardwares, originList):
         if chosenHardwares['cpuList']:
-            self.list['cpuList'] = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], originList.list['cpuList']))
+            chosen['cpuList'] = list(filter(lambda x: x['name'] == chosenHardwares['cpuList'][0], originList.list['cpuList']))
             
         if chosenHardwares['coolerList']:
-            self.list['coolerList'] = list(filter(lambda x: x['name'] == chosenHardwares['coolerList'][0], originList.list['coolerList']))
+            chosen['coolerList'] = list(filter(lambda x: x['name'] == chosenHardwares['coolerList'][0], originList.list['coolerList']))
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['coolerList']))
+
+            if customList:
+                for custom in customList:
+                    chosen['coolerList'].append(dict([
+                        ('name', custom),
+                        ('height', int(custom.split(' ')[1].split('cm')[0])),
+                    ]))
 
         if chosenHardwares['mbList']:
-            self.list['mbList'] = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
+            chosen['mbList'] = list(filter(lambda x: x['name'] == chosenHardwares['mbList'][0], originList.list['mbList']))
 
         if chosenHardwares['ramList']:
-            self.list['ramList'] = list()
+            chosen['ramList'] = list()
             for chosenRam in chosenHardwares['ramList']:
-                self.list['ramList'].append(list(filter(lambda x: x['name'] == chosenRam, originList.list['ramList']))[0])
+                RamIsFound = list(filter(lambda x: x['name'] == chosenRam, originList.list['ramList']))
+                if RamIsFound:
+                    chosen['ramList'].append(RamIsFound[0])
+
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['ramList']))
+            if customList:
+                for custom in customList:
+                    attrList = custom.split(' ')
+                    chosen['ramList'].append(dict([
+                        ('name', custom),
+                        ('ramType', attrList[1].lower()),
+                        ('capacity', int(attrList[2].split('G')[0])),
+                    ]))
 
         if chosenHardwares['diskList']:
-            self.list['diskList'] = list()
+            chosen['diskList'] = list()
             for chosenDisk in chosenHardwares['diskList']:
-                self.list['diskList'].append(list(filter(lambda x: x['name'] == chosenDisk, originList.list['diskList']))[0])
+                diskIsFound = list(filter(lambda x: x['name'] == chosenDisk, originList.list['diskList']))
+                if diskIsFound:
+                    chosen['diskList'].append(diskIsFound[0])
+
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['diskList']))
+
+            if customList:
+                for custom in customList:
+                    attrList = custom.split(' ')
+                    chosen['diskList'].append(dict([
+                        ('name', custom),
+                        ('size', attrList[1].lower()),
+                        ('diskType', attrList[2].lower()),
+                        ('capacity', int(attrList[3].replace('G', '').replace('T', '000'))),
+                    ]))
 
         if chosenHardwares['graphicList']:
-            self.list['graphicList'] = list()
+            chosen['graphicList'] = list()
             for chosenGraphic in chosenHardwares['graphicList']:
-                self.list['graphicList'].append(list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))[0])
+                GraphicIsFound = list(filter(lambda x: x['name'] == chosenGraphic, originList.list['graphicList']))
+                if GraphicIsFound:
+                    chosen['graphicList'].append(GraphicIsFound[0])
+
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['graphicList']))
+            if customList:
+                for custom in customList:
+                    attrList = custom.split(' ')
+                    chosen['graphicList'].append(dict([
+                        ('name', custom),
+                        ('length', int(attrList[1].split('cm')[0])),
+                        ('TDP', int(attrList[2].split('W')[0])),
+                    ]))
         
         if chosenHardwares['powerList']:
-            self.list['powerList'] = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
+            chosen['powerList'] = list(filter(lambda x: x['name'] == chosenHardwares['powerList'][0], originList.list['powerList']))
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['powerList']))
+
+            if customList:
+                for custom in customList:
+                    attrList = custom.split(' ')
+                    chosen['powerList'].append(dict([
+                        ('name', custom),
+                        ('length', int(attrList[1].split('cm')[0])),
+                        ('watts', int(attrList[2].split('W')[0])),
+                        ('size', attrList[3].lower()),
+                    ]))
 
         if chosenHardwares['crateList']:
-            self.list['crateList'] = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+            chosen['crateList'] = list(filter(lambda x: x['name'] == chosenHardwares['crateList'][0], originList.list['crateList']))
+            customList = list(filter(lambda x: x.find('custom') == 0, chosenHardwares['crateList']))
+
+            if customList:
+                for custom in customList:
+                    attrList = custom.split(' ')
+                    chosen['crateList'].append(dict([
+                        ('name', custom),
+                        ('mbSize', attrList[1].lower()),
+                        ('vgaLength', int(attrList[2].split('cm')[0])),
+                        ('psuSize', attrList[3].lower()),
+                        ('psuLength', int(attrList[4].split('cm')[0])),
+                        ('coolerHeight', int(attrList[5].split('cm')[0])),
+                        ('diskQuantity', int(attrList[6].split('個')[0])),
+                    ]))
+
+        return chosen
 
 class Cpu:
     def __init__(self, collection):
@@ -75,23 +150,23 @@ class Cpu:
     def getList(self, chosenList, originList):
         filters = originList.list['cpuList']
 
-        if chosenList.list['mbList']:
-            filters = list(filter(lambda x: x['pin'] == chosenList.list['mbList'][0]['pin'], filters))
+        if chosenList['mbList']:
+            filters = list(filter(lambda x: x['pin'] == chosenList['mbList'][0]['pin'], filters))
 
-        if chosenList.list['ramList']:
+        if chosenList['ramList']:
             ramCapacity = 0
-            if chosenList.list['ramList']:
-                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList.list['ramList'])
+            if chosenList['ramList']:
+                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
 
             filters = list(filter(lambda x: x['ramMaximumSupport'] >= ramCapacity and \
-                                            x['ramGenerationSupport'] == chosenList.list['ramList'][0]['ramType'], filters))
+                                            x['ramGenerationSupport'] == chosenList['ramList'][0]['ramType'], filters))
 
-        if chosenList.list['powerList']:
+        if chosenList['powerList']:
             graphicTDP = 0
-            if chosenList.list['graphicList']:
-                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList.list['graphicList'])
+            if chosenList['graphicList']:
+                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
-            filters = list(filter(lambda x: 2 * (x['TDP'] + graphicTDP) <= chosenList.list['powerList'][0]['watts'], filters))
+            filters = list(filter(lambda x: 2 * (x['TDP'] + graphicTDP) <= chosenList['powerList'][0]['watts'], filters))
 
         return filters
 
@@ -105,8 +180,8 @@ class CpuCooler:
     def getList(self, chosenList, originList):
         filters = originList.list['coolerList']
 
-        if chosenList.list['crateList']:
-            filters = list(filter(lambda x: x['height'] <= chosenList.list['crateList'][0]['coolerHeight'], filters))
+        if chosenList['crateList']:
+            filters = list(filter(lambda x: x['height'] <= chosenList['crateList'][0]['coolerHeight'], filters))
 
         return filters
 
@@ -120,25 +195,25 @@ class MotherBoard:
     def getList(self, chosenList, originList):
         filters = originList.list['mbList']
 
-        print(chosenList.list['cpuList'])
-        if chosenList.list['cpuList']:
-            filters = list(filter(lambda x: x['pin'] == chosenList.list['cpuList'][0]['pin'], filters))
+        print(chosenList['cpuList'])
+        if chosenList['cpuList']:
+            filters = list(filter(lambda x: x['pin'] == chosenList['cpuList'][0]['pin'], filters))
 
-        if chosenList.list['ramList']:
+        if chosenList['ramList']:
             ramCapacity = 0
-            if chosenList.list['ramList']:
-                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList.list['ramList'])
+            if chosenList['ramList']:
+                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
 
-            filters = list(filter(lambda x: x['ramType'] == chosenList.list['ramList'][0]['ramType'] and \
+            filters = list(filter(lambda x: x['ramType'] == chosenList['ramList'][0]['ramType'] and \
                                             x['ramMaximum'] >= ramCapacity and \
-                                            x['ramQuantity'] >= len(chosenList.list['ramList']), filters))
+                                            x['ramQuantity'] >= len(chosenList['ramList']), filters))
 
-        if chosenList.list['graphicList']:
-            filters = list(filter(lambda x: x['pcieQuantity'] >= len(chosenList.list['graphicList']), filters))
+        if chosenList['graphicList']:
+            filters = list(filter(lambda x: x['pcieQuantity'] >= len(chosenList['graphicList']), filters))
 
-        if chosenList.list['diskList']:
-            m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenList.list['diskList']))
-            m2TypeSata = any(map(lambda x: x['diskType'] == 'sata' and x['size'] == 'm.2', chosenList.list['diskList']))
+        if chosenList['diskList']:
+            m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenList['diskList']))
+            m2TypeSata = any(map(lambda x: x['diskType'] == 'sata' and x['size'] == 'm.2', chosenList['diskList']))
 
             supportM2 = ''
 
@@ -149,14 +224,14 @@ class MotherBoard:
             elif m2TypeSata:
                 supportM2 = 'sata'
                 
-            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList.list['diskList']))
-            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList.list['diskList']))
+            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList['diskList']))
+            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList['diskList']))
 
             filters = list(filter(lambda x: ((supportM2 in x['m2Type']) or x['m2Type'] == 'n/a') and \
                                             x['sata3Quantity'] >= len(sataDisk) and x['m2Quantity'] >= len(m2Disk), filters))
 
-        if chosenList.list['crateList']:
-            supperMbSize = switchMbSize(chosenList.list['crateList'][0]['mbSize'])
+        if chosenList['crateList']:
+            supperMbSize = switchMbSize(chosenList['crateList'][0]['mbSize'])
             filters = list(filter(lambda x: x['size'] in supperMbSize, filters))
 
         return filters
@@ -171,14 +246,14 @@ class Ram:
     def getList(self, chosenList, originList):
         filters = originList.list['ramList']
 
-        if chosenList.list['cpuList']:
-            filters = list(filter(lambda x: x['ramType'] == chosenList.list['cpuList'][0]['ramGenerationSupport'], filters))
+        if chosenList['cpuList']:
+            filters = list(filter(lambda x: x['ramType'] == chosenList['cpuList'][0]['ramGenerationSupport'], filters))
 
-        if chosenList.list['mbList']:
-            filters = list(filter(lambda x: x['ramType'] == chosenList.list['mbList'][0]['ramType'], filters))
+        if chosenList['mbList']:
+            filters = list(filter(lambda x: x['ramType'] == chosenList['mbList'][0]['ramType'], filters))
 
-        if chosenList.list['ramList']:
-            filters = list(filter(lambda x: x['ramType'] == chosenList.list['ramList'][0]['ramType'], filters))
+        if chosenList['ramList']:
+            filters = list(filter(lambda x: x['ramType'] == chosenList['ramList'][0]['ramType'], filters))
 
         return filters
 
@@ -192,9 +267,9 @@ class Disk:
     def getList(self, chosenList, originList):
         filters = originList.list['diskList']
             
-        if chosenList.list['mbList']:
-            m2TypePcie = 'pcie' in chosenList.list['mbList'][0]['m2Type']
-            m2TypeSata = 'sata' in chosenList.list['mbList'][0]['m2Type']
+        if chosenList['mbList']:
+            m2TypePcie = 'pcie' in chosenList['mbList'][0]['m2Type']
+            m2TypeSata = 'sata' in chosenList['mbList'][0]['m2Type']
 
             if m2TypePcie and not m2TypeSata:
                 filters = list(filter(lambda x: x['diskType'] == 'pcie' or x['size'] != 'm.2', filters))
@@ -202,19 +277,19 @@ class Disk:
             elif not m2TypePcie and m2TypeSata:
                 filters = list(filter(lambda x: x['diskType'] == 'sata' or x['size'] != 'm.2', filters))
 
-            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList.list['diskList']))
-            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList.list['diskList']))
+            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList['diskList']))
+            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList['diskList']))
             
-            if chosenList.list['mbList'][0]['sata3Quantity'] <= len(sataDisk):
+            if chosenList['mbList'][0]['sata3Quantity'] <= len(sataDisk):
                 filters = list(filter(lambda x: x['diskType'] != 'sata' or x['size'] == 'm.2', filters))
 
-            if chosenList.list['mbList'][0]['m2Quantity'] <= len(m2Disk):
+            if chosenList['mbList'][0]['m2Quantity'] <= len(m2Disk):
                 filters = list(filter(lambda x: x['size'] != 'm.2', filters))
 
-        if chosenList.list['crateList']:
-            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList.list['diskList']))
+        if chosenList['crateList']:
+            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList['diskList']))
 
-            if chosenList.list['crateList'][0]['diskQuantity'] <= len(disk3_5):
+            if chosenList['crateList'][0]['diskQuantity'] <= len(disk3_5):
                 filters = list(filter(lambda x: x['size'] != '3.5', filters))
 
         return filters
@@ -229,8 +304,8 @@ class Graphic:
     def getList(self, chosenList, originList):
         filters = originList.list['graphicList']
 
-        if chosenList.list['crateList']:
-            filters = list(filter(lambda x: x['length'] <= chosenList.list['crateList'][0]['vgaLength'], filters))
+        if chosenList['crateList']:
+            filters = list(filter(lambda x: x['length'] <= chosenList['crateList'][0]['vgaLength'], filters))
 
         return filters
 
@@ -245,14 +320,14 @@ class Power:
         filters = originList.list['powerList']
 
         graphicTDP = 0
-        if chosenList.list['graphicList']:
-            graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList.list['graphicList'])
+        if chosenList['graphicList']:
+            graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
-        filters = list(filter(lambda x: x['watts'] >= 2 * (chosenList.list['cpuList'][0]['TDP'] + graphicTDP), filters))
+        filters = list(filter(lambda x: x['watts'] >= 2 * (chosenList['cpuList'][0]['TDP'] + graphicTDP), filters))
 
-        if chosenList.list['crateList']:
-            filters = list(filter(lambda x: x['size'] == chosenList.list['crateList'][0]['psuSize'] and \
-                                            x['length'] <= chosenList.list['crateList'][0]['psuLength'], filters))
+        if chosenList['crateList']:
+            filters = list(filter(lambda x: x['size'] == chosenList['crateList'][0]['psuSize'] and \
+                                            x['length'] <= chosenList['crateList'][0]['psuLength'], filters))
 
         return filters
 
@@ -266,88 +341,87 @@ class Crate:
     def getList(self, chosenList, originList):
         filters = originList.list['crateList']
 
-        if chosenList.list['coolerList']:
-            filters = list(filter(lambda x: x['coolerHeight'] >= chosenList.list['coolerList'][0]['height'], filters))
+        if chosenList['coolerList']:
+            filters = list(filter(lambda x: x['coolerHeight'] >= chosenList['coolerList'][0]['height'], filters))
 
-        if chosenList.list['mbList']:
-            filters = list(filter(lambda x: chosenList.list['mbList'][0]['size'] in switchMbSize(x['mbSize']), filters))
+        if chosenList['mbList']:
+            filters = list(filter(lambda x: chosenList['mbList'][0]['size'] in switchMbSize(x['mbSize']), filters))
 
-        if chosenList.list['graphicList']:                
-            filters = list(filter(lambda x: x['vgaLength'] >= chosenList.list['graphicList'][0]['length'], filters))
+        if chosenList['graphicList']:                
+            filters = list(filter(lambda x: x['vgaLength'] >= chosenList['graphicList'][0]['length'], filters))
 
-        if chosenList.list['powerList']:
-            filters = list(filter(lambda x: x['psuSize'] == chosenList.list['powerList'][0]['size'] and \
-                                            x['psuLength'] >= chosenList.list['powerList'][0]['length'], filters))
+        if chosenList['powerList']:
+            filters = list(filter(lambda x: x['psuSize'] == chosenList['powerList'][0]['size'] and \
+                                            x['psuLength'] >= chosenList['powerList'][0]['length'], filters))
         
-        if chosenList.list['diskList']:
-            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList.list['diskList']))
+        if chosenList['diskList']:
+            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList['diskList']))
             filters = list(filter(lambda x: x['diskQuantity'] >= len(disk3_5), filters))
 
         return filters
 
 class SuggestionList:
     def __init__(self):
-        self.list = []
+        pass
 
-    def setList(self, chosenList):
-        self.list.clear()
+    def getList(self, chosenList):
+        suggestion = list()
 
         try:
-            if chosenList.list['cpuList'] and chosenList.list['mbList'][0]:
-                if chosenList.list['cpuList'][0]['pin'] != chosenList.list['mbList'][0]['pin']:
-                    self.list.append("CPU和主機板腳位不符合哦！\nCPU: " + \
-                                     chosenList.list['cpuList'][0]['pin'] + \
-                                     "\n主機板: " + chosenList.list['mbList'][0]['pin'])
+            if chosenList['cpuList'][0]['pin'] != chosenList['mbList'][0]['pin']:
+                suggestion.append("CPU和主機板腳位不符合哦！\nCPU: " + \
+                                 chosenList['cpuList'][0]['pin'] + \
+                                 "\n主機板: " + chosenList['mbList'][0]['pin'])
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['coolerList'][0]['height'] > chosenList.list['crateList'][0]['coolerHeight']:
-                self.list.append("機殼裝不下CPU散熱器耶！\n機殼: " + \
-                                 str(chosenList.list['crateList'][0]['coolerHeight']) + \
-                                 "\nCPU散熱器: " + str(chosenList.list['coolerList'][0]['height']) )
+            if chosenList['coolerList'][0]['height'] > chosenList['crateList'][0]['coolerHeight']:
+                suggestion.append("機殼裝不下CPU散熱器耶！\n機殼: " + \
+                                 str(chosenList['crateList'][0]['coolerHeight']) + \
+                                 "\nCPU散熱器: " + str(chosenList['coolerList'][0]['height']) )
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['mbList'][0]['ramQuantity'] < len(chosenList.list['ramList']):
-                self.list.append("主機板的記憶體插槽不夠插哦！\n主機板: " + \
-                                 str(chosenList.list['mbList'][0]['ramQuantity']) + \
-                                 "\n記憶體: " + str(len(chosenList.list['ramList'])))
+            if chosenList['mbList'][0]['ramQuantity'] < len(chosenList['ramList']):
+                suggestion.append("主機板的記憶體插槽不夠插哦！\n主機板: " + \
+                                 str(chosenList['mbList'][0]['ramQuantity']) + \
+                                 "\n記憶體: " + str(len(chosenList['ramList'])))
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['mbList'][0]['pcieQuantity'] < len(chosenList.list['graphicList']):
-                self.list.append("主機板的PCIe插槽不夠插哦！\n主機板: " + \
-                                 str(chosenList.list['mbList'][0]['pcieQuantity']) + \
-                                 "\n顯示卡: " + str(len(chosenList.list['graphicList'])))
+            if chosenList['mbList'][0]['pcieQuantity'] < len(chosenList['graphicList']):
+                suggestion.append("主機板的PCIe插槽不夠插哦！\n主機板: " + \
+                                 str(chosenList['mbList'][0]['pcieQuantity']) + \
+                                 "\n顯示卡: " + str(len(chosenList['graphicList'])))
         except Exception as e:
             print(e)
 
         try:
-            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList.list['diskList']))
+            m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList['diskList']))
 
-            if chosenList.list['mbList'][0]['m2Quantity'] < len(m2Disk):
-                self.list.append("主機板的M.2接口不夠囉！\n主機板: " + \
-                                 str(chosenList.list['mbList'][0]['m2Quantity']) + \
+            if chosenList['mbList'][0]['m2Quantity'] < len(m2Disk):
+                suggestion.append("主機板的M.2接口不夠囉！\n主機板: " + \
+                                 str(chosenList['mbList'][0]['m2Quantity']) + \
                                  "\nM.2硬碟: " + str(len(m2Disk)))
         except Exception as e:
             print(e)
 
         try:
-            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList.list['diskList'])) 
+            sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList['diskList'])) 
 
-            if chosenList.list['mbList'][0]['m2Quantity'] < len(sataDisk):
-                self.list.append("主機板的SATA接口不夠囉！\n主機板: " + \
-                                 str(chosenList.list['mbList'][0]['sata3Quantity']) + \
+            if chosenList['mbList'][0]['m2Quantity'] < len(sataDisk):
+                suggestion.append("主機板的SATA接口不夠囉！\n主機板: " + \
+                                 str(chosenList['mbList'][0]['sata3Quantity']) + \
                                  "\nSATA硬碟: " + str(len(sataDisk)))
         except Exception as e:
             print(e)
         
         try:
-            m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenList.list['diskList']))
-            m2TypeSata = any(map(lambda x: x['diskType'] == 'sata' and x['size'] == 'm.2', chosenList.list['diskList']))
+            m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenList['diskList']))
+            m2TypeSata = any(map(lambda x: x['diskType'] == 'sata' and x['size'] == 'm.2', chosenList['diskList']))
 
             supportM2 = ''
 
@@ -358,112 +432,126 @@ class SuggestionList:
             elif m2TypeSata:
                 supportM2 = 'sata'
 
-            if supportM2 not in chosenList.list['mbList'][0]['m2Type']:
-                self.list.append("主機板的M.2插槽不能插這種M.2硬碟哦！\n主機板: " + \
-                                 chosenList.list['mbList'][0]['m2Type'] + \
+            if supportM2 not in chosenList['mbList'][0]['m2Type']:
+                suggestion.append("主機板的M.2插槽不能插這種M.2硬碟哦！\n主機板: " + \
+                                 chosenList['mbList'][0]['m2Type'] + \
                                  "\nM.2硬碟: " + supportM2)
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['mbList'][0]['size'] not in switchMbSize(chosenList.list['crateList'][0]['mbSize']):
-                self.list.append("機殼裝不下主機板耶！\n機殼: " + \
-                                 chosenList.list['crateList'][0]['mbSize'] + \
-                                 "\n主機板: " + chosenList.list['mbList'][0]['size'])
+            if chosenList['mbList'][0]['size'] not in switchMbSize(chosenList['crateList'][0]['mbSize']):
+                suggestion.append("機殼裝不下主機板耶！\n機殼: " + \
+                                 chosenList['crateList'][0]['mbSize'] + \
+                                 "\n主機板: " + chosenList['mbList'][0]['size'])
         except Exception as e:
             print(e)
 
         try:
-            ramAreValid = list(map(lambda x: x['ramType'] == chosenList.list['cpuList'][0]['ramGenerationSupport'], chosenList.list['ramList']))
+            ramAreValid = list(map(lambda x: x['ramType'] == chosenList['cpuList'][0]['ramGenerationSupport'], chosenList['ramList']))
 
             if not all(ramAreValid):
-                self.list.append("有記憶體與CPU支援的代數不符合哦！\n記憶體: " + \
-                                 chosenList.list['ramList'][ramAreValid.index(False)]['ramType'] + \
-                                 "\nCPU: " + chosenList.list['cpuList'][0]['ramGenerationSupport'])
+                suggestion.append("有記憶體與CPU支援的代數不符合哦！\n記憶體: " + \
+                                 chosenList['ramList'][ramAreValid.index(False)]['ramType'] + \
+                                 "\nCPU: " + chosenList['cpuList'][0]['ramGenerationSupport'])
         except Exception as e:
             print(e)
 
         try:
-            ramAreValid = list(map(lambda x: x['ramType'] == chosenList.list['mbList'][0]['ramType'], chosenList.list['ramList']))
+            ramAreValid = list(map(lambda x: x['ramType'] == chosenList['mbList'][0]['ramType'], chosenList['ramList']))
 
             if not all(ramAreValid):
-                self.list.append("主機板支援的代數與記憶體不符合哦！\n主機板: " + \
-                                 chosenList.list['mbList'][0]['ramType'] + \
-                                 "\n記憶體: " + chosenList.list['ramList'][ramAreValid.index(False)]['ramType'])
+                suggestion.append("主機板支援的代數與記憶體不符合哦！\n主機板: " + \
+                                 chosenList['mbList'][0]['ramType'] + \
+                                 "\n記憶體: " + chosenList['ramList'][ramAreValid.index(False)]['ramType'])
         except Exception as e:
             print(e)
 
         try:
             ramCapacity = 0
-            if chosenList.list['ramList']:
-                if chosenList.list['ramList']:
-                    ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList.list['ramList'])
+            if chosenList['ramList']:
+                if chosenList['ramList']:
+                    ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
             
-            if ramCapacity > chosenList.list['mbList'][0]['ramMaximum']:
-                self.list.append("記憶體容量超過主機板支援的容量大小囉！\n記憶體: " + \
+            if ramCapacity > chosenList['mbList'][0]['ramMaximum']:
+                suggestion.append("記憶體容量超過主機板支援的容量大小囉！\n記憶體: " + \
                                  str(ramCapacity) + \
-                                 "\n主機板: " + str(chosenList.list['mbList'][0]['ramMaximum']))
+                                 "\n主機板: " + str(chosenList['mbList'][0]['ramMaximum']))
         except Exception as e:
             print(e)
 
         try:
-            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList.list['diskList']))
+            disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList['diskList']))
 
-            if chosenList.list['crateList'][0]['diskQuantity'] < len(disk3_5):
-                self.list.append("機殼的3.5吋硬碟架不夠耶！\n機殼: " + \
-                                 str(chosenList.list['crateList'][0]['diskQuantity']) + \
+            if chosenList['crateList'][0]['diskQuantity'] < len(disk3_5):
+                suggestion.append("機殼的3.5吋硬碟架不夠耶！\n機殼: " + \
+                                 str(chosenList['crateList'][0]['diskQuantity']) + \
                                  "\n3.5吋硬碟: " + str(len(disk3_5)))
         except Exception as e:
             print(e)
 
         try:
-            graphicAreValid = list(map(lambda x: x['length'] <= chosenList.list['crateList'][0]['vgaLength'], chosenList.list['graphicList']))
+            graphicAreValid = list(map(lambda x: x['length'] <= chosenList['crateList'][0]['vgaLength'], chosenList['graphicList']))
 
             if not all(graphicAreValid):
-                self.list.append("有顯示卡裝不進機殼耶！\n顯示卡: " + \
-                                 str(chosenList.list['graphicList'][graphicAreValid.index(False)]['length']) + \
-                                 "\n機殼: " + str(chosenList.list['crateList'][0]['vgaLength']))
+                suggestion.append("有顯示卡裝不進機殼耶！\n顯示卡: " + \
+                                 str(chosenList['graphicList'][graphicAreValid.index(False)]['length']) + \
+                                 "\n機殼: " + str(chosenList['crateList'][0]['vgaLength']))
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['cpuList'][0]['internalGraphic'] == 'n/a':
-                self.list.append("CPU沒有內顯，記得要裝顯示卡唷！")
+            if chosenList['cpuList'][0]['internalGraphic'] == 'n/a':
+                suggestion.append("CPU沒有內顯，記得要裝顯示卡唷！")
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['mbList'][0]['graphicOutput'] == 'n/a':
-                self.list.append("主機板沒有顯示輸出，記得要裝顯示卡唷！")
+            if chosenList['mbList'][0]['graphicOutput'] == 'n/a':
+                suggestion.append("主機板沒有顯示輸出，記得要裝顯示卡唷！")
         except Exception as e:
             print(e)
 
         try:
             graphicTDP = 0
-            if chosenList.list['graphicList']:
-                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList.list['graphicList'])
+            if chosenList['graphicList']:
+                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
-            if chosenList.list['powerList'][0]['watts'] < 2 * ( chosenList.list['cpuList'][0]['TDP'] + graphicTDP):
-                self.list.append("電源供應器的瓦數不足哦！\n電源供應器: " + \
-                                 str(chosenList.list['powerList'][0]['watts']) + \
-                                 "\nCPU TDP: " + str(chosenList.list['cpuList'][0]['TDP']) + \
+            if chosenList['powerList'][0]['watts'] < 2 * ( chosenList['cpuList'][0]['TDP'] + graphicTDP):
+                suggestion.append("電源供應器的瓦數不足哦！\n電源供應器: " + \
+                                 str(chosenList['powerList'][0]['watts']) + \
+                                 "\nCPU TDP: " + str(chosenList['cpuList'][0]['TDP']) + \
                                  "\n顯示卡TDP: " + str(graphicTDP))
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['powerList'][0]['size'] != chosenList.list['crateList'][0]['psuSize']:
-                self.list.append("電源供應器與機殼大小不符合哦！\n電源供應器: " + \
-                                 chosenList.list['powerList'][0]['size'] + \
-                                 "\n機殼: " + chosenList.list['crateList'][0]['psuSize'])
+            if chosenList['powerList'][0]['size'] != chosenList['crateList'][0]['psuSize']:
+                suggestion.append("電源供應器與機殼大小不符合哦！\n電源供應器: " + \
+                                 chosenList['powerList'][0]['size'] + \
+                                 "\n機殼: " + chosenList['crateList'][0]['psuSize'])
         except Exception as e:
             print(e)
 
         try:
-            if chosenList.list['powerList'][0]['length'] != chosenList.list['crateList'][0]['psuLength']:
-                self.list.append("電源供應器與機殼長度不符合哦！\n電源供應器: " + \
-                                 str(chosenList.list['powerList'][0]['length']) + \
-                                 "\n機殼: " + str(chosenList.list['crateList'][0]['psuLength']))
+            if chosenList['powerList'][0]['length'] > chosenList['crateList'][0]['psuLength']:
+                suggestion.append("電源供應器與機殼長度不符合哦！\n電源供應器: " + \
+                                 str(chosenList['powerList'][0]['length']) + \
+                                 "\n機殼: " + str(chosenList['crateList'][0]['psuLength']))
         except Exception as e:
             print(e)
-        
+
+        return suggestion
+
+class SearchList:
+    def __init__(self):
+        pass
+
+    def getList(self, searchStr, hardwareList):
+        filters = hardwareList
+        searchList = searchStr.split(' ')
+
+        for search in searchList:
+            filters = list(filter(lambda x: search in x['name'], filters))
+
+        return filters

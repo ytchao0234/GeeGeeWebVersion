@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, jsonify
 from pymongo import MongoClient, ASCENDING, DESCENDING
 import numpy as np
 from src.credential import database
-from src.hardwares import SuggestionList, ChosenList, OriginList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
+from src.hardwares import SuggestionList, SearchList, ChosenList, OriginList, Cpu, CpuCooler, MotherBoard, Ram, Disk, Graphic, Power, Crate
 
 app = Flask(__name__)
 
@@ -30,6 +30,7 @@ crate   = Crate(crateCollection)
 originList = OriginList()
 chosenList = ChosenList()
 suggestionList = SuggestionList()
+searchList = SearchList()
 
 @app.route('/')
 def index():
@@ -54,11 +55,10 @@ def hardwareList():
     try:
         hardware = inputData['hardware']
         chosenHardwares = inputData['chosenHardwares']
-        chosenList.setList(chosenHardwares, originList)
-        hardwareList = switch(hardware)(chosenList, originList)
+        chosen = chosenList.getList(chosenHardwares, originList)
+        hardwareList = switch(hardware)(chosen, originList)
     except Exception as e:
         print(e)
-        hardwareList = "ERROR: Failed to get data"
 
         return jsonify({"error": e}), 500
 
@@ -69,16 +69,36 @@ def suggestion():
     inputData = request.get_json()
     try:
         chosenHardwares = inputData['chosenHardwares']
-        chosenList.setList(chosenHardwares, originList)
-        suggestionList.setList(chosenList)
-        suggestion = suggestionList.list
+        chosen = chosenList.getList(chosenHardwares, originList)
+        suggestion = suggestionList.getList(chosen)
+        ramExeed = False
+        if chosen['mbList']:
+            ramExeed = chosen['mbList'][0]['ramQuantity'] >= len(chosen['ramList'])
     except Exception as e:
         print(e)
-        suggestion = "ERROR: Failed to get data"
 
         return jsonify({"error": e}), 500
 
-    return jsonify(suggestion), 200
+    return jsonify({'suggestion': suggestion,
+                    'ramExeed': ramExeed}) \
+                    , 200
+
+@app.route('/search', methods=['POST'])
+def search():
+    inputData = request.get_json()
+    try:
+        hardware = inputData['hardware']
+        searchStr = inputData['search']
+        chosenHardwares = inputData['chosenHardwares']
+        chosen = chosenList.getList(chosenHardwares, originList)
+        hardwareList = switch(hardware)(chosen, originList)
+        searchResult = searchList.getList(searchStr, hardwareList)
+    except Exception as e:
+        print(e)
+
+        return jsonify({"error": e}), 500
+
+    return jsonify(searchResult), 200
 
 @app.route('/home', methods=['GET'])
 def home():
