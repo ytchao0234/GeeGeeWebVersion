@@ -200,11 +200,10 @@ function btnDisk() {
 
 $(document).ready(async function() {
     
-    let which = "cpu";
+    let which = "crate";
     let chosen = {
                     "cpuList": 
                     [
-                        "Intel Core i3-10100",
                     ],
                     "coolerList":
                     [
@@ -214,7 +213,6 @@ $(document).ready(async function() {
                     ],
                     "ramList":
                     [
-                        "UMAX 8GB DDR3-1600",
                     ],
                     "diskList":
                     [
@@ -230,7 +228,7 @@ $(document).ready(async function() {
                     ],
                 };
 
-    let hardwareList = await new Promise((resolve, reject) => getSuggestion( resolve, reject, chosen )).catch((e) =>
+    let hardwareList = await new Promise((resolve, reject) => getHardwareList( resolve, reject, which, chosen )).catch((e) =>
     {
         console.log(e);
     });

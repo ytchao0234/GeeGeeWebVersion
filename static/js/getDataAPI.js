@@ -261,13 +261,14 @@ function getSuggestion( resolve, reject, chosenHardwares )
 
 function cpuList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -322,22 +323,23 @@ function cpuList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
-    }
+                "</div>";
 
-    return hardwareList;
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
+    }
 }
 
 function coolerList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -360,8 +362,10 @@ function coolerList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -369,13 +373,14 @@ function coolerList( data )
 
 function mbList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -430,8 +435,10 @@ function mbList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -439,13 +446,14 @@ function mbList( data )
 
 function ramList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -472,8 +480,10 @@ function ramList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -481,13 +491,14 @@ function ramList( data )
 
 function diskList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -514,8 +525,10 @@ function diskList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -523,13 +536,14 @@ function diskList( data )
 
 function graphicList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -556,8 +570,10 @@ function graphicList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -565,13 +581,14 @@ function graphicList( data )
 
 function powerList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -602,8 +619,10 @@ function powerList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
@@ -611,13 +630,14 @@ function powerList( data )
 
 function crateList( data )
 {
-    let hardwareList = "";
+    let hardware;
+    let content;
 
     for( let i in data )
     {
-        hardwareList +=
-            "<div class='card mb-2 card-small px-3'>" +
-                "<div class='card-body'>" +
+        hardware = $("<div class='card mb-2 card-small px-3' />");
+        
+        content = "<div class='card-body'>" +
                     "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
@@ -660,8 +680,10 @@ function crateList( data )
                             "</tbody>" +
                         "</table>" +
                     "</div>" +
-                "</div>" +
-            "</div>";
+                "</div>";
+
+        hardware.append(content);
+        $( "#listLeft" ).append(hardware);
     }
 
     return hardwareList;
