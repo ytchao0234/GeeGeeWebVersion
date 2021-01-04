@@ -8,6 +8,7 @@
 
 .card-small { 
     background-color: rgb(203, 206, 209); 
+    cursor: pointer !important;
 }
 
 .card-small.chosen { 

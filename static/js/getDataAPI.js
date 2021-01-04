@@ -1,4 +1,4 @@
-function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
+function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
 {
     $.ajax({
         type: "post",
@@ -67,7 +67,7 @@ function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
     });
 }
 
-function getOriginList( resolve, reject, whichHardware )
+function loadOriginList( resolve, reject, whichHardware )
 {
     $.ajax({
         type: "post",
@@ -134,7 +134,7 @@ function getOriginList( resolve, reject, whichHardware )
     });
 }
 
-function getSearch( resolve, reject, whichHardware, chosenHardwares, searchString )
+function loadSearch( resolve, reject, whichHardware, chosenHardwares, searchString )
 {
     $.ajax({
         type: "post",
@@ -203,7 +203,7 @@ function getSearch( resolve, reject, whichHardware, chosenHardwares, searchStrin
     });
 }
 
-function getSuggestion( resolve, reject, chosenHardwares )
+function loadSuggestion( resolve, reject, chosenHardwares )
 {
     $.ajax({
         type: "post",
@@ -290,11 +290,11 @@ function cpuList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>核心數</th>" +
-                                    "<td class='col-6'>" + data[i].cores + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].cores == 999) ? "n/a" : data[i].cores) + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>線程數</th>" +
-                                    "<td class='col-6'>" + data[i].threads + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].threads == 999) ? "n/a" : data[i].threads) + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>基礎頻率</th>" +
@@ -306,7 +306,7 @@ function cpuList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>最大記憶體容量</th>" +
-                                    "<td class='col-6'>" + data[i].ramMaximumSupport + "GB</td>" +
+                                    "<td class='col-6'>" + ((data[i].ramMaximumSupport == 999) ? "n/a" : data[i].ramMaximumSupport + "GB") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>記憶體代數</th>" +
@@ -357,7 +357,7 @@ function coolerList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>高度</th>" +
-                                    "<td class='col-6'>" + data[i].height + "cm</td>" +
+                                    "<td class='col-6'>" + ((data[i].height == 999) ? "n/a" : data[i].height + "cm") + "</td>" +
                                 "</tr>" +
                             "</tbody>" +
                         "</table>" +
@@ -367,8 +367,6 @@ function coolerList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function mbList( data )
@@ -406,11 +404,11 @@ function mbList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>PCIe接口數</th>" +
-                                    "<td class='col-6'>" + data[i].pcieQuantity + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].pcieQuantity == 999) ? "n/a" : data[i].pcieQuantity) + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>記憶體插槽數</th>" +
-                                    "<td class='col-6'>" + data[i].ramQuantity + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].ramQuantity == 999) ? "n/a" : data[i].ramQuantity) + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>記憶體代數</th>" +
@@ -418,11 +416,11 @@ function mbList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>最大記憶體容量</th>" +
-                                    "<td class='col-6'>" + data[i].ramMaximum + "GB</td>" +
+                                    "<td class='col-6'>" + ((data[i].ramMaximum == 999) ? "n/a" : data[i].ramMaximum + "GB") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>SATA3接口數</th>" +
-                                    "<td class='col-6'>" + data[i].sata3Quantity + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].sata3Quantity == 999) ? "n/a" : data[i].sata3Quantity) + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>M.2類型</th>" +
@@ -430,7 +428,7 @@ function mbList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>M.2接口數</th>" +
-                                    "<td class='col-6'>" + data[i].m2Quantity + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].m2Quantity == 999) ? "n/a" : data[i].m2Quantity) + "</td>" +
                                 "</tr>" +
                             "</tbody>" +
                         "</table>" +
@@ -440,8 +438,6 @@ function mbList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function ramList( data )
@@ -475,7 +471,7 @@ function ramList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>記憶體容量</th>" +
-                                    "<td class='col-6'>" + data[i].capacity + "GB</td>" +
+                                    "<td class='col-6'>" + ((data[i].capacity == 999) ? "n/a" : data[i].capacity + "GB") + "</td>" +
                                 "</tr>" +
                             "</tbody>" +
                         "</table>" +
@@ -485,8 +481,6 @@ function ramList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function diskList( data )
@@ -530,8 +524,6 @@ function diskList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function graphicList( data )
@@ -561,7 +553,7 @@ function graphicList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>長度</th>" +
-                                    "<td class='col-6'>" + data[i].length + "cm</td>" +
+                                    "<td class='col-6'>" + ((data[i].length == 999) ? "n/a" : data[i].length + "cm") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>TDP</th>" +
@@ -575,8 +567,6 @@ function graphicList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function powerList( data )
@@ -606,11 +596,11 @@ function powerList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>長度</th>" +
-                                    "<td class='col-6'>" + data[i].length + "cm</td>" +
+                                    "<td class='col-6'>" + ((data[i].length == 999) ? "n/a" : data[i].length + "cm") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>瓦數</th>" +
-                                    "<td class='col-6'>" + data[i].watts + "W</td>" +
+                                    "<td class='col-6'>" + ((data[i].watts == 999) ? "n/a" : data[i].watts + "W") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>大小</th>" +
@@ -624,8 +614,6 @@ function powerList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }
 
 function crateList( data )
@@ -659,7 +647,7 @@ function crateList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>支援的顯卡長度</th>" +
-                                    "<td class='col-6'>" + data[i].vgaLength + "cm</td>" +
+                                    "<td class='col-6'>" + ((data[i].vgaLength == 999) ? "n/a" : data[i].vgaLength + "cm") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>支援的電源大小</th>" +
@@ -667,15 +655,15 @@ function crateList( data )
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>支援的電源長度</th>" +
-                                    "<td class='col-6'>" + data[i].psuLength + "cm</td>" +
+                                    "<td class='col-6'>n/a</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>支援的散熱器高度</th>" +
-                                    "<td class='col-6'>" + data[i].coolerHeight + "cm</td>" +
+                                    "<td class='col-6'>" + ((data[i].coolerHeight == 999) ? "n/a" : data[i].coolerHeight + "cm") + "</td>" +
                                 "</tr>" +
                                 "<tr class='row'>" +
                                     "<th class='col-6'>3.5吋硬碟架數量</th>" +
-                                    "<td class='col-6'>" + data[i].diskQuantity + "</td>" +
+                                    "<td class='col-6'>" + ((data[i].diskQuantity == 999) ? "n/a" : data[i].diskQuantity) + "</td>" +
                                 "</tr>" +
                             "</tbody>" +
                         "</table>" +
@@ -685,6 +673,4 @@ function crateList( data )
         hardware.append(content);
         $( "#listLeft" ).append(hardware);
     }
-
-    return hardwareList;
 }

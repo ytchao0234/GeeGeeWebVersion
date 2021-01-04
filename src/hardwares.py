@@ -3,14 +3,15 @@ from functools import reduce
 def switchMbSize(x):
     result = \
     {
-        'eatx': ['eatx', 'atx', 'matx', 'itx'],
-        'atx': ['atx', 'matx', 'itx'],
-        'matx': ['matx', 'itx'],
-        'itx': ['itx'],
+        'eatx': ['eatx', 'atx', 'matx', 'itx', 'mitx'],
+        'atx': ['atx', 'matx', 'itx', 'mitx'],
+        'matx': ['matx', 'itx', 'mitx'],
+        'itx': ['itx', 'mitx'],
+        'mitx': ['mitx'],
     }.get(x)
 
     if not result:
-        return ['eatx', 'atx', 'matx', 'itx']
+        return ['eatx', 'atx', 'matx', 'itx', 'mitx']
     else:
         return result
 

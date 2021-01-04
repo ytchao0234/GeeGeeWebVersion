@@ -68,6 +68,14 @@ nav a:hover.navbar-brand {
 }
 
 /* top cards */
+#listLeft .card-small {
+    cursor: pointer;
+}
+
+#chosenItems .card-small {
+    cursor: pointer;
+}
+
 .card-small { 
     background-color: rgb(233, 236, 241); 
 }
@@ -102,6 +110,10 @@ nav a:hover.navbar-brand {
 /* hardware list table */
 table tbody th {
     font-weight: lighter;
+}
+
+.modal-dialog .input-group-text {
+    font-size: 1em;
 }
 
 /* main cards for RWD */

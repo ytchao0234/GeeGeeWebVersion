@@ -200,7 +200,9 @@ function btnDisk() {
 
 $(document).ready(async function() {
     
-    let which = "crate";
+    $( "#customDialog" ).html(powerModal);
+
+    let which = "motherBoard";
     let chosen = {
                     "cpuList": 
                     [
@@ -228,7 +230,7 @@ $(document).ready(async function() {
                     ],
                 };
 
-    let hardwareList = await new Promise((resolve, reject) => getHardwareList( resolve, reject, which, chosen )).catch((e) =>
+    let hardwareList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, which )).catch((e) =>
     {
         console.log(e);
     });
