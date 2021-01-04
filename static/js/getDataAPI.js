@@ -9,9 +9,16 @@ function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
                             }),
         contentType: "application/json",
         dataType: 'json',
+
+        beforeSend: function()
+        {
+            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+        },
     })
     .done((data) =>
     {
+        $( "#listLeft" ).empty();
+
         let hardwareList = "";
 
         switch( whichHardware )
@@ -49,11 +56,14 @@ function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
                 break;
         }
 
-        resolve( hardwareList );
+        $( "#listLeft" ).append( hardwareList );
+
+        resolve( "Successfully get hardware list" );
+
     })
     .fail(() =>
     {
-        reject( "fail to get hardware list" );
+        reject( "Fail to get hardware list" );
     });
 }
 
@@ -67,9 +77,16 @@ function getOriginList( resolve, reject, whichHardware )
                             }),
         contentType: "application/json",
         dataType: 'json',
+
+        beforeSend: function()
+        {
+            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+        },
     })
     .done((data) =>
     {
+        $( "#listLeft" ).empty();
+
         let hardwareList = "";
 
         switch( whichHardware )
@@ -107,11 +124,138 @@ function getOriginList( resolve, reject, whichHardware )
                 break;
         }
 
-        resolve( hardwareList );
+        $( "#listLeft" ).append( hardwareList );
+
+        resolve( "Successfully get origin list" );
     })
     .fail(() =>
     {
         reject( "fail to get origin list" );
+    });
+}
+
+function getSearch( resolve, reject, whichHardware, chosenHardwares, searchString )
+{
+    $.ajax({
+        type: "post",
+        url: "/getSearch",
+        data: JSON.stringify({
+                                "hardware": whichHardware,
+                                "search": searchString,
+                                "chosenHardwares": chosenHardwares,
+                            }),
+        contentType: "application/json",
+        dataType: 'json',
+
+        beforeSend: function()
+        {
+            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+        },
+    })
+    .done((data) =>
+    {
+        $( "#listLeft" ).empty();
+
+        let hardwareList = "";
+
+        switch( whichHardware )
+        {
+            case "cpu":
+                hardwareList = cpuList( data );
+                break;
+                
+            case "cooler":
+                hardwareList = coolerList( data );
+                break;
+
+            case "motherBoard":
+                hardwareList = mbList( data );
+                break;
+                
+            case "ram":
+                hardwareList = ramList( data );
+                break;
+
+            case "disk":
+                hardwareList = diskList( data );
+                break;
+                
+            case "graphic":
+                hardwareList = graphicList( data );
+                break;
+
+            case "power":
+                hardwareList = powerList( data );
+                break;
+                
+            case "crate":
+                hardwareList = crateList( data );
+                break;
+        }
+
+        $( "#listLeft" ).append( hardwareList );
+
+        resolve( "Successfully get search list" );
+    })
+    .fail(() =>
+    {
+        reject( "fail to get search list" );
+    });
+}
+
+function getSuggestion( resolve, reject, chosenHardwares )
+{
+    $.ajax({
+        type: "post",
+        url: "/getSuggestion",
+        data: JSON.stringify({
+                                "chosenHardwares": chosenHardwares,
+                            }),
+        contentType: "application/json",
+        dataType: 'json',
+
+        beforeSend: function()
+        {
+            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+        },
+    })
+    .done((data) =>
+    {
+        $( "#suggestions .card-text" ).empty();
+
+        let suggestions = "";
+
+        for( let i in data.suggestion )
+        {
+            suggestions +=
+                "<div class='card mb-2 card-small d-block'>" +
+                    "<div class='card-body'>" +
+                        "<p class='card-text'>" +
+                            data.suggestion[i].split( "\n" ).join( "<br/>") +
+                        "</p>" +
+                    "</div>" +
+                "</div>";
+        }
+
+        if( data.suggestion.length == 0 )
+        {
+            suggestions += 
+                "<div class='card mb-2 card-small d-block'>" +
+                    "<div class='card-body'>" +
+                        "<p class='card-text'>" +
+                            "完全相容哦！" +
+                        "</p>" +
+                    "</div>" +
+                "</div>";
+        }
+
+        $( "#suggestions .card-text" ).append( suggestions );
+
+        resolve( "Successfully get suggestion list" );
+    })
+    .fail(() =>
+    {
+        reject( "fail to get suggestion list" );
     });
 }
 
@@ -124,7 +268,7 @@ function cpuList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -194,7 +338,7 @@ function coolerList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -232,7 +376,7 @@ function mbList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -302,7 +446,7 @@ function ramList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -344,7 +488,7 @@ function diskList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -386,7 +530,7 @@ function graphicList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -428,7 +572,7 @@ function powerList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -474,7 +618,7 @@ function crateList( data )
         hardwareList +=
             "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
-                    "<div class='card-text'>" +
+                    "<div class='card-text  text-center'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +

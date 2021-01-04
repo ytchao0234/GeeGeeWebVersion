@@ -27,8 +27,6 @@
 
     <!-- main css -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mainPage.css') }}">
-            
-    <script src="{{ url_for('static', filename='js/getDataAPI.js') }}"></script>
 </head>
 
 <body>
@@ -297,7 +295,7 @@
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
                     <div class="card-body">
-                        <div class="card-text">
+                        <div class="card-text text-center">
 
                             <!-- detail table -->
                             <table class="table table-striped">
@@ -335,7 +333,7 @@
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
                     <div class="card-body">
-                        <div class="card-text">
+                        <div class="card-text text-center">
 
                             <!-- detail table -->
                             <table class="table table-striped">
@@ -622,11 +620,8 @@
             </div>
         </div>
 
-
-
-
         <!-- suggestions list (right) -->
-        <div class="card overflow-auto card-big">
+        <div id='suggestions' class="card overflow-auto card-big">
             <div class="card-body text-center">
                 <!-- first line -->
                 <div class="card-title font-weight-bold mt-5 d-inline">
@@ -1189,6 +1184,7 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/getDataAPI.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mainPage.js') }}"></script>
 
 </body>

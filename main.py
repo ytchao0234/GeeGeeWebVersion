@@ -91,7 +91,7 @@ def getOriginList():
 
     return jsonify(hardwareList), 200
 
-@app.route('/suggestion', methods=['POST'])
+@app.route('/getSuggestion', methods=['POST'])
 def getSuggestion():
     inputData = request.get_json()
     try:
@@ -110,7 +110,7 @@ def getSuggestion():
                     'ramExeed': ramExeed}) \
                     , 200
 
-@app.route('/search', methods=['POST'])
+@app.route('/getSearch', methods=['POST'])
 def getSearch():
     inputData = request.get_json()
     try:

@@ -204,6 +204,7 @@ $(document).ready(async function() {
     let chosen = {
                     "cpuList": 
                     [
+                        "Intel Core i3-10100",
                     ],
                     "coolerList":
                     [
@@ -213,6 +214,7 @@ $(document).ready(async function() {
                     ],
                     "ramList":
                     [
+                        "UMAX 8GB DDR3-1600",
                     ],
                     "diskList":
                     [
@@ -228,14 +230,10 @@ $(document).ready(async function() {
                     ],
                 };
 
-    $("#listLeft").empty();
-
-    let hardwareList = await new Promise((resolve, reject) => getOriginList( resolve, reject, which )).catch((e) =>
+    let hardwareList = await new Promise((resolve, reject) => getSuggestion( resolve, reject, chosen )).catch((e) =>
     {
         console.log(e);
     });
-
-    $("#listLeft").append( hardwareList );
 })
 
 
