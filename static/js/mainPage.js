@@ -233,7 +233,3 @@ $(document).ready(async function() {
         console.log(e);
     });
 })
-
-
-
-
