@@ -62,6 +62,7 @@ def hardwareList():
 
         return jsonify({"error": e}), 500
 
+    print(hardwareList)
     return jsonify(hardwareList), 200
 
 @app.route('/suggestion', methods=['POST'])

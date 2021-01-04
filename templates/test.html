@@ -27,65 +27,67 @@
 
     <!-- main css -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mainPage.css') }}">
+            
+    <script src="{{ url_for('static', filename='js/getDataAPI.js') }}"></script>
 </head>
 
 <body>
     <script>
-        $.ajax({
-            type: "post",
-            url: "{{ url_for('suggestion') }}",
-            data: JSON.stringify({
-                                    "chosenHardwares":
-                                    {
-                                        "cpuList": 
-                                        [
-                                        ],
-                                        "coolerList":
-                                        [
-                                        ],
-                                        "mbList":
-                                        [
-                                            "Asrock Z490 Phantom Gaming-ITX/TB3",
-                                        ],
-                                        "ramList":
-                                        [
-                                            "KLEVV(科賦) 8GB DDR4-2666",
-                                            "KLEVV(科賦) 8GB DDR4-2666",
-                                        ],
-                                        "diskList":
-                                        [
-                                        ],
-                                        "graphicList":
-                                        [
-                                        ],
-                                        "powerList": 
-                                        [
-                                        ],
-                                        "crateList":
-                                        [
-                                        ],
-                                    },
-                                }),
-            contentType: "application/json",
-            dataType: 'json',
-            beforeSend: function()
-            {
-                // alert( "beforeSend" );
-            },
-            afterSend: function()
-            {
-                // alert( "afterSend" );
-            },
-        })
-        .done((data) =>
-        {
-            alert( "done" );
-            console.log(data);
-        })
-        .fail(() =>
-        {
-            alert( "fail" );
-        });
+        // $.ajax({
+        //     type: "post",
+        //     url: "{{ url_for('hardwareList') }}",
+        //     data: JSON.stringify({
+        //                             "hardware": "cpu",
+        //                             "chosenHardwares":
+        //                             {
+        //                                 "cpuList": 
+        //                                 [
+        //                                 ],
+        //                                 "coolerList":
+        //                                 [
+        //                                 ],
+        //                                 "mbList":
+        //                                 [
+        //                                     "Asrock Z490 Phantom Gaming-ITX/TB3",
+        //                                 ],
+        //                                 "ramList":
+        //                                 [
+        //                                     "KLEVV(科賦) 8GB DDR4-2666",
+        //                                     "KLEVV(科賦) 8GB DDR4-2666",
+        //                                 ],
+        //                                 "diskList":
+        //                                 [
+        //                                 ],
+        //                                 "graphicList":
+        //                                 [
+        //                                 ],
+        //                                 "powerList": 
+        //                                 [
+        //                                 ],
+        //                                 "crateList":
+        //                                 [
+        //                                 ],
+        //                             },
+        //                         }),
+        //     contentType: "application/json",
+        //     dataType: 'json',
+        //     beforeSend: function()
+        //     {
+        //         // alert( "beforeSend" );
+        //     },
+        //     afterSend: function()
+        //     {
+        //         // alert( "afterSend" );
+        //     },
+        // })
+        // .done(async (data) =>
+        // {
+        //     alert( "done" );
+        // })
+        // .fail(() =>
+        // {
+        //     alert( "fail" );
+        // });
     </script>
     <!-- hardware menu bar -->
     <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">

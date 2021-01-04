@@ -323,9 +323,13 @@ class Power:
         if chosenList['graphicList']:
             graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
-        filters = list(filter(lambda x: x['watts'] >= 2 * (chosenList['cpuList'][0]['TDP'] + graphicTDP), filters))
+        cpuTDP = 0
+        if chosenList['cpuList']:
+            cpuTDP = chosenList['cpuList'][0]['TDP']
+            
+        filters = list(filter(lambda x: x['watts'] >= 2 * (cpuTDP + graphicTDP), filters))
 
-        if chosenList['crateList']:
+        if chosenList['crateList'] and chosenList['crateList']:
             filters = list(filter(lambda x: x['size'] == chosenList['crateList'][0]['psuSize'] and \
                                             x['length'] <= chosenList['crateList'][0]['psuLength'], filters))
 

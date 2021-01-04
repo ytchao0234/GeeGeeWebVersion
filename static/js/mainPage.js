@@ -198,7 +198,45 @@ function btnDisk() {
     }, 1);
 }
 
+$(document).ready(async function() {
+    
+    let which = "power";
+    let chosen = {
+                    "cpuList": 
+                    [
+                    ],
+                    "coolerList":
+                    [
+                    ],
+                    "mbList":
+                    [
+                    ],
+                    "ramList":
+                    [
+                    ],
+                    "diskList":
+                    [
+                    ],
+                    "graphicList":
+                    [
+                    ],
+                    "powerList": 
+                    [
+                    ],
+                    "crateList":
+                    [
+                    ],
+                };
 
+    $("#listLeft").empty();
+
+    let hardwareList = await new Promise((resolve, reject) => getHardwareList( resolve, reject, which, chosen )).catch((e) =>
+    {
+        console.log(e);
+    });
+
+    $("#listLeft").append( hardwareList );
+})
 
 
 
