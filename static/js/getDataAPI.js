@@ -2,7 +2,7 @@ function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
 {
     $.ajax({
         type: "post",
-        url: "/hardwareList",
+        url: "/getHardwareList",
         data: JSON.stringify({
                                 "hardware": whichHardware,
                                 "chosenHardwares": chosenHardwares,
@@ -57,6 +57,64 @@ function getHardwareList( resolve, reject, whichHardware, chosenHardwares )
     });
 }
 
+function getOriginList( resolve, reject, whichHardware )
+{
+    $.ajax({
+        type: "post",
+        url: "/getOriginList",
+        data: JSON.stringify({
+                                "hardware": whichHardware,
+                            }),
+        contentType: "application/json",
+        dataType: 'json',
+    })
+    .done((data) =>
+    {
+        let hardwareList = "";
+
+        switch( whichHardware )
+        {
+            case "cpu":
+                hardwareList = cpuList( data );
+                break;
+                
+            case "cooler":
+                hardwareList = coolerList( data );
+                break;
+
+            case "motherBoard":
+                hardwareList = mbList( data );
+                break;
+                
+            case "ram":
+                hardwareList = ramList( data );
+                break;
+
+            case "disk":
+                hardwareList = diskList( data );
+                break;
+                
+            case "graphic":
+                hardwareList = graphicList( data );
+                break;
+
+            case "power":
+                hardwareList = powerList( data );
+                break;
+                
+            case "crate":
+                hardwareList = crateList( data );
+                break;
+        }
+
+        resolve( hardwareList );
+    })
+    .fail(() =>
+    {
+        reject( "fail to get origin list" );
+    });
+}
+
 function cpuList( data )
 {
     let hardwareList = "";
@@ -64,7 +122,7 @@ function cpuList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -134,7 +192,7 @@ function coolerList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -172,7 +230,7 @@ function mbList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -242,7 +300,7 @@ function ramList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -284,7 +342,7 @@ function diskList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -326,7 +384,7 @@ function graphicList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -368,7 +426,7 @@ function powerList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
@@ -414,7 +472,7 @@ function crateList( data )
     for( let i in data )
     {
         hardwareList +=
-            "<div class='card mb-2 card-small'>" +
+            "<div class='card mb-2 card-small px-3'>" +
                 "<div class='card-body'>" +
                     "<div class='card-text'>" +
                         "<table class='table table-striped'>" +

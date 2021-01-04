@@ -49,8 +49,21 @@ def switch(x):
         'crate': crate.getList,
     }.get(x)
 
-@app.route('/hardwareList', methods=['POST'], strict_slashes=False)
-def hardwareList():
+def switchOrigin(x):
+    return \
+    {
+        'cpu': 'cpuList',
+        'cooler': 'coolerList',
+        'motherBoard': 'mbList',
+        'ram': 'ramList',
+        'disk': 'diskList',
+        'graphic': 'graphicList',
+        'power': 'powerList',
+        'crate': 'crateList',
+    }.get(x)
+
+@app.route('/getHardwareList', methods=['POST'], strict_slashes=False)
+def getHardwareList():
     inputData = request.get_json()
     try:
         hardware = inputData['hardware']
@@ -62,11 +75,24 @@ def hardwareList():
 
         return jsonify({"error": e}), 500
 
-    print(hardwareList)
+    return jsonify(hardwareList), 200
+
+@app.route('/getOriginList', methods=['POST'], strict_slashes=False)
+def getOriginList():
+    inputData = request.get_json()
+    try:
+        hardware = inputData['hardware']
+        print(switchOrigin(hardware))
+        hardwareList = originList.list[switchOrigin(hardware)]
+    except Exception as e:
+        print(e)
+
+        return jsonify({"error": e}), 500
+
     return jsonify(hardwareList), 200
 
 @app.route('/suggestion', methods=['POST'])
-def suggestion():
+def getSuggestion():
     inputData = request.get_json()
     try:
         chosenHardwares = inputData['chosenHardwares']
@@ -85,7 +111,7 @@ def suggestion():
                     , 200
 
 @app.route('/search', methods=['POST'])
-def search():
+def getSearch():
     inputData = request.get_json()
     try:
         hardware = inputData['hardware']

@@ -200,7 +200,7 @@ function btnDisk() {
 
 $(document).ready(async function() {
     
-    let which = "power";
+    let which = "cpu";
     let chosen = {
                     "cpuList": 
                     [
@@ -230,7 +230,7 @@ $(document).ready(async function() {
 
     $("#listLeft").empty();
 
-    let hardwareList = await new Promise((resolve, reject) => getHardwareList( resolve, reject, which, chosen )).catch((e) =>
+    let hardwareList = await new Promise((resolve, reject) => getOriginList( resolve, reject, which )).catch((e) =>
     {
         console.log(e);
     });
