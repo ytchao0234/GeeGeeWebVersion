@@ -30,6 +30,63 @@
 </head>
 
 <body>
+    <script>
+        // $.ajax({
+        //     type: "post",
+        //     url: "{{ url_for('getHardwareList') }}",
+        //     data: JSON.stringify({
+        //                             "hardware": "cpu",
+        //                             "chosenHardwares":
+        //                             {
+        //                                 "cpuList": 
+        //                                 [
+        //                                 ],
+        //                                 "coolerList":
+        //                                 [
+        //                                 ],
+        //                                 "mbList":
+        //                                 [
+        //                                     "Asrock Z490 Phantom Gaming-ITX/TB3",
+        //                                 ],
+        //                                 "ramList":
+        //                                 [
+        //                                     "KLEVV(科賦) 8GB DDR4-2666",
+        //                                     "KLEVV(科賦) 8GB DDR4-2666",
+        //                                 ],
+        //                                 "diskList":
+        //                                 [
+        //                                 ],
+        //                                 "graphicList":
+        //                                 [
+        //                                 ],
+        //                                 "powerList": 
+        //                                 [
+        //                                 ],
+        //                                 "crateList":
+        //                                 [
+        //                                 ],
+        //                             },
+        //                         }),
+        //     contentType: "application/json",
+        //     dataType: 'json',
+        //     beforeSend: function()
+        //     {
+        //         // alert( "beforeSend" );
+        //     },
+        //     afterSend: function()
+        //     {
+        //         // alert( "afterSend" );
+        //     },
+        // })
+        // .done(async (data) =>
+        // {
+        //     alert( "done" );
+        // })
+        // .fail(() =>
+        // {
+        //     alert( "fail" );
+        // });
+    </script>
     <!-- hardware menu bar -->
     <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
 
@@ -234,11 +291,11 @@
 
         <!-- hardware list (left) -->
         <div class="card overflow-auto card-big">
-            <div id="listLeft" class="card-body cursor-pointer">
+            <div id="listLeft" class="card-body">
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
                     <div class="card-body">
-                        <div class="card-text">
+                        <div class="card-text text-center">
 
                             <!-- detail table -->
                             <table class="table table-striped">
@@ -276,7 +333,7 @@
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
                     <div class="card-body">
-                        <div class="card-text">
+                        <div class="card-text text-center">
 
                             <!-- detail table -->
                             <table class="table table-striped">
@@ -319,7 +376,7 @@
 
                 <!-- first line -->
                 <div class="card-title fnt-weight-bold mt-5 d-inline">
-                    <h5 class="badge badge-outlined border" style="font-weight: normal;">已選硬體列表</h5>
+                    <h5 class="badge badge-outlined border" style="font-weight: normal; position: relative; left: 2em;">已選硬體列表</h5>
                     <!-- save button -->
                     <form class="form-inline my-2 my-lg-0 d-inline float-right">
                         <button class="btn rounded-pill bg-light ml-3" type="button">
@@ -329,7 +386,7 @@
                 </div>
 
                 <!-- chosen items -->
-                <div id="chosenItems" class="text-left card-text cursor-pointer">
+                <div id="chosenItems" class="text-left card-text">
 
                     <!-- cpu block -->
                     <div items="cpu" class="card mb-2 card-small d-block chosen-menu-item cpu">
@@ -563,18 +620,15 @@
             </div>
         </div>
 
-
-
-
         <!-- suggestions list (right) -->
-        <div class="card overflow-auto card-big">
+        <div id='suggestions' class="card overflow-auto card-big">
             <div class="card-body text-center">
                 <!-- first line -->
                 <div class="card-title font-weight-bold mt-5 d-inline">
                     <h5 class="badge badge-outlined border" style="font-weight: normal;">相容性提示</h5>
                 </div>
-                <div id='suggestions' class="text-left card-text cursor-default">
-                    <!-- first suggestion -->
+                <!-- first suggestion -->
+                <div class="text-left card-text">
                     <div class="card mb-2 card-small d-block">
                         <div class="card-body">
                             <p class="card-text">
@@ -1130,6 +1184,8 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/modals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/getDataAPI.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mainPage.js') }}"></script>
 
 </body>
