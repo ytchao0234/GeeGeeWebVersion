@@ -229,8 +229,9 @@ $(document).ready(async function() {
                     [
                     ],
                 };
+    let search = "";
 
-    let hardwareList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, which )).catch((e) =>
+    let hardwareList = await new Promise((resolve, reject) => loadSearch( resolve, reject, which, chosen, search )).catch((e) =>
     {
         console.log(e);
     });
