@@ -19,47 +19,56 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
     {
         $( "#listLeft" ).empty();
 
-        let hardwareList = "";
-
-        switch( whichHardware )
+        if( data.length > 0 )
         {
-            case "cpu":
-                hardwareList = cpuList( data );
-                break;
-                
-            case "cooler":
-                hardwareList = coolerList( data );
-                break;
-
-            case "motherBoard":
-                hardwareList = mbList( data );
-                break;
-                
-            case "ram":
-                hardwareList = ramList( data );
-                break;
-
-            case "disk":
-                hardwareList = diskList( data );
-                break;
-                
-            case "graphic":
-                hardwareList = graphicList( data );
-                break;
-
-            case "power":
-                hardwareList = powerList( data );
-                break;
-                
-            case "crate":
-                hardwareList = crateList( data );
-                break;
+            switch( whichHardware )
+            {
+                case "cpu":
+                    cpuList( data );
+                    break;
+                    
+                case "cooler":
+                    coolerList( data );
+                    break;
+    
+                case "motherBoard":
+                    mbList( data );
+                    break;
+                    
+                case "ram":
+                    ramList( data );
+                    break;
+    
+                case "disk":
+                    diskList( data );
+                    break;
+                    
+                case "graphic":
+                    graphicList( data );
+                    break;
+    
+                case "power":
+                    powerList( data );
+                    break;
+                    
+                case "crate":
+                    crateList( data );
+                    break;
+            }
         }
+        else
+        {
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
 
-        $( "#listLeft" ).append( hardwareList );
-
+            emptyMessage.append("<div class='card-body'>" +
+                                    "<div class='card-text  text-center'>" +
+                                        "沒有可用的硬體！" +
+                                    "</div>" +
+                                "</div>" );
+            $( "#listLeft" ).append( emptyMessage );
+        }
+    
         resolve( "Successfully get hardware list" );
-
     })
     .fail(() =>
     {
@@ -87,44 +96,54 @@ function loadOriginList( resolve, reject, whichHardware )
     {
         $( "#listLeft" ).empty();
 
-        let hardwareList = "";
-
-        switch( whichHardware )
+        if( data.length > 0 )
         {
-            case "cpu":
-                hardwareList = cpuList( data );
-                break;
-                
-            case "cooler":
-                hardwareList = coolerList( data );
-                break;
-
-            case "motherBoard":
-                hardwareList = mbList( data );
-                break;
-                
-            case "ram":
-                hardwareList = ramList( data );
-                break;
-
-            case "disk":
-                hardwareList = diskList( data );
-                break;
-                
-            case "graphic":
-                hardwareList = graphicList( data );
-                break;
-
-            case "power":
-                hardwareList = powerList( data );
-                break;
-                
-            case "crate":
-                hardwareList = crateList( data );
-                break;
+            switch( whichHardware )
+            {
+                case "cpu":
+                    cpuList( data );
+                    break;
+                    
+                case "cooler":
+                    coolerList( data );
+                    break;
+    
+                case "motherBoard":
+                    mbList( data );
+                    break;
+                    
+                case "ram":
+                    ramList( data );
+                    break;
+    
+                case "disk":
+                    diskList( data );
+                    break;
+                    
+                case "graphic":
+                    graphicList( data );
+                    break;
+    
+                case "power":
+                    powerList( data );
+                    break;
+                    
+                case "crate":
+                    crateList( data );
+                    break;
+            }
         }
+        else
+        {
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
 
-        $( "#listLeft" ).append( hardwareList );
+            emptyMessage.append("<div class='card-body'>" +
+                                    "<div class='card-text  text-center'>" +
+                                        "沒有可用的硬體！" +
+                                    "</div>" +
+                                "</div>" );
+            $( "#listLeft" ).append( emptyMessage );
+        }
 
         resolve( "Successfully get origin list" );
     })
@@ -156,44 +175,54 @@ function loadSearch( resolve, reject, whichHardware, chosenHardwares, searchStri
     {
         $( "#listLeft" ).empty();
 
-        let hardwareList = "";
-
-        switch( whichHardware )
+        if( data.length > 0 )
         {
-            case "cpu":
-                hardwareList = cpuList( data );
-                break;
-                
-            case "cooler":
-                hardwareList = coolerList( data );
-                break;
-
-            case "motherBoard":
-                hardwareList = mbList( data );
-                break;
-                
-            case "ram":
-                hardwareList = ramList( data );
-                break;
-
-            case "disk":
-                hardwareList = diskList( data );
-                break;
-                
-            case "graphic":
-                hardwareList = graphicList( data );
-                break;
-
-            case "power":
-                hardwareList = powerList( data );
-                break;
-                
-            case "crate":
-                hardwareList = crateList( data );
-                break;
+            switch( whichHardware )
+            {
+                case "cpu":
+                    cpuList( data );
+                    break;
+                    
+                case "cooler":
+                    coolerList( data );
+                    break;
+    
+                case "motherBoard":
+                    mbList( data );
+                    break;
+                    
+                case "ram":
+                    ramList( data );
+                    break;
+    
+                case "disk":
+                    diskList( data );
+                    break;
+                    
+                case "graphic":
+                    graphicList( data );
+                    break;
+    
+                case "power":
+                    powerList( data );
+                    break;
+                    
+                case "crate":
+                    crateList( data );
+                    break;
+            }
         }
+        else
+        {
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
 
-        $( "#listLeft" ).append( hardwareList );
+            emptyMessage.append("<div class='card-body'>" +
+                                    "<div class='card-text  text-center'>" +
+                                        "沒有可用的硬體！" +
+                                    "</div>" +
+                                "</div>" );
+            $( "#listLeft" ).append( emptyMessage );
+        }
 
         resolve( "Successfully get search list" );
     })
