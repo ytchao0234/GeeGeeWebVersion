@@ -76,6 +76,14 @@ nav a:hover.navbar-brand {
     cursor: pointer;
 }
 
+#suggestions .card-small {
+    cursor: default;
+}
+
+.badge {
+    cursor: default;
+}
+
 .card-small { 
     background-color: rgb(233, 236, 241); 
 }

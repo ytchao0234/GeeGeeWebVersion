@@ -234,7 +234,7 @@
 
         <!-- hardware list (left) -->
         <div class="card overflow-auto card-big">
-            <div id="listLeft" class="card-body">
+            <div id="listLeft" class="card-body cursor-pointer">
                 <!-- hardware item -->
                 <div class="card mb-2 card-small">
                     <div class="card-body">
@@ -329,7 +329,7 @@
                 </div>
 
                 <!-- chosen items -->
-                <div id="chosenItems" class="text-left card-text">
+                <div id="chosenItems" class="text-left card-text cursor-pointer">
 
                     <!-- cpu block -->
                     <div items="cpu" class="card mb-2 card-small d-block chosen-menu-item cpu">
@@ -573,8 +573,8 @@
                 <div class="card-title font-weight-bold mt-5 d-inline">
                     <h5 class="badge badge-outlined border" style="font-weight: normal;">相容性提示</h5>
                 </div>
-                <!-- first suggestion -->
-                <div class="text-left card-text">
+                <div id='suggestions' class="text-left card-text cursor-default">
+                    <!-- first suggestion -->
                     <div class="card mb-2 card-small d-block">
                         <div class="card-body">
                             <p class="card-text">

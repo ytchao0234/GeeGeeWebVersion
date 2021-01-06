@@ -229,7 +229,7 @@ $(document).ready(async function() {
                     [
                     ],
                 };
-    let search = "";
+    let search = "hahaha";
 
     let hardwareList = await new Promise((resolve, reject) => loadSearch( resolve, reject, which, chosen, search )).catch((e) =>
     {

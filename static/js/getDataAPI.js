@@ -58,7 +58,7 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
         }
         else
         {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
 
             emptyMessage.append("<div class='card-body'>" +
                                     "<div class='card-text  text-center'>" +
@@ -135,7 +135,7 @@ function loadOriginList( resolve, reject, whichHardware )
         }
         else
         {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
 
             emptyMessage.append("<div class='card-body'>" +
                                     "<div class='card-text  text-center'>" +
@@ -214,7 +214,7 @@ function loadSearch( resolve, reject, whichHardware, chosenHardwares, searchStri
         }
         else
         {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' />");
+            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
 
             emptyMessage.append("<div class='card-body'>" +
                                     "<div class='card-text  text-center'>" +
