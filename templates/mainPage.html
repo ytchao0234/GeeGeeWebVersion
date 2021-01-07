@@ -30,65 +30,8 @@
 </head>
 
 <body>
-    <script>
-        // $.ajax({
-        //     type: "post",
-        //     url: "{{ url_for('getHardwareList') }}",
-        //     data: JSON.stringify({
-        //                             "hardware": "cpu",
-        //                             "chosenHardwares":
-        //                             {
-        //                                 "cpuList": 
-        //                                 [
-        //                                 ],
-        //                                 "coolerList":
-        //                                 [
-        //                                 ],
-        //                                 "mbList":
-        //                                 [
-        //                                     "Asrock Z490 Phantom Gaming-ITX/TB3",
-        //                                 ],
-        //                                 "ramList":
-        //                                 [
-        //                                     "KLEVV(科賦) 8GB DDR4-2666",
-        //                                     "KLEVV(科賦) 8GB DDR4-2666",
-        //                                 ],
-        //                                 "diskList":
-        //                                 [
-        //                                 ],
-        //                                 "graphicList":
-        //                                 [
-        //                                 ],
-        //                                 "powerList": 
-        //                                 [
-        //                                 ],
-        //                                 "crateList":
-        //                                 [
-        //                                 ],
-        //                             },
-        //                         }),
-        //     contentType: "application/json",
-        //     dataType: 'json',
-        //     beforeSend: function()
-        //     {
-        //         // alert( "beforeSend" );
-        //     },
-        //     afterSend: function()
-        //     {
-        //         // alert( "afterSend" );
-        //     },
-        // })
-        // .done(async (data) =>
-        // {
-        //     alert( "done" );
-        // })
-        // .fail(() =>
-        // {
-        //     alert( "fail" );
-        // });
-    </script>
     <!-- hardware menu bar -->
-    <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
+    <nav class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
 
         <!-- toggle button for RWD -->
         <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#hardware-menu">
@@ -99,19 +42,19 @@
         <div class="collapse navbar-collapse" id="hardware-menu">
             <ul id="menu-main-nav" class="navbar-nav nav-fill w-100 mt-2">
                 <li class="nav-item">
-                    <a href="#" id="cpu" class="nav-link menu-item">CPU</a>
+                    <a href="#" id="cpu" class="nav-link menu-item chosen">CPU</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="cpu-cooler" class="nav-link menu-item">CPU散熱器</a>
+                    <a href="#" id="cooler" class="nav-link menu-item">CPU散熱器</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="mother-board" class="nav-link menu-item">主機板</a>
+                    <a href="#" id="motherBoard" class="nav-link menu-item">主機板</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="memory-block" class="nav-link menu-item">記憶體</a>
+                    <a href="#" id="ram" class="nav-link menu-item">記憶體</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="disk-block" class="nav-link menu-item chosen">硬碟</a>
+                    <a href="#" id="disk" class="nav-link menu-item">硬碟</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" id="graphic" class="nav-link menu-item">顯示卡</a>
@@ -120,7 +63,7 @@
                     <a href="#" id="power" class="nav-link menu-item">電源供應器</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="case" class="nav-link menu-item">機殼</a>
+                    <a href="#" id="crate" class="nav-link menu-item">機殼</a>
                 </li>
             </ul>
         </div>
@@ -144,7 +87,7 @@
 
             <!-- searchText searchButton and customButton -->
             <form class="form-inline my-2 my-lg-0 mr-auto w-25 d-inline">
-                <div class="input-group mt-2">
+                <div class="input-group mt-3">
 
                     <!-- searchText -->
                     <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Search">
@@ -291,82 +234,32 @@
 
         <!-- hardware list (left) -->
         <div class="card overflow-auto card-big">
+            <div id="listLeftLoading" class="card-body">
+                <div class='card mb-2 card-small px-3'>
+                    <div class='card-body'>
+                        <div class='card-text text-center'>
+                            <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                        </div>
+                    </div>
+                </div>
+                <div class='card mb-2 card-small px-3'>
+                    <div class='card-body'>
+                        <div class='card-text text-center'>
+                            <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                        </div>
+                    </div>
+                </div>
+                <div class='card mb-2 card-small px-3'>
+                    <div class='card-body'>
+                        <div class='card-text text-center'>
+                            <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card overflow-auto card-big">
             <div id="listLeft" class="card-body">
-                <!-- hardware item -->
-                <div class="card mb-2 card-small">
-                    <div class="card-body">
-                        <div class="card-text text-center">
-
-                            <!-- detail table -->
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" colspan="2">
-                                            <h4>美光Crucia MX500 500G/M.2 SATA 2280/讀:560M/寫:510M/TLC</h4>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <th>價位</th>
-                                        <td>$</td>
-                                    </tr>
-                                    <tr>
-                                        <th>類型</th>
-                                        <td>M.2 SSD</td>
-                                    </tr>
-                                    <tr>
-                                        <th>尺寸</th>
-                                        <td>2.5吋</td>
-                                    </tr>
-                                    <tr>
-                                        <th>容量</th>
-                                        <td>500G</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- hardware item -->
-                <div class="card mb-2 card-small">
-                    <div class="card-body">
-                        <div class="card-text text-center">
-
-                            <!-- detail table -->
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" colspan="2">
-                                            <h4>WD Blue 500G/M.2 SATA 2280(藍標)/讀:545M/寫:525M</h4>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <th>價位</th>
-                                        <td>$</td>
-                                    </tr>
-                                    <tr>
-                                        <th>類型</th>
-                                        <td>M.2 SSD</td>
-                                    </tr>
-                                    <tr>
-                                        <th>尺寸</th>
-                                        <td>2.5吋</td>
-                                    </tr>
-                                    <tr>
-                                        <th>容量</th>
-                                        <td>500G</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -389,16 +282,16 @@
                 <div id="chosenItems" class="text-left card-text">
 
                     <!-- cpu block -->
-                    <div items="cpu" class="card mb-2 card-small d-block chosen-menu-item cpu">
+                    <div items="cpu" class="card mb-2 card-small chosen d-block chosen-menu-item cpu">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU</h5>
 
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -406,24 +299,24 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu">AMD Ryzen 5 3600</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen cpu">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
                     <!-- cpu cooler block -->
-                    <div items="cpu-cooler" class="card mb-2 card-small d-block chosen-menu-item cpu-cooler">
+                    <div items="cooler" class="card mb-2 card-small d-block chosen-menu-item cooler">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
 
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -431,24 +324,24 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu-cooler">未選取</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cooler">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
                     <!-- mother board block -->
-                    <div items="mother-board" class="card mb-2 card-small d-block chosen-menu-item mother-board">
+                    <div items="motherBoard" class="card mb-2 card-small d-block chosen-menu-item motherBoard">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
 
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -456,33 +349,31 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto mother-board">EVGA X299 Micro ATX 2
-                                    </div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto motherBoard">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
                     <!-- memory block -->
-                    <div items="memory-block" class="card mb-2 card-small d-block chosen-menu-item memory-block">
+                    <div items="ram" class="card mb-2 card-small d-block chosen-menu-item ram">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">記憶體
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button"
-                                        onclick="btnMemory()">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
 
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline ">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -490,51 +381,48 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto memory-block">UMAX 4GB DDR3-1600
-                                    </div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto ram">未選取</div>
                                     <!-- number spinner -->
                                     <span class="input-group-append">
-                                        <input id="memoryNum" class="form-control rounded-pill ml-2" value="0"
+                                        <input class="form-control rounded-pill ml-2" value="0"
                                             type="number" min="0" max="64" placeholder="0" />
                                     </span>
                                 </div>
 
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
                     <!-- disk block -->
-                    <div items="disk-block" class="card mb-2 card-small d-block chosen-menu-item chosen disk-block">
+                    <div items="disk" class="card mb-2 card-small d-block chosen-menu-item disk">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">硬碟
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btnDisk()">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
-                                        <button class="btn rounded-circle minusButton" type="button" onclick="mbtn()">
+                                        <button class="btn rounded-circle minusButton" type="button">
                                             <i class="fa fa-minus text-light"></i>
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen disk-block">custom m.2 sata
-                                        500G
-                                    </div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto disk">未選取</div>
                                 </div>
 
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
@@ -545,16 +433,16 @@
                             <h5 class="card-title font-weight-bold d-inline mt-5">顯示卡
                                 <!-- plus button -->
                                 <form class="form-inline my-2 my-lg-0 d-inline float-right">
-                                    <button class="btn rounded-circle plusButton ml-3" type="button" onclick="btn()">
+                                    <button class="btn rounded-circle plusButton ml-3" type="button">
                                         <i class="fa fa-plus text-light"></i>
                                     </button>
                                 </form>
                             </h5>
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -565,7 +453,7 @@
                                     <div class="form-control ml-2 rounded-pill text-left h-auto graphic">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
@@ -575,10 +463,10 @@
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">電源供應器</h5>
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -589,20 +477,20 @@
                                     <div class="form-control ml-2 rounded-pill text-left h-auto power">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
 
-                    <!-- case block -->
-                    <div items="case" class="card mb-2 card-small d-block chosen-menu-item case">
+                    <!-- crate block -->
+                    <div items="crate" class="card mb-2 card-small d-block chosen-menu-item crate">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
                             <!-- body -->
-                            <p class="card-text">
+                            <div class="card-text">
                                 <!-- first line -->
                             <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-3">
                                     <!-- minus button -->
                                     <span class="input-group-prepend">
                                         <button class="btn rounded-circle minusButton" type="button">
@@ -610,10 +498,10 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto case">銀欣 小烏鴉2</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto crate">未選取</div>
                                 </div>
                             </form>
-                            </p>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -621,6 +509,41 @@
         </div>
 
         <!-- suggestions list (right) -->
+        <div id='suggestionsLoading' class="card overflow-auto card-big">
+            <div class="card-body text-center">
+                <!-- first line -->
+                <div class="card-title font-weight-bold mt-5 d-inline">
+                    <h5 class="badge badge-outlined border" style="font-weight: normal;">相容性提示</h5>
+                </div>
+                <div class="text-center card-text">
+                    <div class="card mb-2 card-small d-block">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center card-text">
+                    <div class="card mb-2 card-small d-block">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center card-text">
+                    <div class="card mb-2 card-small d-block">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <img src="{{ url_for('static', filename='img/loading.svg') }}" alt='loading'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id='suggestions' class="card overflow-auto card-big">
             <div class="card-body text-center">
                 <!-- first line -->
@@ -631,9 +554,9 @@
                 <div class="text-left card-text">
                     <div class="card mb-2 card-small d-block">
                         <div class="card-body">
-                            <p class="card-text">
+                            <div class="card-text">
                                 完全相容歐！
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -925,10 +848,10 @@
                                     <h5 class="card-title font-weight-bold d-inline mt-5">CPU</h5>
 
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -936,8 +859,7 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5
-                                                3600</div>
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">AMD Ryzen 5 3600</div>
                                         </div>
                                     </form>
                                     </p>
@@ -951,10 +873,10 @@
                                     <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
 
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -976,10 +898,10 @@
                                     <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
 
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -987,9 +909,7 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro
-                                                ATX 2
-                                            </div>
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">EVGA X299 Micro ATX 2</div>
                                         </div>
                                     </form>
                                     </p>
@@ -1010,10 +930,10 @@
                                     </h5>
 
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -1021,9 +941,7 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB
-                                                DDR3-1600
-                                            </div>
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto">UMAX 4GB DDR3-1600</div>
                                             <!-- number spinner -->
                                             <span class="input-group-append">
                                                 <input class="form-control rounded-pill ml-2" type="number" min="0"
@@ -1049,10 +967,10 @@
                                         </form>
                                     </h5>
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -1060,8 +978,7 @@
                                                 </button>
                                             </span>
                                             <!-- infomation -->
-                                            <div class="form-control ml-2 rounded-pill text-left chosen">custom m.2 sata
-                                                500G</div>
+                                            <div class="form-control ml-2 rounded-pill text-left h-auto chosen">custom m.2 sata 500G</div>
                                         </div>
                                     </form>
                                     </p>
@@ -1081,10 +998,10 @@
                                         </form>
                                     </h5>
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -1105,10 +1022,10 @@
                                     <!-- header -->
                                     <h5 class="card-title font-weight-bold d-inline mt-5">電源供應器</h5>
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -1123,16 +1040,16 @@
                                 </div>
                             </div>
 
-                            <!-- case block -->
+                            <!-- crate block -->
                             <div class="card mb-2 card-small d-block chosen-menu-item">
                                 <div class="card-body">
                                     <!-- header -->
                                     <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
                                     <!-- body -->
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         <!-- first line -->
                                     <form class="form-inline my-2 my-lg-0 w-100 d-inline">
-                                        <div class="input-group mt-2">
+                                        <div class="input-group mt-3">
                                             <!-- minus button -->
                                             <span class="input-group-prepend">
                                                 <button class="btn rounded-circle minusButton" type="button">
@@ -1172,7 +1089,7 @@
                         <div class="text-left card-text">
                             <div class="card mb-2 card-small d-block">
                                 <div class="card-body">
-                                    <p class="card-text">
+                                    <div class="card-text">
                                         完全相容歐！
                                     </p>
                                 </div>

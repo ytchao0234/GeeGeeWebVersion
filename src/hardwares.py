@@ -157,7 +157,10 @@ class Cpu:
         if chosenList['ramList']:
             ramCapacity = 0
             if chosenList['ramList']:
-                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
+                if len(chosenList['ramList']) == 1:
+                    ramCapacity = chosenList['ramList'][0]['capacity']
+                else:
+                    ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
 
             filters = list(filter(lambda x: x['ramMaximumSupport'] >= ramCapacity and \
                                             x['ramGenerationSupport'] == chosenList['ramList'][0]['ramType'], filters))
@@ -165,7 +168,10 @@ class Cpu:
         if chosenList['powerList']:
             graphicTDP = 0
             if chosenList['graphicList']:
-                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
+                if len(chosenList['graphicList']) == 1:
+                    graphicTDP = chosenList['graphicList'][0]['TDP']
+                else:
+                    graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
             filters = list(filter(lambda x: 2 * (x['TDP'] + graphicTDP) <= chosenList['powerList'][0]['watts'], filters))
 
@@ -203,7 +209,10 @@ class MotherBoard:
         if chosenList['ramList']:
             ramCapacity = 0
             if chosenList['ramList']:
-                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
+                if len(chosenList['ramList']) == 1:
+                    ramCapacity = chosenList['ramList'][0]['capacity']
+                else:
+                    ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
 
             filters = list(filter(lambda x: x['ramType'] == chosenList['ramList'][0]['ramType'] and \
                                             x['ramMaximum'] >= ramCapacity and \
@@ -322,11 +331,16 @@ class Power:
 
         graphicTDP = 0
         if chosenList['graphicList']:
-            graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
+            if len(chosenList['graphicList']) == 1:
+                graphicTDP = chosenList['graphicList'][0]['TDP']
+            else:
+                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
         cpuTDP = 0
         if chosenList['cpuList']:
             cpuTDP = chosenList['cpuList'][0]['TDP']
+        print(cpuTDP)
+        print(graphicTDP)
             
         filters = list(filter(lambda x: x['watts'] >= 2 * (cpuTDP + graphicTDP), filters))
 
@@ -417,7 +431,7 @@ class SuggestionList:
         try:
             sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList['diskList'])) 
 
-            if chosenList['mbList'][0]['m2Quantity'] < len(sataDisk):
+            if chosenList['mbList'][0]['sata3Quantity'] < len(sataDisk):
                 suggestion.append("主機板的SATA接口不夠囉！\n主機板: " + \
                                  str(chosenList['mbList'][0]['sata3Quantity']) + \
                                  "\nSATA硬碟: " + str(len(sataDisk)))
@@ -475,7 +489,9 @@ class SuggestionList:
         try:
             ramCapacity = 0
             if chosenList['ramList']:
-                if chosenList['ramList']:
+                if len(chosenList['ramList']) == 1:
+                    ramCapacity = chosenList['ramList'][0]['capacity']
+                else:
                     ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
             
             if ramCapacity > chosenList['mbList'][0]['ramMaximum']:
@@ -520,7 +536,10 @@ class SuggestionList:
         try:
             graphicTDP = 0
             if chosenList['graphicList']:
-                graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
+                if len(chosenList['graphicList']) == 1:
+                    graphicTDP = chosenList['graphicList'][0]['TDP']
+                else:
+                    graphicTDP = reduce(lambda x, y: x + y['TDP'] if type(x) == int else x['TDP'] + y['TDP'], chosenList['graphicList'])
 
             if chosenList['powerList'][0]['watts'] < 2 * ( chosenList['cpuList'][0]['TDP'] + graphicTDP):
                 suggestion.append("電源供應器的瓦數不足哦！\n電源供應器: " + \

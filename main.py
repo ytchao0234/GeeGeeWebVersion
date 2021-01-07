@@ -66,10 +66,18 @@ def switchOrigin(x):
 def getHardwareList():
     inputData = request.get_json()
     try:
-        hardware = inputData['hardware']
         chosenHardwares = inputData['chosenHardwares']
         chosen = chosenList.getList(chosenHardwares, originList)
-        hardwareList = switch(hardware)(chosen, originList)
+        hardwareList = dict([
+            ('cpuList', cpu.getList(chosen, originList)),
+            ('coolerList', cooler.getList(chosen, originList)),
+            ('mbList', mb.getList(chosen, originList)),
+            ('ramList', ram.getList(chosen, originList)),
+            ('diskList', disk.getList(chosen, originList)),
+            ('graphicList', graphic.getList(chosen, originList)),
+            ('powerList', power.getList(chosen, originList)),
+            ('crateList', crate.getList(chosen, originList)),
+        ])
     except Exception as e:
         print(e)
 
@@ -77,13 +85,10 @@ def getHardwareList():
 
     return jsonify(hardwareList), 200
 
-@app.route('/getOriginList', methods=['POST'], strict_slashes=False)
+@app.route('/getOriginList', methods=['GET'], strict_slashes=False)
 def getOriginList():
-    inputData = request.get_json()
     try:
-        hardware = inputData['hardware']
-        print(switchOrigin(hardware))
-        hardwareList = originList.list[switchOrigin(hardware)]
+        hardwareList = originList.list
     except Exception as e:
         print(e)
 
@@ -100,7 +105,7 @@ def getSuggestion():
         suggestion = suggestionList.getList(chosen)
         ramExeed = False
         if chosen['mbList']:
-            ramExeed = chosen['mbList'][0]['ramQuantity'] >= len(chosen['ramList'])
+            ramExeed = chosen['mbList'][0]['ramQuantity'] <= len(chosen['ramList'])
     except Exception as e:
         print(e)
 
@@ -129,6 +134,18 @@ def getSearch():
 
 @app.route('/home', methods=['GET'])
 def home():
+    origin = dict([
+        ('cpuList', cpu.getOriginalList()),
+        ('coolerList', cooler.getOriginalList()),
+        ('mbList', mb.getOriginalList()),
+        ('ramList', ram.getOriginalList()),
+        ('diskList', disk.getOriginalList()),
+        ('graphicList', graphic.getOriginalList()),
+        ('powerList', power.getOriginalList()),
+        ('crateList', crate.getOriginalList()),
+    ])
+    originList.setList(origin)
+
     return render_template('mainPage.html')
 
 @app.route('/record')

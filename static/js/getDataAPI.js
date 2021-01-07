@@ -4,7 +4,6 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
         type: "post",
         url: "/getHardwareList",
         data: JSON.stringify({
-                                "hardware": whichHardware,
                                 "chosenHardwares": chosenHardwares,
                             }),
         contentType: "application/json",
@@ -12,63 +11,37 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
 
         beforeSend: function()
         {
-            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
         },
     })
     .done((data) =>
     {
-        $( "#listLeft" ).empty();
+        renderListLeft( data, whichHardware );
 
-        if( data.length > 0 )
+        $("#listLeftLoading").parent().hide();
+        $("#listLeft").parent().show();
+
+        chosenRamList = Array.from($("#chosenItems .form-control.ram" )).map( item => $(item).text() );
+        console.log(data.ramList)
+        console.log(chosenRamList)
+
+        for( let i in chosenRamList )
         {
-            switch( whichHardware )
+            if( !data.ramList.find(ram => ram.name == chosenRamList[i]) )
             {
-                case "cpu":
-                    cpuList( data );
-                    break;
-                    
-                case "cooler":
-                    coolerList( data );
-                    break;
-    
-                case "motherBoard":
-                    mbList( data );
-                    break;
-                    
-                case "ram":
-                    ramList( data );
-                    break;
-    
-                case "disk":
-                    diskList( data );
-                    break;
-                    
-                case "graphic":
-                    graphicList( data );
-                    break;
-    
-                case "power":
-                    powerList( data );
-                    break;
-                    
-                case "crate":
-                    crateList( data );
-                    break;
+                console.log(chosenRamList[i])
+                Array.from($("#chosenItems .form-control.ram" )).forEach( item =>
+                {
+                    if( $(item).text() == chosenRamList[i] )
+                    {
+                        $(item).text( "未選取" );
+                    }
+                });
             }
         }
-        else
-        {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
-
-            emptyMessage.append("<div class='card-body'>" +
-                                    "<div class='card-text  text-center'>" +
-                                        "沒有可用的硬體！" +
-                                    "</div>" +
-                                "</div>" );
-            $( "#listLeft" ).append( emptyMessage );
-        }
     
-        resolve( "Successfully get hardware list" );
+        resolve( data );
     })
     .fail(() =>
     {
@@ -79,73 +52,24 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
 function loadOriginList( resolve, reject, whichHardware )
 {
     $.ajax({
-        type: "post",
+        type: "get",
         url: "/getOriginList",
-        data: JSON.stringify({
-                                "hardware": whichHardware,
-                            }),
-        contentType: "application/json",
         dataType: 'json',
 
         beforeSend: function()
         {
-            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
         },
     })
     .done((data) =>
     {
-        $( "#listLeft" ).empty();
+        renderListLeft( data, whichHardware )
 
-        if( data.length > 0 )
-        {
-            switch( whichHardware )
-            {
-                case "cpu":
-                    cpuList( data );
-                    break;
-                    
-                case "cooler":
-                    coolerList( data );
-                    break;
-    
-                case "motherBoard":
-                    mbList( data );
-                    break;
-                    
-                case "ram":
-                    ramList( data );
-                    break;
-    
-                case "disk":
-                    diskList( data );
-                    break;
-                    
-                case "graphic":
-                    graphicList( data );
-                    break;
-    
-                case "power":
-                    powerList( data );
-                    break;
-                    
-                case "crate":
-                    crateList( data );
-                    break;
-            }
-        }
-        else
-        {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+        $("#listLeftLoading").parent().hide();
+        $("#listLeft").parent().show();
 
-            emptyMessage.append("<div class='card-body'>" +
-                                    "<div class='card-text  text-center'>" +
-                                        "沒有可用的硬體！" +
-                                    "</div>" +
-                                "</div>" );
-            $( "#listLeft" ).append( emptyMessage );
-        }
-
-        resolve( "Successfully get origin list" );
+        resolve( data );
     })
     .fail(() =>
     {
@@ -168,6 +92,7 @@ function loadSearch( resolve, reject, whichHardware, chosenHardwares, searchStri
 
         beforeSend: function()
         {
+            $( "#listLeft .card-text" ).addClass("text-center");
             $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
         },
     })
@@ -245,12 +170,13 @@ function loadSuggestion( resolve, reject, chosenHardwares )
 
         beforeSend: function()
         {
-            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+            $("#suggestionsLoading").show();
+            $("#suggestions").hide();
         },
     })
     .done((data) =>
     {
-        $( "#suggestions .card-text" ).empty();
+        $( "#suggestions .text-left.card-text" ).empty();
 
         let suggestions = "";
 
@@ -278,9 +204,12 @@ function loadSuggestion( resolve, reject, chosenHardwares )
                 "</div>";
         }
 
-        $( "#suggestions .card-text" ).append( suggestions );
+        $( "#suggestions .text-left.card-text" ).append( suggestions );
 
-        resolve( "Successfully get suggestion list" );
+        $("#suggestionsLoading").hide();
+        $("#suggestions").show();
+
+        resolve( data.ramExeed );
     })
     .fail(() =>
     {
@@ -293,12 +222,26 @@ function cpuList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -355,6 +298,7 @@ function cpuList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -364,12 +308,26 @@ function coolerList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -394,6 +352,7 @@ function coolerList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -403,12 +362,26 @@ function mbList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -465,6 +438,7 @@ function mbList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -474,12 +448,26 @@ function ramList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -508,6 +496,7 @@ function ramList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -517,12 +506,26 @@ function diskList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -551,6 +554,7 @@ function diskList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -560,12 +564,26 @@ function graphicList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -594,6 +612,7 @@ function graphicList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -603,12 +622,26 @@ function powerList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -641,6 +674,7 @@ function powerList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
 }
@@ -650,12 +684,26 @@ function crateList( data )
     let hardware;
     let content;
 
+    if( data.length == 0 )
+    {
+        let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+
+        emptyMessage.append("<div class='card-body'>" +
+                                "<div class='card-text  text-center'>" +
+                                    "沒有可用的硬體！" +
+                                "</div>" +
+                            "</div>" );
+        $( "#listLeft" ).append( emptyMessage );
+
+        return;
+    }
+
     for( let i in data )
     {
         hardware = $("<div class='card mb-2 card-small px-3' />");
         
         content = "<div class='card-body'>" +
-                    "<div class='card-text  text-center'>" +
+                    "<div class='card-text'>" +
                         "<table class='table table-striped'>" +
                             "<thead>" +
                                 "<tr class='row'>" +
@@ -700,6 +748,47 @@ function crateList( data )
                 "</div>";
 
         hardware.append(content);
+        hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
+    }
+}
+
+function renderListLeft( data, whichHardware )
+{
+    $( "#listLeft" ).empty();
+
+    switch( whichHardware )
+    {
+        case "cpu":
+            cpuList( data.cpuList );
+            break;
+            
+        case "cooler":
+            coolerList( data.coolerList );
+            break;
+
+        case "motherBoard":
+            mbList( data.mbList );
+            break;
+            
+        case "ram":
+            ramList( data.ramList );
+            break;
+
+        case "disk":
+            diskList( data.diskList );
+            break;
+            
+        case "graphic":
+            graphicList( data.graphicList );
+            break;
+
+        case "power":
+            powerList( data.powerList );
+            break;
+            
+        case "crate":
+            crateList( data.crateList );
+            break;
     }
 }

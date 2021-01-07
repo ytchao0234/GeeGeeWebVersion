@@ -30,63 +30,6 @@
 </head>
 
 <body>
-    <script>
-        // $.ajax({
-        //     type: "post",
-        //     url: "{{ url_for('getHardwareList') }}",
-        //     data: JSON.stringify({
-        //                             "hardware": "cpu",
-        //                             "chosenHardwares":
-        //                             {
-        //                                 "cpuList": 
-        //                                 [
-        //                                 ],
-        //                                 "coolerList":
-        //                                 [
-        //                                 ],
-        //                                 "mbList":
-        //                                 [
-        //                                     "Asrock Z490 Phantom Gaming-ITX/TB3",
-        //                                 ],
-        //                                 "ramList":
-        //                                 [
-        //                                     "KLEVV(科賦) 8GB DDR4-2666",
-        //                                     "KLEVV(科賦) 8GB DDR4-2666",
-        //                                 ],
-        //                                 "diskList":
-        //                                 [
-        //                                 ],
-        //                                 "graphicList":
-        //                                 [
-        //                                 ],
-        //                                 "powerList": 
-        //                                 [
-        //                                 ],
-        //                                 "crateList":
-        //                                 [
-        //                                 ],
-        //                             },
-        //                         }),
-        //     contentType: "application/json",
-        //     dataType: 'json',
-        //     beforeSend: function()
-        //     {
-        //         // alert( "beforeSend" );
-        //     },
-        //     afterSend: function()
-        //     {
-        //         // alert( "afterSend" );
-        //     },
-        // })
-        // .done(async (data) =>
-        // {
-        //     alert( "done" );
-        // })
-        // .fail(() =>
-        // {
-        //     alert( "fail" );
-        // });
-    </script>
     <!-- hardware menu bar -->
     <nav id="menu" class="navbar navbar-expand-lg navbar-dark border-bottom border-secondary">
 
@@ -102,16 +45,16 @@
                     <a href="#" id="cpu" class="nav-link menu-item">CPU</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="cpu-cooler" class="nav-link menu-item">CPU散熱器</a>
+                    <a href="#" id="cooler" class="nav-link menu-item">CPU散熱器</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="mother-board" class="nav-link menu-item">主機板</a>
+                    <a href="#" id="motherBoard" class="nav-link menu-item">主機板</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="memory-block" class="nav-link menu-item">記憶體</a>
+                    <a href="#" id="ram" class="nav-link menu-item">記憶體</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="disk-block" class="nav-link menu-item chosen">硬碟</a>
+                    <a href="#" id="disk" class="nav-link menu-item chosen">硬碟</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" id="graphic" class="nav-link menu-item">顯示卡</a>
@@ -120,7 +63,7 @@
                     <a href="#" id="power" class="nav-link menu-item">電源供應器</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="case" class="nav-link menu-item">機殼</a>
+                    <a href="#" id="crate" class="nav-link menu-item">機殼</a>
                 </li>
             </ul>
         </div>
@@ -414,7 +357,7 @@
                     </div>
 
                     <!-- cpu cooler block -->
-                    <div items="cpu-cooler" class="card mb-2 card-small d-block chosen-menu-item cpu-cooler">
+                    <div items="cooler" class="card mb-2 card-small d-block chosen-menu-item cooler">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">CPU散熱器</h5>
@@ -431,7 +374,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto cpu-cooler">未選取</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto cooler">未選取</div>
                                 </div>
                             </form>
                             </p>
@@ -439,7 +382,7 @@
                     </div>
 
                     <!-- mother board block -->
-                    <div items="mother-board" class="card mb-2 card-small d-block chosen-menu-item mother-board">
+                    <div items="motherBoard" class="card mb-2 card-small d-block chosen-menu-item motherBoard">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">主機板</h5>
@@ -456,7 +399,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto mother-board">EVGA X299 Micro ATX 2
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto motherBoard">EVGA X299 Micro ATX 2
                                     </div>
                                 </div>
                             </form>
@@ -465,7 +408,7 @@
                     </div>
 
                     <!-- memory block -->
-                    <div items="memory-block" class="card mb-2 card-small d-block chosen-menu-item memory-block">
+                    <div items="ram" class="card mb-2 card-small d-block chosen-menu-item ram">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">記憶體
@@ -490,7 +433,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto memory-block">UMAX 4GB DDR3-1600
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto ram">UMAX 4GB DDR3-1600
                                     </div>
                                     <!-- number spinner -->
                                     <span class="input-group-append">
@@ -505,7 +448,7 @@
                     </div>
 
                     <!-- disk block -->
-                    <div items="disk-block" class="card mb-2 card-small d-block chosen-menu-item chosen disk-block">
+                    <div items="disk" class="card mb-2 card-small d-block chosen-menu-item chosen disk">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">硬碟
@@ -528,7 +471,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen disk-block">custom m.2 sata
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto chosen disk">custom m.2 sata
                                         500G
                                     </div>
                                 </div>
@@ -593,8 +536,8 @@
                         </div>
                     </div>
 
-                    <!-- case block -->
-                    <div items="case" class="card mb-2 card-small d-block chosen-menu-item case">
+                    <!-- crate block -->
+                    <div items="crate" class="card mb-2 card-small d-block chosen-menu-item crate">
                         <div class="card-body">
                             <!-- header -->
                             <h5 class="card-title font-weight-bold d-inline mt-5">機殼</h5>
@@ -610,7 +553,7 @@
                                         </button>
                                     </span>
                                     <!-- infomation -->
-                                    <div class="form-control ml-2 rounded-pill text-left h-auto case">銀欣 小烏鴉2</div>
+                                    <div class="form-control ml-2 rounded-pill text-left h-auto crate">銀欣 小烏鴉2</div>
                                 </div>
                             </form>
                             </p>
@@ -1123,7 +1066,7 @@
                                 </div>
                             </div>
 
-                            <!-- case block -->
+                            <!-- crate block -->
                             <div class="card mb-2 card-small d-block chosen-menu-item">
                                 <div class="card-body">
                                     <!-- header -->

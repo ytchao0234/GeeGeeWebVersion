@@ -80,6 +80,10 @@ nav a:hover.navbar-brand {
     cursor: default;
 }
 
+#suggestionsLoading {
+    display: none; 
+}
+
 .badge {
     cursor: default;
 }
