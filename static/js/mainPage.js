@@ -1,5 +1,7 @@
 var currentItem = "cpu";
 var currentMode = "smart";
+var searchList = [];
+var searchItem = null;
 var ramExceed = false;
 var currentList = {};
 
@@ -30,16 +32,23 @@ async function clickTopList( thisItem )
     {
         currentItem = id;
 
+        searchItem = null;
+        $("#featureBar input[type=search]").val("");
         changeCustom();
 
-        if( currentMode == "smart" )
-        {
+        await new Promise((resolve, reject) => {
             $("#listLeftLoading").parent().show();
             $("#listLeft").parent().hide();
-            renderListLeft( currentList, currentItem );
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
             $("#listLeftLoading").parent().hide();
-            $("#listLeft").parent().show();
-        }
+            $("#listLeft").parent().show();            
+        }, 100);
     }
 }
 
@@ -73,16 +82,23 @@ async function clickChosen( thisItem )
     {
         currentItem = id;
 
+        searchItem = null;
+        $("#featureBar input[type=search]").val("");
         changeCustom();
 
-        if( currentMode == "smart" )
-        {
+        await new Promise((resolve, reject) => {
             $("#listLeftLoading").parent().show();
             $("#listLeft").parent().hide();
-            renderListLeft( currentList, currentItem );
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
             $("#listLeftLoading").parent().hide();
-            $("#listLeft").parent().show();
-        }
+            $("#listLeft").parent().show();            
+        }, 100);
     }
 }
 
@@ -95,9 +111,12 @@ async function clickChosenRow( event, thisItem )
 {
     event.stopPropagation();
 
+    let items = $(thisItem).closest(".card-small").attr("items");
+
     $("#chosenItems .card-small").removeClass("chosen");
     $("#chosenItems .form-control").removeClass("chosen");
-    let items = $(thisItem).closest(".card-small").attr("items");
+    $("#menu-main-nav a").removeClass("chosen");
+    $("#menu-main-nav #" + items).addClass("chosen");
 
     $(thisItem).addClass("chosen");
     $(thisItem).closest(".card-small").addClass("chosen");
@@ -116,16 +135,23 @@ async function clickChosenRow( event, thisItem )
     {
         currentItem = items;
 
+        searchItem = null;
+        $("#featureBar input[type=search]").val("");
         changeCustom();
 
-        if( currentMode == "smart" )
-        {
+        await new Promise((resolve, reject) => {
             $("#listLeftLoading").parent().show();
             $("#listLeft").parent().hide();
-            renderListLeft( currentList, currentItem );
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
             $("#listLeftLoading").parent().hide();
-            $("#listLeft").parent().show();
-        }
+            $("#listLeft").parent().show();            
+        }, 100);
     }
 
     if( !($(thisItem).hasClass("h-auto")) )
@@ -146,21 +172,21 @@ async function clickListLeft( thisItem )
 {
     var msg = $("h4", thisItem).text();
     $(".d-inline .chosen").text(msg);
+    
+    let chosen = getChosen(true);
 
-    if( currentMode == "smart" )
+    if( currentMode == "smart" && !searchItem )
     {
-        let chosen = getChosen(true);
-
         currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
         {
             console.log(e);
         });
-
-        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
-        {
-            console.log(e);
-        });
     }
+    
+    ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+    {
+        console.log(e);
+    });
 }
 
 function getChosen( forLoad )
@@ -351,7 +377,7 @@ function plusButton( thisItem )
                 + '<i class="fa fa-minus text-light"></i>'
                 + '</button>'
                 + '</span>'
-                + '<div class="form-control ml-2 rounded-pill text-left h-auto ram chosen">未選取</div>'
+                + '<div class="form-control ml-2 rounded-pill text-left h-auto ram chosen h-auto"">未選取</div>'
                 + '<span class="input-group-append">'
                 + '<input class="form-control rounded-pill ml-2 chosen" value="0" type="number" min="0" max="64" placeholder="0" >'
                 + ' </span>'
@@ -376,7 +402,7 @@ function plusButton( thisItem )
                 + '<i class="fa fa-minus text-light"></i>'
                 + '</button>'
                 + '</span>'
-                + '<div class="form-control ml-2 rounded-pill text-left disk chosen">未選取</div>'
+                + '<div class="form-control ml-2 rounded-pill text-left disk chosen h-auto"">未選取</div>'
                 + '</div>'
                 + '</form>'
             );
@@ -398,7 +424,7 @@ function plusButton( thisItem )
                 + '<i class="fa fa-minus text-light"></i>'
                 + '</button>'
                 + '</span>'
-                + '<div class="form-control ml-2 rounded-pill text-left graphic chosen">未選取</div>'
+                + '<div class="form-control ml-2 rounded-pill text-left graphic chosen h-auto">未選取</div>'
                 + '</div>'
                 + '</form>'
             );
@@ -425,32 +451,41 @@ async function minusButton( thisItem )
     {
         formNum -= 1;
     }
-
-    if( formNum == 1 )
-    {
-        $(thisItem).parent().next().text("未選取");
-
-        if( items == "ram" )
-        {
-            $("input[type=number]", $(thisItem).closest(".input-group")).val(0);
-        }
-    }
-    else
-    {
-        $(thisItem).closest("form").remove();
-    }
     
     if( $(thisItem).parent().next().text() != "未選取" )
     {
-        if( currentMode == "smart" )
+        if( formNum == 1 )
         {
-            let chosen = getChosen(true);
+            $(thisItem).parent().next().text("未選取");
+    
+            if( items == "ram" )
+            {
+                $("input[type=number]", $(thisItem).closest(".input-group")).val(0);
+            }
+        }
+        else
+        {
+            $(thisItem).closest("form").remove();
+        }
+    
+        let chosen = getChosen(true);
 
-            ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        if( currentMode == "smart" && !searchItem )
+        {
+            currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
             {
                 console.log(e);
             });
         }
+        
+        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        {
+            console.log(e);
+        });
+    }
+    else if( formNum > 1 )
+    {
+        $(thisItem).closest("form").remove();
     }
 }
 
@@ -462,32 +497,157 @@ function changeCustom()
     switch( currentItem )
     {
         case "cooler":
-            $( "#customDialog" ).html(coolerModal);
+            $( "#customDialog" ).children().replaceWith(coolerModal);
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                            ($("input[type=number]", "#customDialog").val()
+                                ? $("input[type=number]", "#customDialog").val(): 1) + "cm" );
+            });
             break;
             
         case "ram":
-            $( "#customDialog" ).html(ramModal);
+            $( "#customDialog" ).children().replaceWith(ramModal);
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                             $("select", "#customDialog").eq(0).val() + " " +
+                             $("select", "#customDialog").eq(1).val() + "G" );
+            });
             break;
         
         case "disk":
-            $( "#customDialog" ).html(diskModal);
+            $( "#customDialog" ).children().replaceWith(diskModal);
+            $( "select", "#customDialog" ).eq(0).change( function()
+            {
+                if( $(this).val() == "M.2" )
+                {
+                    $( "select", "#customDialog" ).eq(1).html(
+                        "<option>PCIe</option>" +
+                        "<option>SATA</option>"
+                    );
+                }
+                else
+                {
+                    $( "select", "#customDialog" ).eq(1).html(
+                        "<option>2.5\"</option>" +
+                        "<option>3.5\"</option>"
+                    );
+                }
+            });
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                             $("select", "#customDialog").eq(0).val() + " " +
+                             $("select", "#customDialog").eq(1).val() + " " +
+                             ($("input[type=number]", "#customDialog").val()
+                                ? $("input[type=number]", "#customDialog").val(): 1) +
+                             $("select", "#customDialog").eq(2).val() );                
+            });
             break;
     
         case "graphic":
-            $( "#customDialog" ).html(graphicModal);
+            $( "#customDialog" ).children().replaceWith(graphicModal);
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                            ($("input[type=number]", "#customDialog").eq(0).val()
+                            ? $("input[type=number]", "#customDialog").eq(0).val(): 1) + "cm " +
+                            ($("input[type=number]", "#customDialog").eq(1).val()
+                            ? $("input[type=number]", "#customDialog").eq(1).val(): 1) + "W" );
+            });
             break;
     
         case "power":
-            $( "#customDialog" ).html(powerModal);
+            $( "#customDialog" ).children().replaceWith(powerModal);
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                            ($("input[type=number]", "#customDialog").eq(0).val()
+                            ? $("input[type=number]", "#customDialog").eq(0).val(): 1) + "cm " +
+                            ($("input[type=number]", "#customDialog").eq(1).val()
+                            ? $("input[type=number]", "#customDialog").eq(1).val(): 1) + "W " +
+                            $("select", "#customDialog").val() );
+                
+            });
             break;
     
         case "crate":
-            $( "#customDialog" ).html(crateModal);
+            $( "#customDialog" ).children().replaceWith(crateModal);
+            $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
+            {
+                chooseCustom("custom " + 
+                            $("select", "#customDialog").eq(0).val() + " " +
+                            ($("input[type=number]", "#customDialog").eq(0).val()
+                            ? $("input[type=number]", "#customDialog").eq(0).val(): 1) + "cm " +
+                            $("select", "#customDialog").eq(1).val() + " " +
+                            ($("input[type=number]", "#customDialog").eq(1).val()
+                            ? $("input[type=number]", "#customDialog").eq(1).val(): 1) + "cm " +
+                            ($("input[type=number]", "#customDialog").eq(2).val()
+                            ? $("input[type=number]", "#customDialog").eq(2).val(): 1) + "cm " +
+                            ($("input[type=number]", "#customDialog").eq(3).val()
+                            ? $("input[type=number]", "#customDialog").eq(3).val(): 1) + "個" );
+                
+            });
             break;
 
         default:
             customButton.attr("disabled", "disabled");
             break;
+    }
+    $( "input[type=number]", "#customDialog" ).change( function(){ numberBounding(this); } );
+    $( "button", "#customDialog .modal-footer" ).click( function()
+    {
+        $( "input[type=number]", "#customDialog" ).val(null); 
+        $( "select", "#customDialog" ).prop( "selectedIndex", 0 );
+
+        if( $( "select", "#customDialog" ).eq(0).val() == "M.2" )
+        {
+            $( "select", "#customDialog" ).eq(1).html(
+                "<option>PCIe</option>" +
+                "<option>SATA</option>"
+            );
+        }
+    });
+}
+
+async function chooseCustom( customStr )
+{
+    $("#chosenItems .form-control.h-auto.chosen").text(customStr);
+
+    if( currentMode == "smart" )
+    {
+        let chosen = getChosen(true);
+
+        if( searchItem )
+        {
+            await new Promise((resolve, reject) => {
+                $("#listLeftLoading").parent().show();
+                $("#listLeft").parent().hide();
+
+                resolve(0);
+            });
+
+            setTimeout(async () => {
+                await renderListLeft( searchList, searchItem, true );    
+    
+                $("#listLeftLoading").parent().hide();
+                $("#listLeft").parent().show();            
+            }, 100);
+        }
+        else
+        {
+            alert('a')
+            currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
+            {
+                console.log(e);
+            });
+        }
+
+        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        {
+            console.log(e);
+        });
     }
 }
 
@@ -501,7 +661,7 @@ function changeRamNum() {
     })
     .change( function()
     {
-        if( ramExceed )
+        if( ramExceed && previous < $(this).val() && currentMode == "smart" )
         {
             $(this).val(previous);
 
@@ -517,12 +677,210 @@ function changeRamNum() {
     });
 };
 
-$(document).ready(async function() {
+$( "#featureBar input[type=search]" ).keydown( async function(e)
+{
+    if( e.key == "Enter" && $(this).val() )
+    {
+        if( currentItem == "motherBoard" )
+        {
+            searchList = currentList['mbList'];
+        }
+        else
+        {
+            searchList = currentList[currentItem + "List" ];
+        }
 
-    currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, "cpu" )).catch((e) =>
+        searchItem = currentItem;
+
+        searchList = await new Promise((resolve, reject) => 
+            loadSearch( resolve, reject, currentItem, searchList, $(this).val() )).catch(
+            (e) => {
+                console.log(e);
+            });
+    }
+    else if( e.key == "Enter" )
+    {
+        searchItem = null;
+
+        await new Promise((resolve, reject) => {
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
+            $("#listLeftLoading").parent().hide();
+            $("#listLeft").parent().show();            
+        }, 100);
+    }
+});
+
+$( "#featureBar .fa-search" ).parent().click( async function()
+{
+    if( $( "#featureBar input[type=search]" ).val() )
+    {
+        if( currentItem == "motherBoard" )
+        {
+            searchList = currentList['mbList'];
+        }
+        else
+        {
+            searchList = currentList[currentItem + "List" ];
+        }
+    
+        searchItem = currentItem;
+        
+        searchList = await new Promise((resolve, reject) => 
+            loadSearch( resolve, reject, currentItem, searchList, $( "#featureBar input[type=search]" ).val() )).catch(
+            (e) => {
+                console.log(e);
+            });
+    }
+    else
+    {
+        searchItem = null;
+
+        await new Promise((resolve, reject) => {
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
+            $("#listLeftLoading").parent().hide();
+            $("#listLeft").parent().show();            
+        }, 100);
+    }
+});
+
+$( "input[type=number]" ).change( function()
+{
+    numberBounding( this );
+});
+
+function numberBounding( thisInput )
+{
+    console.log($("#customDialog").find( thisInput ))
+    if( $("#customDialog").find( thisInput ).length != 0 && $(thisInput).val() < 1 )
+    {
+        swal({
+            type: "error",
+            title: "輸入值不可小於 1",
+            confirmButtonText: "確定",
+        }).then(( result ) =>
+        {
+            $(thisInput).val(1);
+        }, ( dismiss ) =>
+        {
+            $(thisInput).val(1);
+        });
+    }
+    else if( $("#customDialog").find( thisInput ).length == 0 && $(thisInput).val() < 0 )
+    {
+        swal({
+            type: "error",
+            title: "輸入值不可小於 0",
+            confirmButtonText: "確定",
+        }).then(( result ) =>
+        {
+            $(thisInput).val(0);
+        }, ( dismiss ) =>
+        {
+            $(thisInput).val(0);
+        });
+    }
+    else if( $(thisInput).val() > 999 )
+    {
+        swal({
+            type: "error",
+            title: "輸入值不可大於 999",
+            confirmButtonText: "確定",
+        }).then(( result ) =>
+        {
+            $(thisInput).val(999);
+        }, ( dismiss ) =>
+        {
+            $(thisInput).val(999);
+        });
+    }
+}
+
+$( "#mode-switch-button" ).click( function( event ) { 
+    event.stopPropagation();
+
+    $( "#modeDialog" ).modal( {backdrop: "static",show: true} );
+
+    $("button.btn-primary", "#modeDialog" ).click( async function( event )
+    {
+        $( "#modeDialog" ).modal( "hide" );
+
+        switch( currentMode )
+        {
+            case "smart":
+                $( "#modeDialog" ).children().replaceWith( normalModal );
+                currentMode = "normal";
+                break;
+
+            case "normal":
+                $( "#modeDialog" ).children().replaceWith( smartModal );
+                currentMode = "smart";
+                break;
+        }
+        
+        if( !($(this).hasClass( "remainChosen" )) )
+        {
+            Array.from($("#chosenItems .card-text")).forEach( cardText => $("form", cardText).not(":first").remove());
+            $("#chosenItems .form-control.h-auto" ).text("未選取");
+            $("#chosenItems input[type=number]" ).val(null);
+            $("#chosenItems .form-control.h-auto." + currentItem ).addClass( "chosen" );
+            if( currentItem == "ram" )
+                $("#chosenItems input[type=number]" ).addClass( "chosen" );
+
+            $("#suggestions .card-small").not(":first").remove();
+            $("#suggestions .card-small .card-text").text("完全相容歐！");
+        }
+
+        $( "#mode-switch" ).prop( "checked", !$( "#mode-switch" ).prop( "checked" )).change();
+        
+        currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
+        {
+            console.log(e);
+        });
+
+        await new Promise((resolve, reject) => {
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
+
+            resolve(0);
+        });
+
+        setTimeout(async () => {
+            await renderListLeft( currentList, currentItem );    
+
+            $("#listLeftLoading").parent().hide();
+            $("#listLeft").parent().show();            
+        }, 100);
+    });
+});
+
+$("#mode-switch-span").click( function( event ) {
+    event.stopPropagation();
+    $('#mode-switch-button').click();
+});
+
+$(document).ready(async function() {
+    currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
     {
         console.log(e);
     });
 
     changeRamNum();
-})
+    changeCustom();
+    $( "#customDialog" ).modal( {backdrop: "static", show: false} );
+});

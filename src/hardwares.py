@@ -86,7 +86,7 @@ class ChosenList:
                     attrList = custom.split(' ')
                     chosen['diskList'].append(dict([
                         ('name', custom),
-                        ('size', attrList[1].lower()),
+                        ('size', attrList[1].split("\"")[0].lower()),
                         ('diskType', attrList[2].lower()),
                         ('capacity', int(attrList[3].replace('G', '').replace('T', '000'))),
                     ]))
@@ -149,6 +149,7 @@ class Cpu:
         return list(self.collection.find({}, {'_id': False}).sort("generation", -1))
 
     def getList(self, chosenList, originList):
+
         filters = originList.list['cpuList']
 
         if chosenList['mbList']:
@@ -202,7 +203,6 @@ class MotherBoard:
     def getList(self, chosenList, originList):
         filters = originList.list['mbList']
 
-        print(chosenList['cpuList'])
         if chosenList['cpuList']:
             filters = list(filter(lambda x: x['pin'] == chosenList['cpuList'][0]['pin'], filters))
 
@@ -339,8 +339,6 @@ class Power:
         cpuTDP = 0
         if chosenList['cpuList']:
             cpuTDP = chosenList['cpuList'][0]['TDP']
-        print(cpuTDP)
-        print(graphicTDP)
             
         filters = list(filter(lambda x: x['watts'] >= 2 * (cpuTDP + graphicTDP), filters))
 
@@ -392,7 +390,7 @@ class SuggestionList:
                                  chosenList['cpuList'][0]['pin'] + \
                                  "\n主機板: " + chosenList['mbList'][0]['pin'])
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['coolerList'][0]['height'] > chosenList['crateList'][0]['coolerHeight']:
@@ -400,7 +398,7 @@ class SuggestionList:
                                  str(chosenList['crateList'][0]['coolerHeight']) + \
                                  "\nCPU散熱器: " + str(chosenList['coolerList'][0]['height']) )
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['mbList'][0]['ramQuantity'] < len(chosenList['ramList']):
@@ -408,7 +406,7 @@ class SuggestionList:
                                  str(chosenList['mbList'][0]['ramQuantity']) + \
                                  "\n記憶體: " + str(len(chosenList['ramList'])))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['mbList'][0]['pcieQuantity'] < len(chosenList['graphicList']):
@@ -416,7 +414,7 @@ class SuggestionList:
                                  str(chosenList['mbList'][0]['pcieQuantity']) + \
                                  "\n顯示卡: " + str(len(chosenList['graphicList'])))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             m2Disk = list(filter(lambda x: x['size'] == 'm.2', chosenList['diskList']))
@@ -426,7 +424,7 @@ class SuggestionList:
                                  str(chosenList['mbList'][0]['m2Quantity']) + \
                                  "\nM.2硬碟: " + str(len(m2Disk)))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             sataDisk = list(filter(lambda x: x['diskType'] == 'sata' and x['size'] != 'm.2', chosenList['diskList'])) 
@@ -436,7 +434,7 @@ class SuggestionList:
                                  str(chosenList['mbList'][0]['sata3Quantity']) + \
                                  "\nSATA硬碟: " + str(len(sataDisk)))
         except Exception as e:
-            print(e)
+            pass
         
         try:
             m2TypePcie = any(map(lambda x: x['diskType'] == 'pcie' and x['size'] == 'm.2', chosenList['diskList']))
@@ -456,7 +454,7 @@ class SuggestionList:
                                  chosenList['mbList'][0]['m2Type'] + \
                                  "\nM.2硬碟: " + supportM2)
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['mbList'][0]['size'] not in switchMbSize(chosenList['crateList'][0]['mbSize']):
@@ -464,7 +462,7 @@ class SuggestionList:
                                  chosenList['crateList'][0]['mbSize'] + \
                                  "\n主機板: " + chosenList['mbList'][0]['size'])
         except Exception as e:
-            print(e)
+            pass
 
         try:
             ramAreValid = list(map(lambda x: x['ramType'] == chosenList['cpuList'][0]['ramGenerationSupport'], chosenList['ramList']))
@@ -474,7 +472,7 @@ class SuggestionList:
                                  chosenList['ramList'][ramAreValid.index(False)]['ramType'] + \
                                  "\nCPU: " + chosenList['cpuList'][0]['ramGenerationSupport'])
         except Exception as e:
-            print(e)
+            pass
 
         try:
             ramAreValid = list(map(lambda x: x['ramType'] == chosenList['mbList'][0]['ramType'], chosenList['ramList']))
@@ -484,7 +482,7 @@ class SuggestionList:
                                  chosenList['mbList'][0]['ramType'] + \
                                  "\n記憶體: " + chosenList['ramList'][ramAreValid.index(False)]['ramType'])
         except Exception as e:
-            print(e)
+            pass
 
         try:
             ramCapacity = 0
@@ -499,7 +497,7 @@ class SuggestionList:
                                  str(ramCapacity) + \
                                  "\n主機板: " + str(chosenList['mbList'][0]['ramMaximum']))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             disk3_5 = list(filter(lambda x: x['size'] == '3.5', chosenList['diskList']))
@@ -509,7 +507,7 @@ class SuggestionList:
                                  str(chosenList['crateList'][0]['diskQuantity']) + \
                                  "\n3.5吋硬碟: " + str(len(disk3_5)))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             graphicAreValid = list(map(lambda x: x['length'] <= chosenList['crateList'][0]['vgaLength'], chosenList['graphicList']))
@@ -519,19 +517,19 @@ class SuggestionList:
                                  str(chosenList['graphicList'][graphicAreValid.index(False)]['length']) + \
                                  "\n機殼: " + str(chosenList['crateList'][0]['vgaLength']))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['cpuList'][0]['internalGraphic'] == 'n/a':
                 suggestion.append("CPU沒有內顯，記得要裝顯示卡唷！")
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['mbList'][0]['graphicOutput'] == 'n/a':
                 suggestion.append("主機板沒有顯示輸出，記得要裝顯示卡唷！")
         except Exception as e:
-            print(e)
+            pass
 
         try:
             graphicTDP = 0
@@ -547,7 +545,7 @@ class SuggestionList:
                                  "\nCPU TDP: " + str(chosenList['cpuList'][0]['TDP']) + \
                                  "\n顯示卡TDP: " + str(graphicTDP))
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['powerList'][0]['size'] != chosenList['crateList'][0]['psuSize']:
@@ -555,7 +553,7 @@ class SuggestionList:
                                  chosenList['powerList'][0]['size'] + \
                                  "\n機殼: " + chosenList['crateList'][0]['psuSize'])
         except Exception as e:
-            print(e)
+            pass
 
         try:
             if chosenList['powerList'][0]['length'] > chosenList['crateList'][0]['psuLength']:
@@ -563,7 +561,7 @@ class SuggestionList:
                                  str(chosenList['powerList'][0]['length']) + \
                                  "\n機殼: " + str(chosenList['crateList'][0]['psuLength']))
         except Exception as e:
-            print(e)
+            pass
 
         return suggestion
 

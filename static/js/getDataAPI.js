@@ -1,5 +1,6 @@
 function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
 {
+    alert('load')
     $.ajax({
         type: "post",
         url: "/getHardwareList",
@@ -23,17 +24,14 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
         $("#listLeft").parent().show();
 
         chosenRamList = Array.from($("#chosenItems .form-control.ram" )).map( item => $(item).text() );
-        console.log(data.ramList)
-        console.log(chosenRamList)
 
         for( let i in chosenRamList )
         {
             if( !data.ramList.find(ram => ram.name == chosenRamList[i]) )
             {
-                console.log(chosenRamList[i])
                 Array.from($("#chosenItems .form-control.ram" )).forEach( item =>
                 {
-                    if( $(item).text() == chosenRamList[i] )
+                    if( $(item).text() == chosenRamList[i] && !($(item).text().startsWith("custom")) )
                     {
                         $(item).text( "未選取" );
                     }
@@ -77,79 +75,32 @@ function loadOriginList( resolve, reject, whichHardware )
     });
 }
 
-function loadSearch( resolve, reject, whichHardware, chosenHardwares, searchString )
+function loadSearch( resolve, reject, whichHardware, currentHardwares, searchString )
 {
     $.ajax({
         type: "post",
         url: "/getSearch",
         data: JSON.stringify({
-                                "hardware": whichHardware,
+                                "hardwareList": currentHardwares,
                                 "search": searchString,
-                                "chosenHardwares": chosenHardwares,
                             }),
         contentType: "application/json",
         dataType: 'json',
 
         beforeSend: function()
         {
-            $( "#listLeft .card-text" ).addClass("text-center");
-            $( "#listLeft .card-text" ).html( "<img src='/static/img/loading.svg' alt='loading'/>");
+            $("#listLeftLoading").parent().show();
+            $("#listLeft").parent().hide();
         },
     })
     .done((data) =>
     {
-        $( "#listLeft" ).empty();
+        renderListLeft( data, whichHardware, true )
 
-        if( data.length > 0 )
-        {
-            switch( whichHardware )
-            {
-                case "cpu":
-                    cpuList( data );
-                    break;
-                    
-                case "cooler":
-                    coolerList( data );
-                    break;
-    
-                case "motherBoard":
-                    mbList( data );
-                    break;
-                    
-                case "ram":
-                    ramList( data );
-                    break;
-    
-                case "disk":
-                    diskList( data );
-                    break;
-                    
-                case "graphic":
-                    graphicList( data );
-                    break;
-    
-                case "power":
-                    powerList( data );
-                    break;
-                    
-                case "crate":
-                    crateList( data );
-                    break;
-            }
-        }
-        else
-        {
-            let emptyMessage = $("<div class='card mb-2 card-small px-3' style='cursor: default;' />");
+        $("#listLeftLoading").parent().hide();
+        $("#listLeft").parent().show();
 
-            emptyMessage.append("<div class='card-body'>" +
-                                    "<div class='card-text  text-center'>" +
-                                        "沒有可用的硬體！" +
-                                    "</div>" +
-                                "</div>" );
-            $( "#listLeft" ).append( emptyMessage );
-        }
-
-        resolve( "Successfully get search list" );
+        resolve( data );
     })
     .fail(() =>
     {
@@ -185,9 +136,9 @@ function loadSuggestion( resolve, reject, chosenHardwares )
             suggestions +=
                 "<div class='card mb-2 card-small d-block'>" +
                     "<div class='card-body'>" +
-                        "<p class='card-text'>" +
+                        "<div class='card-text'>" +
                             data.suggestion[i].split( "\n" ).join( "<br/>") +
-                        "</p>" +
+                        "</div>" +
                     "</div>" +
                 "</div>";
         }
@@ -197,9 +148,9 @@ function loadSuggestion( resolve, reject, chosenHardwares )
             suggestions += 
                 "<div class='card mb-2 card-small d-block'>" +
                     "<div class='card-body'>" +
-                        "<p class='card-text'>" +
+                        "<div class='card-text'>" +
                             "完全相容哦！" +
-                        "</p>" +
+                        "</div>" +
                     "</div>" +
                 "</div>";
         }
@@ -217,7 +168,7 @@ function loadSuggestion( resolve, reject, chosenHardwares )
     });
 }
 
-function cpuList( data )
+function cpuList( data, resolve  )
 {
     let hardware;
     let content;
@@ -301,9 +252,11 @@ function cpuList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function coolerList( data )
+function coolerList( data , resolve )
 {
     let hardware;
     let content;
@@ -355,9 +308,11 @@ function coolerList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function mbList( data )
+function mbList( data , resolve )
 {
     let hardware;
     let content;
@@ -441,9 +396,11 @@ function mbList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function ramList( data )
+function ramList( data , resolve )
 {
     let hardware;
     let content;
@@ -499,9 +456,11 @@ function ramList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function diskList( data )
+function diskList( data , resolve )
 {
     let hardware;
     let content;
@@ -557,9 +516,11 @@ function diskList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function graphicList( data )
+function graphicList( data , resolve )
 {
     let hardware;
     let content;
@@ -615,9 +576,11 @@ function graphicList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function powerList( data )
+function powerList( data , resolve )
 {
     let hardware;
     let content;
@@ -677,9 +640,11 @@ function powerList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function crateList( data )
+function crateList( data , resolve )
 {
     let hardware;
     let content;
@@ -751,44 +716,75 @@ function crateList( data )
         hardware.click(function(){clickListLeft(this)});
         $( "#listLeft" ).append(hardware);
     }
+
+    resolve(0);
 }
 
-function renderListLeft( data, whichHardware )
+function renderListLeft( data, whichHardware, search )
 {
-    $( "#listLeft" ).empty();
-
-    switch( whichHardware )
-    {
-        case "cpu":
-            cpuList( data.cpuList );
-            break;
+    return new Promise((resolve, reject) => {
             
-        case "cooler":
-            coolerList( data.coolerList );
-            break;
+        $( "#listLeft" ).empty();
 
-        case "motherBoard":
-            mbList( data.mbList );
-            break;
-            
-        case "ram":
-            ramList( data.ramList );
-            break;
+        switch( whichHardware )
+        {
+            case "cpu":
+                if( search )
+                    cpuList( data, resolve );
+                else
+                    cpuList( data.cpuList , resolve);
+                break;
+                
+            case "cooler":
+                if( search )
+                    coolerList( data, resolve );
+                else
+                    coolerList( data.coolerList , resolve);
+                break;
 
-        case "disk":
-            diskList( data.diskList );
-            break;
-            
-        case "graphic":
-            graphicList( data.graphicList );
-            break;
+            case "motherBoard":
+                if( search )
+                    mbList( data, resolve );
+                else
+                    mbList( data.mbList , resolve);
+                break;
+                
+            case "ram":
+                if( search )
+                    ramList( data, resolve );
+                else
+                    ramList( data.ramList , resolve);
+                break;
 
-        case "power":
-            powerList( data.powerList );
-            break;
-            
-        case "crate":
-            crateList( data.crateList );
-            break;
-    }
+            case "disk":
+                if( search )
+                    diskList( data, resolve );
+                else
+                    diskList( data.diskList , resolve);
+                break;
+                
+            case "graphic":
+                if( search )
+                    graphicList( data, resolve );
+                else
+                    graphicList( data.graphicList , resolve);
+                break;
+
+            case "power":
+                if( search )
+                    powerList( data, resolve );
+                else
+                    powerList( data.powerList , resolve);
+                break;
+                
+            case "crate":
+                if( search )
+                    crateList( data, resolve );
+                else
+                    crateList( data.crateList , resolve);
+                break;
+        }
+
+        resolve(1);
+    })
 }

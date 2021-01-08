@@ -20,7 +20,7 @@ var coolerModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -32,7 +32,7 @@ var coolerModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +
@@ -97,7 +97,7 @@ var ramModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +
@@ -158,7 +158,7 @@ var diskModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<span class='input-group-append'>" +
                                     "<select class='form-control ml-2 rounded-pill w-auto'>" +
                                         "<option>G</option>" +
@@ -173,7 +173,7 @@ var diskModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +
@@ -201,7 +201,7 @@ var graphicModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -217,7 +217,7 @@ var graphicModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>W</span>" +
                                 "</div>" +
@@ -229,7 +229,7 @@ var graphicModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +
@@ -257,7 +257,7 @@ var powerModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -273,7 +273,7 @@ var powerModal =
                         "</td>" +
                         "<td class='col-10'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>W</span>" +
                                 "</div>" +
@@ -301,7 +301,7 @@ var powerModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +
@@ -348,7 +348,7 @@ var crateModal =
                         "</td>" +
                         "<td class='col-8'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -380,7 +380,7 @@ var crateModal =
                         "</td>" +
                         "<td class='col-8'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -396,7 +396,7 @@ var crateModal =
                         "</td>" +
                         "<td class='col-8'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>cm</span>" +
                                 "</div>" +
@@ -412,7 +412,7 @@ var crateModal =
                         "</td>" +
                         "<td class='col-8'>" +
                             "<div class='input-group mt-3'>" +
-                                "<input class='form-control rounded-pill' type='number' min='0' max='999' value='0' />" +
+                                "<input class='form-control rounded-pill' type='number' min='1' max='999' placeholder='1' />" +
                                 "<div class='input-group-append'>" +
                                     "<span class='input-group-text border-0' style='background-color: transparent;'>個</span>" +
                                 "</div>" +
@@ -424,7 +424,50 @@ var crateModal =
         "</div>" +
 
         "<div class='modal-footer'>" +
-            "<button id='customDiskButton' type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
+            "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
+        "</div>" +
+    "</div>" +
+"</div>";
+
+var smartModal =
+"<div class='modal-dialog' role='document'>" +
+    "<div class='modal-content'>" +
+        "<div class='modal-header' style='background-color: rgb(64, 84, 104);'>" +
+            "<h5 class='modal-title'>更換相容性模式</h5>" +
+            "<button type='button' class='close' data-dismiss='modal'>" +
+                "<span class='text-light'>&times;</span>" +
+            "</button>" +
+        "</div>" +
+
+        "<div class='modal-body px-5' style='background-color: rgb(234, 240, 248);'>" +
+            "<p>是否確定要更換為一般模式？</p>" +
+        "</div>" +
+
+        "<div class='modal-footer'>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定並清空</button>" +
+            "<button type='button' class='btn btn-primary remainChosen' data-dismiss='modal'>確定並保留</button>" +
+            "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
+        "</div>" +
+    "</div>" +
+"</div>";
+
+var normalModal =
+"<div class='modal-dialog' role='document'>" +
+    "<div class='modal-content'>" +
+        "<div class='modal-header' style='background-color: rgb(64, 84, 104);'>" +
+            "<h5 class='modal-title'>更換相容性模式</h5>" +
+            "<button type='button' class='close' data-dismiss='modal'>" +
+                "<span class='text-light'>&times;</span>" +
+            "</button>" +
+        "</div>" +
+
+        "<div class='modal-body px-5' style='background-color: rgb(234, 240, 248);'>" +
+            "<p>是否確定要更換為智慧模式？</p>" +
+        "</div>" +
+
+        "<div class='modal-footer'>" +
+            "<button type='button' class='btn btn-primary' data-dismiss='modal'>確定</button>" +
             "<button type='button' class='btn btn-secondary ml-2' data-dismiss='modal'>取消</button>" +
         "</div>" +
     "</div>" +

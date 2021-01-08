@@ -119,11 +119,8 @@ def getSuggestion():
 def getSearch():
     inputData = request.get_json()
     try:
-        hardware = inputData['hardware']
         searchStr = inputData['search']
-        chosenHardwares = inputData['chosenHardwares']
-        chosen = chosenList.getList(chosenHardwares, originList)
-        hardwareList = switch(hardware)(chosen, originList)
+        hardwareList = inputData['hardwareList']
         searchResult = searchList.getList(searchStr, hardwareList)
     except Exception as e:
         print(e)
