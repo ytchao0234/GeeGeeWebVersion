@@ -1,133 +1,151 @@
-//選表格
-$("div.card-deck div.card-body").on("click", function () {
-    if ($(".card-small", this).hasClass("chosen"))
-        $(".card-small", this).removeClass("chosen");
-    else $("div.card-small", this).addClass("chosen");
-})
+function clickTable( thisTable )
+{
+    $(".card-small", thisTable).toggleClass("chosen");
+}
 
-//全選
-$("input.form-check-input").click(function () {
-    if ($(this).prop("checked")) {
-        $("div.card-deck div.card-small").addClass("chosen");
+function selectAll()
+{
+    if( $("#selectAllButton").prop("checked") )
+    {
+        $(".card-small").addClass("chosen");
     }
-    else $("div.card-deck div.card-small").removeClass("chosen");
-})
+    else
+        $(".card-small").removeClass("chosen");
+}
 
-
-$("li.nav-item").click(function () {
-    if ($(".chosen").length == 0) {
-        alert("還沒有選擇表格歐！");
+async function clickNavLink( thisLink )
+{
+    if( $(".card-small.chosen").length == 0 ) 
+    {
+        swal({
+            title: "還沒有選擇表格歐！",
+            type: "warning",
+            confirmButtonText: "確定",
+        }).then((result) => {}, (dismiss) => {});
     }
-    else {
-        if (($(this).text().trim() == "載入") || ($(this).text().trim() == "匯出")) {
-            if ($(".chosen").length > 1) {
+    else
+    {
+        if( $(thisLink).text().trim() == "載入" || $(thisLink).text().trim() == "匯出" )
+        {
+            if( $(".card-small.chosen").length > 1 )
+            {
                 swal({
                     type: "error",
-                    title: 'Oops...',
-                    text: "一次只能 載入/匯出 一份儲存紀錄歐！",
-                    timer: 1000,
-                })
+                    title: "一次只能 載入/匯出 一份儲存紀錄歐！",
+                    confirmButtonText: "確定",
+
+                }).then((result) => {}, (dismiss) => {});
             }
-            else if (($(this).text().trim() == "匯出") && ($(".chosen").length == 1)) {
-                console.log($(".chosen").text());
+            else if( $(thisLink).text().trim() == "載入" && $(".chosen").length == 1 ) {
+                console.log($(".card-small.chosen").text());
+            }
+            else if( $(thisLink).text().trim() == "匯出" && $(".chosen").length == 1 ) {
+                console.log($(".card-small.chosen").text());
             }
         }
-    }
-})
-
-//顯示畫面
-
-function start() {
-    var a = 0;
-    while (1) {
-        var obj = JSON.parse(localStorage.getItem(localStorage.key(a)));
-        if (obj) {
-            var msg =
-                '<div class="card overflow-auto card-big">'
-                + '<div class="card-body">'
-                + '<div class="card mb-2 card-small">'
-                + '<div class="card-body">'
-                + '<div class="card-text">'
-                + '<table class="table table-striped">'
-                + '<thead>'
-                + '<tr>'
-                + ' <th scope="col" colspan="2">'
-                + '<h4>' + obj.time + '</h4>'
-                + '</th>'
-                + '</tr>'
-                + '</thead>'
-                + '<tbody>'
-                + '<tr>'
-                + '<th class="text-nowrap">CPU</th>'
-                + '<td>Intel Core i3-10100</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">CPU散熱器</th>'
-                + '<td>' + obj.cpu + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">主機板</th>'
-                + '<td>' + obj.cpu_cooler + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">記憶體</th>'
-                + '<td>' + obj.mother_board + ' *' + obj.memory_block_num + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">硬碟</th>'
-                + '<td>' + obj.disk_block + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">顯示卡</th>'
-                + '<td>' + obj.graphic + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">電源供應器</th>'
-                + '<td>' + obj.power + '</td>'
-                + '</tr>'
-                + '<tr>'
-                + '<th class="text-nowrap">機殼</th>'
-                + '<td>' + obj.case + '</td>'
-                + '</tr>'
-                + '</tbody>'
-                + '</table>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
-                + ' </div>';
-
-            if (a % 3 != 0) {
-                if (a == 0) {
-                    $("body").append('<div class="card-deck my-3 mx-2"></div>');
-                    $("div.card-deck:last").append(msg);
-                }
-                else
-                    $("div.card-deck:last").append(msg);
-            }
-            else {
-                $("body").append('<div class="card-deck my-3 mx-2"></div>');
-                $("div.card-deck:last").append(msg);
-            }
-
+        else if( $(thisLink).text().trim() == "刪除" )
+        {
+            localStorage.removeItem( $(".card-small.chosen").closest(".card-big").attr("id") );
+            
+            await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+            {
+                console.log(e);
+            });
         }
-        else break;
-        a++;
-    }
-    while (a % 3 != 0) {
-        $("div.card-deck:last").append(
-            '<div class="card overflow-auto card-big" style="visibility: hidden;">'
-            +'<div class="card-body">'
-            +'<div class="card mb-2 card-small">'
-            +'<div class="card-body">'
-            +'<div class="card-text">'
-            +'</div>'
-            +'</div>'
-            +'</div>'
-            +'</div>'
-            +'</div>'
-        );
-        a++;
     }
 }
 
+function renderRecordTables(resolve, reject)
+{
+    let keys = [];
+
+    for( let i = 0; i < localStorage.length; i++ )
+    {
+        if( localStorage.key(i).startsWith("GeeGee-"))
+        {
+            keys.push(localStorage.key(i));
+        }
+    }
+
+    $(".container-fluid").empty();
+
+    if( keys.length == 0 )
+    {
+        swal({
+            title: "還沒有儲存紀錄歐！",
+            type: "info",
+            confirmButtonText: "確定",
+
+        }).then((result) => {
+            $(".container-fluid").append(
+                "<span class='h2'>還沒有儲存紀錄歐！</span>"
+            );
+        }, (dismiss) => {
+            $(".container-fluid").append(
+                "<span class='h2'>還沒有儲存紀錄歐！</span>"
+            );
+        });
+    }
+    else
+    {
+        let tableNum = 0;
+        keys.sort();
+
+        for( let i in keys )
+        {
+            let recordData = JSON.parse(localStorage[keys[i]]);
+    
+            recordTable = makeHardwareTable(recordData);
+    
+            if( tableNum % 3 == 0 )
+            {
+                $(".container-fluid").append("<div class='card-deck my-3 mx-2' />");
+            }
+    
+            $(".container-fluid .card-deck:last").append(
+                "<div class='card overflow-auto card-big' id='" + keys[i] + "'>" +
+                    "<div class='card-body'>" +
+                        "<div class='card mb-2 card-small'>" +
+                            "<div class='card-body'>" +
+                                "<div class='card-text'>" +
+                                    recordTable + 
+                                "</div>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>" +
+                "</div>"
+            );
+    
+            $(".container-fluid .card-big:last").click( function(){ clickTable(this); } );
+    
+            tableNum++;
+            if( tableNum == 3 ) tableNum = 0;
+        }
+    
+        for( ; tableNum % 3 != 0 && tableNum < 3; tableNum++ )
+        {
+            $(".container-fluid .card-deck:last").append(
+                "<div class='card overflow-auto card-big invisible'>" +
+                "</div>"
+            );
+        }
+    }
+
+    resolve(0);
+}
+
+$(document).ready( async function()
+{
+    await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+    {
+        console.log(e);
+    });
+
+    $( "#selectAllButton" ).click( function () {
+        selectAll();
+    });
+
+    $(".nav-link").click(function () {
+        clickNavLink(this);
+    });
+});

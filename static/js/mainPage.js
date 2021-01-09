@@ -217,6 +217,8 @@ function changeRamNumArrow()
 
                 if( hasChangeRamList )
                 {
+                    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
+
                     boundRamType();
     
                     currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
@@ -396,9 +398,11 @@ async function clickListLeft( thisItem )
         $("#chosenItems input[type=number].chosen").removeClass("disabledRamNum");
         $("#chosenItems input[type=number].chosen").removeAttr("disabled");
     }
+
+    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
 }
 
-function getChosen( forLoad )
+function getChosen( forLoad, recordChosen )
 {
     let memoryList = Array.from($(".form-control.ram")).map( item => item = $(item).text());
     let memoryNumList = Array.from($("div.ram input[type=number]")).map( item => item = $(item).val());
@@ -451,6 +455,9 @@ function getChosen( forLoad )
 
     if( forLoad )
     {
+        if( recordChosen )
+            chosen = recordChosen;
+
         Object.keys(chosen).forEach( key =>
         {
             if( key != "ramList" && key != "diskList" && key != "graphicList" && chosen[key][0] == "未選取" )
@@ -467,70 +474,6 @@ function getChosen( forLoad )
     }
 
     return chosen;
-}
-
-function makeHardwareTable( chosen )
-{
-    let content = "<table class='table table-striped'>" +
-                    "<thead>" +
-                        "<tr>" +
-                            "<th scope='col' colspan='2'><h4>" + chosen.time + "</h4></th>" +
-                        "</tr>" +
-                    "</thead>" +
-                    "<tbody>";
-
-    content += "<tr>" + "<th class='text-nowrap'>CPU</th><td>" + chosen.cpuList[0] + "</td></tr>";
-    content += "<tr>" + "<th class='text-nowrap'>CPU散熱器</th><td>" + chosen.coolerList[0] + "</td></tr>";
-    content += "<tr>" + "<th class='text-nowrap'>主機板</th><td>" + chosen.mbList[0] + "</td></tr>";
-
-    if( chosen.ramList.length > 0 )
-    {
-        content += "<tr>" + "<th class='text-nowrap' rowspan='" + chosen.ramList.length + "'>記憶體</th>";
-        content += "<td>" + chosen.ramList[0] + " * " + chosen.ramNum[0] + "</td></tr>";
-
-        for( let i = 1; i < chosen.ramList.length; i++ )
-        {
-            content += "<tr><td>" + chosen.ramList[i] + " * " + chosen.ramNum[i] + "</td></tr>";
-        }
-    }
-    else
-    {
-        content += "<tr>" + "<th class='text-nowrap'>記憶體</th><td>" + "未選取" + "</td></tr>";
-    }
-    
-    if( chosen.diskList.length > 0 )
-    {
-        content += "<tr>" + "<th class='text-nowrap' rowspan='" + chosen.diskList.length + "'>硬碟</th>";
-        content += "<td>" + chosen.diskList[0] + "</td></tr>";
-        for( let i = 1; i < chosen.diskList.length; i++ )
-        {
-            content += "<tr><td>" + chosen.diskList[i] + "</td></tr>";
-        }
-    }
-    else
-    {
-        content += "<tr>" + "<th class='text-nowrap'>硬碟</th><td>" + "未選取" + "</td></tr>";
-    }
-    
-    if( chosen.graphicList.length > 0 )
-    {
-        content += "<tr>" + "<th class='text-nowrap' rowspan='" + chosen.graphicList.length + "'>顯示卡</th>";
-        content += "<td>" + chosen.graphicList[0] + "</td></tr>";
-        for( let i = 1; i < chosen.graphicList.length; i++ )
-        {
-            content += "<tr><td>" + chosen.graphicList[i] + "</td></tr>";
-        }
-    }
-    else
-    {
-        content += "<tr>" + "<th class='text-nowrap'>顯示卡</th><td>" + "未選取" + "</td></tr>";
-    }
-
-    content += "<tr>" + "<th class='text-nowrap'>電源供應器</th><td>" + chosen.powerList[0] + "</td></tr>";
-    content += "<tr>" + "<th class='text-nowrap'>機殼</th><td>" + chosen.crateList[0] + "</td></tr>";
-    content += "</tbody></table>";
-
-    return content;
 }
 
 //儲存到localstorage
@@ -695,6 +638,8 @@ async function minusButton( thisItem )
         {
             console.log(e);
         });
+
+        localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
     }
     else if( formNum > 1 )
     {
@@ -938,6 +883,8 @@ async function chooseCustom( customStr )
             console.log(e);
         });
     }
+
+    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
 }
 
 $( "#featureBar input[type=search]" ).keydown( async function(e)
@@ -1123,14 +1070,107 @@ $("#mode-switch-span").click( function( event ) {
     $('#mode-switch-button').click();
 });
 
+function renderChosenItems( chosen )
+{
+    return new Promise((resolve, reject) =>
+    {
+        if( chosen.cpuList.length )
+        {
+            $("#chosenItems .form-control.h-auto.cpu" ).text( chosen.cpuList[0] );
+        }
+        if( chosen.coolerList.length )
+        {
+            $("#chosenItems .form-control.h-auto.cooler" ).text( chosen.coolerList[0] );
+        }
+        if( chosen.mbList.length )
+        {
+            $("#chosenItems .form-control.h-auto.motherBoard" ).text( chosen.mbList[0] );
+        }
+        for( let i in chosen.ramList )
+        {
+            if( i != 0 )
+            {
+                plusButton( "ram" );
+            }
+    
+            $("#chosenItems .form-control.h-auto.ram:last" ).text( chosen.ramList[i] );
+            
+            let ramNum = $("#chosenItems input[type=number]:last" );
+            ramNum.val( chosen.ramNum[i] );
+            ramNum.removeClass( "disabledRamNum" );
+            ramNum.removeAttr( "disabled" );
+        }
+        for( let i in chosen.diskList )
+        {
+            if( i != 0 )
+            {
+                plusButton( "disk" );
+            }
+    
+            $("#chosenItems .form-control.h-auto.disk:last" ).text( chosen.diskList[i] );
+        }
+        for( let i in chosen.graphicList )
+        {
+            if( i != 0 )
+            {
+                plusButton( "graphic" );
+            }
+    
+            $("#chosenItems .form-control.h-auto.graphic:last" ).text( chosen.graphicList[i] );
+        }
+        if( chosen.powerList.length )
+        {
+            $("#chosenItems .form-control.h-auto.power" ).text( chosen.powerList[0] );
+        }
+        if( chosen.crateList.length )
+        {
+            $("#chosenItems .form-control.h-auto.crate" ).text( chosen.crateList[0] );
+        }
+    
+        $("#chosenItems .card-small" ).removeClass( "chosen" );
+        $("#chosenItems .form-control.h-auto" ).removeClass( "chosen" );
+        $("#chosenItems input[type=number]" ).removeClass( "chosen" );
+    
+        $("#chosenItems .card-small.cpu" ).addClass( "chosen" );
+        $("#chosenItems .form-control.h-auto.cpu" ).addClass( "chosen" );
+
+        resolve(0);
+    });
+}
+
+async function renderInitialMainPage( res, rej )
+{
+    let chosen = JSON.parse(localStorage.getItem("GeeGee-Remain-Selection"));
+
+    await renderChosenItems( chosen );
+
+    chosen = getChosen(true);
+
+    currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
+    {
+        console.log(e);
+        rej(2);
+    });
+
+    dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+    {
+        console.log(e);
+        rej(3);
+    });
+
+    res(0);
+}
+
 $(document).ready(async function() {
-    currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
+
+    await new Promise((resolve, reject) => renderInitialMainPage( resolve, reject )).catch((e) =>
     {
         console.log(e);
     });
 
     changeRamNumArrow();
-    changeRamNumKey()
+    changeRamNumKey();
     changeCustom();
+
     $( "#customDialog" ).modal( {backdrop: "static", show: false} );
 });
