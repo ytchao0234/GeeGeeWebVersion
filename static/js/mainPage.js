@@ -2,7 +2,12 @@ var currentItem = "cpu";
 var currentMode = "smart";
 var searchList = [];
 var searchItem = null;
-var ramExceed = false;
+var dataAttr = {'ramExceed': false,
+                'graphicExceed': false,
+                'diskExceed': false,
+                'ramType': null,
+                'diskType': "pcie/sata" };
+var lastChange = null;
 var currentList = {};
 
 // 點上方列表會亮
@@ -153,13 +158,203 @@ async function clickChosenRow( event, thisItem )
             $("#listLeft").parent().show();            
         }, 100);
     }
+}
 
-    if( !($(thisItem).hasClass("h-auto")) )
+function changeRamNumArrow()
+{
+    let previous;
+
+    $("#chosenItems input[type=number]").focus(function()
     {
-        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        previous = ($(this).val()) ? $(this).val() : 0;
+
+    }).change( async function(event)
+    {
+        console.log("change");
+
+        event.stopPropagation();
+
+        if( $(this).val() > 64 )
+        {
+            $(this).val(64);
+        }
+        
+        let chosen = getChosen(true);
+
+        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
         {
             console.log(e);
         });
+
+        let thisRam = $(this).parent().prev();
+
+        if( parseInt(previous) < parseInt($(this).val()) && currentMode == "smart" )
+        {
+            if( dataAttr.ramExceed )
+            {
+                solveRamExceed(previous);
+            }
+            else
+            {
+                let hasChangeRamList = true;
+    
+                if( $(thisRam).text().startsWith("custom") )
+                {
+                    let chosenRamList = getChosen().ramList;
+    
+                    let firstCustomRam = chosenRamList.find(ram => ram != $(thisRam).text() && ram.startsWith("custom"));
+    
+                    if( firstCustomRam )
+                    {
+                        if( firstCustomRam.split(' ')[1] != $(thisRam).text().split(' ')[1] )
+                        {
+                            $(thisRam).text("未選取");
+                            $(this).val(null);
+                            hasChangeRamList = false;
+                        }
+                    }
+                }
+
+                if( hasChangeRamList )
+                {
+                    boundRamType();
+    
+                    currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
+                    {
+                        console.log(e);
+                    });
+
+                    previous = $(this).val();
+                }
+            }
+        }
+        else
+        {
+            previous = $(this).val();
+        }
+    });
+}
+
+function changeRamNumKey()
+{
+    $("#chosenItems input[type=number]").keypress(function(e)
+    {
+        e.stopPropagation();
+
+        if( (e.which < 48 || e.which > 57) && e.which != 13 )
+        {
+            e.preventDefault();
+        }
+    });
+}
+
+function solveRamExceed( previous )
+{
+    lastChange = $("#chosenItems input[type=number]");
+
+    if( !isNaN(parseInt(previous)) )
+        $(lastChange).val(previous);
+    else
+        $(lastChange).val(parseInt($(lastChange).val()) - 1);
+
+    let exceedType = "&lt;";
+
+    let numExceed = $("#suggestions .card-small .card-text:contains('記憶體插槽')");
+    let capacityExceed = $("#suggestions .card-small .card-text:contains('記憶體容量')");
+
+    if( capacityExceed.length )
+    {
+        exceedType += "容量";
+        if( numExceed.length )
+        {
+            exceedType += ", ";
+        }
+    }
+    if( numExceed.length )
+    {
+        exceedType += "數量";
+    }
+    exceedType += "&gt;";
+
+    swal({
+        title: "記憶體已達上限<br /><small>" + exceedType + "</small>",
+        type: "error",
+        confirmButtonText: "確定",
+
+    }).then(( result ) => {}, ( dismiss ) => {});
+}
+
+function solveGraphicExceed()
+{
+    lastChange = $("#chosenItems .form-control.h-auto.chosen");
+    $(lastChange).text("未選取");
+
+    swal({
+        title: "顯示卡已達上限",
+        type: "error",
+        confirmButtonText: "確定",
+
+    }).then(( result ) => {}, ( dismiss ) => {});
+}
+
+function solveDiskExceed()
+{
+    lastChange = $("#chosenItems .form-control.h-auto.chosen");
+    $(lastChange).text("未選取");
+
+    let m2Exceed = $("#suggestions .card-small .card-text:contains('M.2接口')");
+    let sata3Exceed = $("#suggestions .card-small .card-text:contains('SATA接口')");
+    let disk35Exceed = $("#suggestions .card-small .card-text:contains('3.5吋硬碟架')");
+
+    exceedType = "&lt;";
+    if( m2Exceed.length )
+    {
+        exceedType += "M.2";
+        if( sata3Exceed.length || disk35Exceed.length )
+        {
+            exceedType += ", ";
+        }
+    }
+    if( sata3Exceed.length )
+    {
+        exceedType += "SATA";
+        if( disk35Exceed.length )
+        {
+            exceedType += ", ";
+        }
+    }
+    if( disk35Exceed.length )
+    {
+        exceedType += "3.5吋";
+    }
+    exceedType = "&gt;";
+
+
+    swal({
+        title: "硬碟已達上限<br/><small>" + exceedType + "</small>",
+        type: "error",
+        confirmButtonText: "確定",
+
+    }).then(( result ) => {}, ( dismiss ) => {});
+}
+
+function checkValidCustom()
+{
+    lastChange = $("#chosenItems .form-control.h-auto.chosen");
+
+    if( dataAttr.conflict && $(lastChange).text().startsWith("custom") )
+    {
+        lastChange.text( "未選取" );
+
+        if( currentItem == "ram" )
+            $("#chosenItems input[type=number].chosen").val(null);
+
+        swal({
+            title: "自訂硬體失敗",
+            type: "error",
+            confirmButtonText: "確定",
+
+        }).then(( result ) => {}, ( dismiss ) => {});
     }
 }
 
@@ -175,18 +370,32 @@ async function clickListLeft( thisItem )
     
     let chosen = getChosen(true);
 
-    if( currentMode == "smart" && !searchItem )
+    if( currentMode == "smart" )
     {
-        currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
+        currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
         {
             console.log(e);
         });
     }
     
-    ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+    dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
     {
         console.log(e);
     });
+
+    if( currentMode == "smart" )
+    {
+        if( dataAttr.graphicExceed )
+            solveGraphicExceed();
+        if( dataAttr.diskExceed )
+            solveDiskExceed();
+    }
+
+    if( currentItem == "ram" )
+    {
+        $("#chosenItems input[type=number].chosen").removeClass("disabledRamNum");
+        $("#chosenItems input[type=number].chosen").removeAttr("disabled");
+    }
 }
 
 function getChosen( forLoad )
@@ -327,9 +536,11 @@ function makeHardwareTable( chosen )
 //儲存到localstorage
 $(".fa-floppy-o").closest("button").on("click", function () {
 
+    let chosen = getChosen();
+
     swal({
         title: "已選清單",
-        html: makeHardwareTable(getChosen()),
+        html: makeHardwareTable(chosen),
         showCancelButton: true,
         confirmButtonText: "確定",
         cancelButtonText: "取消",
@@ -377,9 +588,9 @@ function plusButton( thisItem )
                 + '<i class="fa fa-minus text-light"></i>'
                 + '</button>'
                 + '</span>'
-                + '<div class="form-control ml-2 rounded-pill text-left h-auto ram chosen h-auto"">未選取</div>'
+                + '<div class="form-control ml-2 rounded-pill text-left h-auto ram chosen h-auto">未選取</div>'
                 + '<span class="input-group-append">'
-                + '<input class="form-control rounded-pill ml-2 chosen" value="0" type="number" min="0" max="64" placeholder="0" >'
+                + '<input class="form-control rounded-pill ml-2 chosen disabledRamNum" disabled value="0" type="number" min="0" max="64" placeholder="0" >'
                 + ' </span>'
                 + '</div>'
                 + '</form>'
@@ -387,6 +598,8 @@ function plusButton( thisItem )
 
             $(".minusButton", memory ).click(function(){minusButton(this)});
             $(".form-control", memory ).click(function(e){clickChosenRow(e,this)});
+            changeRamNumArrow();
+            changeRamNumKey();
             break;
 
         case "disk":
@@ -433,8 +646,6 @@ function plusButton( thisItem )
             $(".form-control.graphic", graphic ).click(function(e){clickChosenRow(e,this)});
             break;
     }
-
-    changeRamNum();
 }
 
 $(".minusButton").click( function()
@@ -460,7 +671,9 @@ async function minusButton( thisItem )
     
             if( items == "ram" )
             {
-                $("input[type=number]", $(thisItem).closest(".input-group")).val(0);
+                $("input[type=number]", $(thisItem).closest(".input-group")).val(null);
+                $("input[type=number]", $(thisItem).closest(".input-group")).addClass("disabledRamNum");
+                $("input[type=number]", $(thisItem).closest(".input-group")).attr("disabled", "disabled");
             }
         }
         else
@@ -470,15 +683,15 @@ async function minusButton( thisItem )
     
         let chosen = getChosen(true);
 
-        if( currentMode == "smart" && !searchItem )
+        if( currentMode == "smart" )
         {
-            currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
+            currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
             {
                 console.log(e);
             });
         }
         
-        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
         {
             console.log(e);
         });
@@ -508,6 +721,10 @@ function changeCustom()
             
         case "ram":
             $( "#customDialog" ).children().replaceWith(ramModal);
+
+            if( currentMode == "smart" )
+                boundRamType();
+
             $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
             {
                 chooseCustom("custom " + 
@@ -518,21 +735,39 @@ function changeCustom()
         
         case "disk":
             $( "#customDialog" ).children().replaceWith(diskModal);
+
+            if( currentMode == "smart" )
+                boundDiskType();
+
             $( "select", "#customDialog" ).eq(0).change( function()
             {
                 if( $(this).val() == "M.2" )
                 {
-                    $( "select", "#customDialog" ).eq(1).html(
-                        "<option>PCIe</option>" +
-                        "<option>SATA</option>"
-                    );
+                    if( !dataAttr.diskType.includes("pcie") )
+                        $( "select", "#customDialog" ).eq(1).html(
+                            "<option>SATA</option>"
+                        );
+                    else if( !dataAttr.diskType.includes("sata") )
+                        $( "select", "#customDialog" ).eq(1).html(
+                            "<option>PCIe</option>"
+                        );
+                    else
+                        $( "select", "#customDialog" ).eq(1).html(
+                            "<option>PCIe</option>" +
+                            "<option>SATA</option>"
+                        );
                 }
                 else
                 {
-                    $( "select", "#customDialog" ).eq(1).html(
-                        "<option>2.5\"</option>" +
-                        "<option>3.5\"</option>"
-                    );
+                    if( dataAttr.diskType.includes("notAllow3.5") )
+                        $( "select", "#customDialog" ).eq(1).html(
+                            "<option>2.5\"</option>"
+                        );
+                    else
+                        $( "select", "#customDialog" ).eq(1).html(
+                            "<option>2.5\"</option>" +
+                            "<option>3.5\"</option>"
+                        );
                 }
             });
             $( "button.btn-primary", "#customDialog .modal-footer" ).click( function()
@@ -611,71 +846,99 @@ function changeCustom()
     });
 }
 
+function boundRamType()
+{
+    if( dataAttr.ramType )
+    {
+        $( "select", "#customDialog" ).eq(0).html(
+            "<option>" + dataAttr.ramType.toUpperCase() + "</option>"
+        );
+    }
+    else
+    {
+        $( "select", "#customDialog" ).eq(0).html(
+            "<option>DDR4</option>" +
+            "<option>DDR3</option>" +
+            "<option>DDR2</option>" +
+            "<option>DDR1</option>"
+        );
+    }
+}
+
+function boundDiskType()
+{
+    if( dataAttr.diskType.includes("pcie") || dataAttr.diskType.includes("sata") )
+    {
+        $( "select", "#customDialog" ).eq(0).html(
+            "<option>M.2</option>" +
+            "<option>SSD</option>" +
+            "<option>HDD</option>"
+        );
+
+        if( !dataAttr.diskType.includes("pcie") )
+            $( "select", "#customDialog" ).eq(1).html(
+                "<option>SATA</option>"
+            );
+        else if( !dataAttr.diskType.includes("sata") )
+            $( "select", "#customDialog" ).eq(1).html(
+                "<option>PCIe</option>"
+            );
+    }
+    else
+    {
+        $( "select", "#customDialog" ).eq(0).html(
+            "<option>SSD</option>" +
+            "<option>HDD</option>"
+        );
+
+        if( dataAttr.diskType.includes("notAllow3.5") )
+            $( "select", "#customDialog" ).eq(1).html(
+                "<option>2.5\"</option>"
+            );
+        else
+            $( "select", "#customDialog" ).eq(1).html(
+                "<option>2.5\"</option>" +
+                "<option>3.5\"</option>"
+            );
+    }
+}
+
 async function chooseCustom( customStr )
 {
     $("#chosenItems .form-control.h-auto.chosen").text(customStr);
+    let chosen = getChosen(true);
 
     if( currentMode == "smart" )
     {
-        let chosen = getChosen(true);
-
-        if( searchItem )
+        currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
         {
-            await new Promise((resolve, reject) => {
-                $("#listLeftLoading").parent().show();
-                $("#listLeft").parent().hide();
+            console.log(e);
+        });
 
-                resolve(0);
-            });
+        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        {
+            console.log(e);
+        });
 
-            setTimeout(async () => {
-                await renderListLeft( searchList, searchItem, true );    
+        if( currentMode == "smart" )
+        {
+            if( currentItem == "ram" )
+                boundRamType();
     
-                $("#listLeftLoading").parent().hide();
-                $("#listLeft").parent().show();            
-            }, 100);
+            if( currentItem == "disk" )
+                boundDiskType();
+    
+            checkValidCustom();
         }
-        else
-        {
-            alert('a')
-            currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen )).catch((e) =>
-            {
-                console.log(e);
-            });
-        }
-
-        ramExceed = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+    }
+    else
+    {
+        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
         {
             console.log(e);
         });
     }
 }
-
-function changeRamNum() {
-    let previous;
-
-    $("#chosenItems input[type=number]").on( "focus", function () 
-    {
-        previous = $(this).val();
-
-    })
-    .change( function()
-    {
-        if( ramExceed && previous < $(this).val() && currentMode == "smart" )
-        {
-            $(this).val(previous);
-
-            swal({
-                title: "記憶體已達上限",
-                type: "error",
-                confirmButtonText: "確定",
-
-            }).then(( result ) => {}, ( dismiss ) => {});
-        }
-
-        previous = $(this).val();
-    });
-};
 
 $( "#featureBar input[type=search]" ).keydown( async function(e)
 {
@@ -720,6 +983,7 @@ $( "#featureBar input[type=search]" ).keydown( async function(e)
 
 $( "#featureBar .fa-search" ).parent().click( async function()
 {
+    alert("Button");
     if( $( "#featureBar input[type=search]" ).val() )
     {
         if( currentItem == "motherBoard" )
@@ -754,20 +1018,19 @@ $( "#featureBar .fa-search" ).parent().click( async function()
             await renderListLeft( currentList, currentItem );    
 
             $("#listLeftLoading").parent().hide();
-            $("#listLeft").parent().show();            
+            $("#listLeft").parent().show();
         }, 100);
     }
 });
 
-$( "input[type=number]" ).change( function()
+$( "#customDialog input[type=number]" ).change( function()
 {
     numberBounding( this );
 });
 
 function numberBounding( thisInput )
 {
-    console.log($("#customDialog").find( thisInput ))
-    if( $("#customDialog").find( thisInput ).length != 0 && $(thisInput).val() < 1 )
+    if( $(thisInput).val() < 1 )
     {
         swal({
             type: "error",
@@ -779,20 +1042,6 @@ function numberBounding( thisInput )
         }, ( dismiss ) =>
         {
             $(thisInput).val(1);
-        });
-    }
-    else if( $("#customDialog").find( thisInput ).length == 0 && $(thisInput).val() < 0 )
-    {
-        swal({
-            type: "error",
-            title: "輸入值不可小於 0",
-            confirmButtonText: "確定",
-        }).then(( result ) =>
-        {
-            $(thisInput).val(0);
-        }, ( dismiss ) =>
-        {
-            $(thisInput).val(0);
         });
     }
     else if( $(thisInput).val() > 999 )
@@ -880,7 +1129,8 @@ $(document).ready(async function() {
         console.log(e);
     });
 
-    changeRamNum();
+    changeRamNumArrow();
+    changeRamNumKey()
     changeCustom();
     $( "#customDialog" ).modal( {backdrop: "static", show: false} );
 });

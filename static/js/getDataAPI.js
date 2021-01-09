@@ -1,6 +1,5 @@
-function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
+function loadHardwareList( resolve, reject, whichHardware, chosenHardwares, notSearching )
 {
-    alert('load')
     $.ajax({
         type: "post",
         url: "/getHardwareList",
@@ -12,16 +11,22 @@ function loadHardwareList( resolve, reject, whichHardware, chosenHardwares )
 
         beforeSend: function()
         {
-            $("#listLeftLoading").parent().show();
-            $("#listLeft").parent().hide();
+            if( notSearching )
+            {
+                $("#listLeftLoading").parent().show();
+                $("#listLeft").parent().hide();
+            }
         },
     })
-    .done((data) =>
+    .done(async (data) =>
     {
-        renderListLeft( data, whichHardware );
-
-        $("#listLeftLoading").parent().hide();
-        $("#listLeft").parent().show();
+        if( notSearching )
+        {
+            await renderListLeft( data, whichHardware );
+    
+            $("#listLeftLoading").parent().hide();
+            $("#listLeft").parent().show();
+        }
 
         chosenRamList = Array.from($("#chosenItems .form-control.ram" )).map( item => $(item).text() );
 
@@ -60,9 +65,9 @@ function loadOriginList( resolve, reject, whichHardware )
             $("#listLeft").parent().hide();
         },
     })
-    .done((data) =>
+    .done(async (data) =>
     {
-        renderListLeft( data, whichHardware )
+        await renderListLeft( data, whichHardware );
 
         $("#listLeftLoading").parent().hide();
         $("#listLeft").parent().show();
@@ -93,14 +98,14 @@ function loadSearch( resolve, reject, whichHardware, currentHardwares, searchStr
             $("#listLeft").parent().hide();
         },
     })
-    .done((data) =>
+    .done(async (data) =>
     {
-        renderListLeft( data, whichHardware, true )
+        await renderListLeft( data, whichHardware, true );
 
         $("#listLeftLoading").parent().hide();
         $("#listLeft").parent().show();
 
-        resolve( data );
+        resolve(data);
     })
     .fail(() =>
     {
@@ -149,7 +154,7 @@ function loadSuggestion( resolve, reject, chosenHardwares )
                 "<div class='card mb-2 card-small d-block'>" +
                     "<div class='card-body'>" +
                         "<div class='card-text'>" +
-                            "完全相容哦！" +
+                            "完全相容歐！" +
                         "</div>" +
                     "</div>" +
                 "</div>";
@@ -160,7 +165,12 @@ function loadSuggestion( resolve, reject, chosenHardwares )
         $("#suggestionsLoading").hide();
         $("#suggestions").show();
 
-        resolve( data.ramExeed );
+        resolve( {'conflict': data.conflict,
+                  'ramExceed': data.ramExceed,
+                  'graphicExceed': data.graphicExceed,
+                  'diskExceed': data.diskExceed,
+                  'ramType': data.ramType,
+                  'diskType': data.diskType } );
     })
     .fail(() =>
     {

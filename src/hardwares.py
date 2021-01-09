@@ -84,10 +84,21 @@ class ChosenList:
             if customList:
                 for custom in customList:
                     attrList = custom.split(' ')
+
+                    diskType = ''
+                    size = ''
+
+                    if(attrList[1].lower() != 'm.2'):
+                        diskType = 'sata'
+                        size = attrList[2].split('\"')[0]
+                    else:
+                        diskType = attrList[2].lower()
+                        size = 'm.2'
+
                     chosen['diskList'].append(dict([
                         ('name', custom),
-                        ('size', attrList[1].split("\"")[0].lower()),
-                        ('diskType', attrList[2].lower()),
+                        ('size', size),
+                        ('diskType', diskType),
                         ('capacity', int(attrList[3].replace('G', '').replace('T', '000'))),
                     ]))
 
@@ -314,6 +325,10 @@ class Graphic:
     def getList(self, chosenList, originList):
         filters = originList.list['graphicList']
 
+        if chosenList['mbList'] and chosenList['graphicList']:
+            if chosenList['mbList'][0]['pcieQuantity'] <= len(chosenList['graphicList']):
+                filters = list()
+
         if chosenList['crateList']:
             filters = list(filter(lambda x: x['length'] <= chosenList['crateList'][0]['vgaLength'], filters))
 
@@ -383,12 +398,14 @@ class SuggestionList:
 
     def getList(self, chosenList):
         suggestion = list()
+        conflict = False
 
         try:
             if chosenList['cpuList'][0]['pin'] != chosenList['mbList'][0]['pin']:
                 suggestion.append("CPU和主機板腳位不符合哦！\nCPU: " + \
                                  chosenList['cpuList'][0]['pin'] + \
                                  "\n主機板: " + chosenList['mbList'][0]['pin'])
+                conflict = True
         except Exception as e:
             pass
 
@@ -397,6 +414,7 @@ class SuggestionList:
                 suggestion.append("機殼裝不下CPU散熱器耶！\n機殼: " + \
                                  str(chosenList['crateList'][0]['coolerHeight']) + \
                                  "\nCPU散熱器: " + str(chosenList['coolerList'][0]['height']) )
+                conflict = True
         except Exception as e:
             pass
 
@@ -405,6 +423,7 @@ class SuggestionList:
                 suggestion.append("主機板的記憶體插槽不夠插哦！\n主機板: " + \
                                  str(chosenList['mbList'][0]['ramQuantity']) + \
                                  "\n記憶體: " + str(len(chosenList['ramList'])))
+                conflict = True
         except Exception as e:
             pass
 
@@ -413,6 +432,7 @@ class SuggestionList:
                 suggestion.append("主機板的PCIe插槽不夠插哦！\n主機板: " + \
                                  str(chosenList['mbList'][0]['pcieQuantity']) + \
                                  "\n顯示卡: " + str(len(chosenList['graphicList'])))
+                conflict = True
         except Exception as e:
             pass
 
@@ -423,6 +443,7 @@ class SuggestionList:
                 suggestion.append("主機板的M.2接口不夠囉！\n主機板: " + \
                                  str(chosenList['mbList'][0]['m2Quantity']) + \
                                  "\nM.2硬碟: " + str(len(m2Disk)))
+                conflict = True
         except Exception as e:
             pass
 
@@ -433,6 +454,7 @@ class SuggestionList:
                 suggestion.append("主機板的SATA接口不夠囉！\n主機板: " + \
                                  str(chosenList['mbList'][0]['sata3Quantity']) + \
                                  "\nSATA硬碟: " + str(len(sataDisk)))
+                conflict = True
         except Exception as e:
             pass
         
@@ -453,6 +475,7 @@ class SuggestionList:
                 suggestion.append("主機板的M.2插槽不能插這種M.2硬碟哦！\n主機板: " + \
                                  chosenList['mbList'][0]['m2Type'] + \
                                  "\nM.2硬碟: " + supportM2)
+                conflict = True
         except Exception as e:
             pass
 
@@ -461,6 +484,7 @@ class SuggestionList:
                 suggestion.append("機殼裝不下主機板耶！\n機殼: " + \
                                  chosenList['crateList'][0]['mbSize'] + \
                                  "\n主機板: " + chosenList['mbList'][0]['size'])
+                conflict = True
         except Exception as e:
             pass
 
@@ -471,6 +495,7 @@ class SuggestionList:
                 suggestion.append("有記憶體與CPU支援的代數不符合哦！\n記憶體: " + \
                                  chosenList['ramList'][ramAreValid.index(False)]['ramType'] + \
                                  "\nCPU: " + chosenList['cpuList'][0]['ramGenerationSupport'])
+                conflict = True
         except Exception as e:
             pass
 
@@ -478,24 +503,46 @@ class SuggestionList:
             ramAreValid = list(map(lambda x: x['ramType'] == chosenList['mbList'][0]['ramType'], chosenList['ramList']))
 
             if not all(ramAreValid):
-                suggestion.append("主機板支援的代數與記憶體不符合哦！\n主機板: " + \
-                                 chosenList['mbList'][0]['ramType'] + \
-                                 "\n記憶體: " + chosenList['ramList'][ramAreValid.index(False)]['ramType'])
+                suggestion.append("有記憶體與主機板支援的代數不符合哦！\n記憶體: " + \
+                                  chosenList['ramList'][ramAreValid.index(False)]['ramType'] + \
+                                  "\n主機板: " + chosenList['mbList'][0]['ramType'])
+                conflict = True
         except Exception as e:
             pass
 
         try:
-            ramCapacity = 0
-            if chosenList['ramList']:
-                if len(chosenList['ramList']) == 1:
-                    ramCapacity = chosenList['ramList'][0]['capacity']
-                else:
-                    ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
-            
+            ramAreValid = list(map(lambda x: x['ramType'] == chosenList['ramList'][0]['ramType'], chosenList['ramList']))
+
+            if not all(ramAreValid):
+                suggestion.append("記憶體的代數不一致哦！\n記憶體: " + \
+                                  chosenList['ramList'][0]['ramType'] + \
+                                  "\n記憶體: " + chosenList['ramList'][ramAreValid.index(False)]['ramType'])
+                conflict = True
+        except Exception as e:
+            pass
+
+        ramCapacity = 0
+        if chosenList['ramList']:
+            if len(chosenList['ramList']) == 1:
+                ramCapacity = chosenList['ramList'][0]['capacity']
+            else:
+                ramCapacity = reduce(lambda x, y: x + y['capacity'] if type(x) == int else x['capacity'] + y['capacity'], chosenList['ramList'])
+
+        try:
             if ramCapacity > chosenList['mbList'][0]['ramMaximum']:
                 suggestion.append("記憶體容量超過主機板支援的容量大小囉！\n記憶體: " + \
                                  str(ramCapacity) + \
                                  "\n主機板: " + str(chosenList['mbList'][0]['ramMaximum']))
+                conflict = True
+        except Exception as e:
+            pass
+
+        try:
+            if ramCapacity > chosenList['cpuList'][0]['ramMaximumSupport']:
+                suggestion.append("記憶體容量超過CPU支援的容量大小囉！\n記憶體: " + \
+                                 str(ramCapacity) + \
+                                 "\nCPU: " + str(chosenList['cpuList'][0]['ramMaximumSupport']))
+                conflict = True
         except Exception as e:
             pass
 
@@ -506,6 +553,7 @@ class SuggestionList:
                 suggestion.append("機殼的3.5吋硬碟架不夠耶！\n機殼: " + \
                                  str(chosenList['crateList'][0]['diskQuantity']) + \
                                  "\n3.5吋硬碟: " + str(len(disk3_5)))
+                conflict = True
         except Exception as e:
             pass
 
@@ -516,6 +564,7 @@ class SuggestionList:
                 suggestion.append("有顯示卡裝不進機殼耶！\n顯示卡: " + \
                                  str(chosenList['graphicList'][graphicAreValid.index(False)]['length']) + \
                                  "\n機殼: " + str(chosenList['crateList'][0]['vgaLength']))
+                conflict = True
         except Exception as e:
             pass
 
@@ -544,6 +593,7 @@ class SuggestionList:
                                  str(chosenList['powerList'][0]['watts']) + \
                                  "\nCPU TDP: " + str(chosenList['cpuList'][0]['TDP']) + \
                                  "\n顯示卡TDP: " + str(graphicTDP))
+                conflict = True
         except Exception as e:
             pass
 
@@ -552,6 +602,7 @@ class SuggestionList:
                 suggestion.append("電源供應器與機殼大小不符合哦！\n電源供應器: " + \
                                  chosenList['powerList'][0]['size'] + \
                                  "\n機殼: " + chosenList['crateList'][0]['psuSize'])
+                conflict = True
         except Exception as e:
             pass
 
@@ -560,10 +611,11 @@ class SuggestionList:
                 suggestion.append("電源供應器與機殼長度不符合哦！\n電源供應器: " + \
                                  str(chosenList['powerList'][0]['length']) + \
                                  "\n機殼: " + str(chosenList['crateList'][0]['psuLength']))
+                conflict = True
         except Exception as e:
             pass
 
-        return suggestion
+        return [suggestion, conflict]
 
 class SearchList:
     def __init__(self):
@@ -574,6 +626,6 @@ class SearchList:
         searchList = searchStr.split(' ')
 
         for search in searchList:
-            filters = list(filter(lambda x: search in x['name'], filters))
+            filters = list(filter(lambda x: search.lower() in x['name'].lower(), filters))
 
         return filters

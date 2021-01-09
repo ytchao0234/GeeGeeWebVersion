@@ -80,6 +80,10 @@ nav a:hover.navbar-brand {
     cursor: default;
 }
 
+.disabledRamNum {
+    background-color: rgb(223, 219, 219) !important; 
+}
+
 #suggestionsLoading {
     display: none; 
 }

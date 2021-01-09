@@ -102,17 +102,38 @@ def getSuggestion():
     try:
         chosenHardwares = inputData['chosenHardwares']
         chosen = chosenList.getList(chosenHardwares, originList)
-        suggestion = suggestionList.getList(chosen)
-        ramExeed = False
+        [suggestion, conflict] = suggestionList.getList(chosen)
+
+        ramExceed = any(map(lambda x: ("記憶體容量" in x) or ("記憶體插槽" in x), suggestion))
+        graphicExceed = any(map(lambda x: "PCIe插槽" in x, suggestion))
+        diskExceed = any(map(lambda x: ("M.2接口" in x) or ("SATA接口" in x) or ("3.5吋硬碟架" in x), suggestion))
+
+        ramType = None
+        if chosen['cpuList']:
+            ramType = chosen['cpuList'][0]['ramGenerationSupport']
+        elif chosen['mbList']:
+            ramType = chosen['mbList'][0]['ramType']
+        elif chosen['ramList']:
+            ramType = chosen['ramList'][0]['ramType']
+
+        diskType = "pcie/sata"
         if chosen['mbList']:
-            ramExeed = chosen['mbList'][0]['ramQuantity'] <= len(chosen['ramList'])
+            diskType = chosen['mbList'][0]['m2Type']
+        if chosen['crateList']:
+            if len(list(filter(lambda x: x['size'] == '3.5', chosen['diskList']))) >= chosen['crateList'][0]['diskQuantity']:
+                diskType += "notAllow3.5"
     except Exception as e:
         print(e)
 
         return jsonify({"error": e}), 500
 
     return jsonify({'suggestion': suggestion,
-                    'ramExeed': ramExeed}) \
+                    'conflict': conflict,
+                    'ramExceed': ramExceed,
+                    'graphicExceed': graphicExceed,
+                    'diskExceed': diskExceed,
+                    'ramType': ramType,
+                    'diskType': diskType}) \
                     , 200
 
 @app.route('/getSearch', methods=['POST'])
@@ -145,25 +166,9 @@ def home():
 
     return render_template('mainPage.html')
 
-@app.route('/record')
+@app.route('/record', methods=['GET'])
 def record():
     return render_template('recordPage.html')
-
-@app.route('/testtest', methods=['GET'])
-def testtest():
-    origin = dict([
-        ('cpuList', cpu.getOriginalList()),
-        ('coolerList', cooler.getOriginalList()),
-        ('mbList', mb.getOriginalList()),
-        ('ramList', ram.getOriginalList()),
-        ('diskList', disk.getOriginalList()),
-        ('graphicList', graphic.getOriginalList()),
-        ('powerList', power.getOriginalList()),
-        ('crateList', crate.getOriginalList()),
-    ])
-    originList.setList(origin)
-
-    return render_template('test.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
