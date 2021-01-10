@@ -170,8 +170,6 @@ function changeRamNumArrow()
 
     }).change( async function(event)
     {
-        console.log("change");
-
         event.stopPropagation();
 
         if( $(this).val() > 64 )
@@ -930,7 +928,6 @@ $( "#featureBar input[type=search]" ).keydown( async function(e)
 
 $( "#featureBar .fa-search" ).parent().click( async function()
 {
-    alert("Button");
     if( $( "#featureBar input[type=search]" ).val() )
     {
         if( currentItem == "motherBoard" )
