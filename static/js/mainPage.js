@@ -215,7 +215,8 @@ function changeRamNumArrow()
 
                 if( hasChangeRamList )
                 {
-                    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
+                    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                                     "chosen": getChosen() }));
 
                     boundRamType();
     
@@ -231,6 +232,9 @@ function changeRamNumArrow()
         else
         {
             previous = $(this).val();
+
+            localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                             "chosen": getChosen() }));
         }
     });
 }
@@ -397,7 +401,8 @@ async function clickListLeft( thisItem )
         $("#chosenItems input[type=number].chosen").removeAttr("disabled");
     }
 
-    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
+    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                     "chosen": getChosen() }));
 }
 
 function getChosen( forLoad, recordChosen )
@@ -498,7 +503,8 @@ $(".fa-floppy-o").closest("button").on("click", function () {
 
             }).then((result) => {}, (dismiss) =>
             {
-                localStorage.setItem("GeeGee-" + new Date().getTime(), JSON.stringify(chosen));
+                localStorage.setItem("GeeGee-" + new Date().getTime(), JSON.stringify({ "currentMode": currentMode,
+                                                                                        "chosen": chosen }));
             });
             
         }
@@ -637,7 +643,8 @@ async function minusButton( thisItem )
             console.log(e);
         });
 
-        localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
+        localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                         "chosen": getChosen() }));
     }
     else if( formNum > 1 )
     {
@@ -882,7 +889,8 @@ async function chooseCustom( customStr )
         });
     }
 
-    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify(getChosen()));
+    localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                     "chosen": getChosen() }));
 }
 
 $( "#featureBar input[type=search]" ).keydown( async function(e)
@@ -1059,6 +1067,10 @@ $( "#mode-switch-button" ).click( function( event ) {
             $("#listLeftLoading").parent().hide();
             $("#listLeft").parent().show();            
         }, 100);
+
+        
+        localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
+                                                                         "chosen": getChosen() }));
     });
 });
 
@@ -1067,8 +1079,17 @@ $("#mode-switch-span").click( function( event ) {
     $('#mode-switch-button').click();
 });
 
-function renderChosenItems( chosen )
+function renderChosenItems( remainAttr )
 {
+    if( remainAttr.currentMode == "normal" )
+    {
+        currentMode = "normal";
+        $( "#modeDialog" ).children().replaceWith( normalModal );
+        $( "#mode-switch" ).prop( "checked", false ).change();
+    }
+
+    let chosen = remainAttr.chosen;
+
     return new Promise((resolve, reject) =>
     {
         if( chosen.cpuList.length )
@@ -1135,19 +1156,24 @@ function renderChosenItems( chosen )
     });
 }
 
-async function renderInitialMainPage( res, rej )
+async function renderInitialMainPage( res, rej, remainAttr )
 {
-    let chosen = JSON.parse(localStorage.getItem("GeeGee-Remain-Selection"));
-
-    await renderChosenItems( chosen );
+    await renderChosenItems( remainAttr );
 
     chosen = getChosen(true);
 
-    currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
-    {
-        console.log(e);
-        rej(2);
-    });
+    if( currentMode == "smart" )
+        currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
+        {
+            console.log(e);
+            rej(2);
+        });
+    else
+        currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
+        {
+            console.log(e);
+            rej(2);
+        });
 
     dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
     {
@@ -1160,10 +1186,18 @@ async function renderInitialMainPage( res, rej )
 
 $(document).ready(async function() {
 
-    await new Promise((resolve, reject) => renderInitialMainPage( resolve, reject )).catch((e) =>
-    {
-        console.log(e);
-    });
+    let remainAttr = JSON.parse(localStorage.getItem("GeeGee-Remain-Selection"));
+
+    if( remainAttr )
+        await new Promise((resolve, reject) => renderInitialMainPage( resolve, reject, remainAttr )).catch((e) =>
+        {
+            console.log(e);
+        });
+    else
+        await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
+        {
+            console.log(e);
+        });
 
     changeRamNumArrow();
     changeRamNumKey();

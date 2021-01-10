@@ -7,13 +7,13 @@ function selectAll()
 {
     if( $("#selectAllButton").prop("checked") )
     {
-        $(".card-small").addClass("chosen");
+        $(".card-small").not(".invisible").addClass("chosen");
     }
     else
-        $(".card-small").removeClass("chosen");
+        $(".card-small").not(".invisible").removeClass("chosen");
 }
 
-async function clickNavLink( thisLink )
+function clickNavLink( thisLink )
 {
     if( $(".card-small.chosen").length == 0 ) 
     {
@@ -37,22 +37,117 @@ async function clickNavLink( thisLink )
                 }).then((result) => {}, (dismiss) => {});
             }
             else if( $(thisLink).text().trim() == "載入" && $(".chosen").length == 1 ) {
-                console.log($(".card-small.chosen").text());
+                let thisTableID = $(".chosen").closest(".card-big").attr("id");
+
+                localStorage.setItem( "GeeGee-Remain-Selection", localStorage[ thisTableID ]);
+                location.href = "/home";
             }
             else if( $(thisLink).text().trim() == "匯出" && $(".chosen").length == 1 ) {
-                console.log($(".card-small.chosen").text());
+                let chosenTableID = $(".chosen").closest(".card-big").attr("id");
+                let fileName = btoa(chosenTableID) + ".csv";
+                let csvData = getHardwareCsv(chosenTableID);
+                let link = document.createElement("a");
+                link.href = "data:text/csv;charset=utf-8,%EF%BB%BF" + encodeURI(csvData);
+                link.download = fileName;
+                link.click();
             }
         }
         else if( $(thisLink).text().trim() == "刪除" )
         {
-            localStorage.removeItem( $(".card-small.chosen").closest(".card-big").attr("id") );
-            
-            await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+            swal({
+                title: "確定要刪除這些記錄嗎？",
+                type: "warning",
+                html: Array.from($(".card-small.chosen")).map( table => $(table).find(".card-text h4").text() ).join("<br/>"),
+                showCancelButton: true,
+                confirmButtonText: "確定",
+                cancelButtonText: "取消",
+
+            }).then(async ( result ) =>
             {
-                console.log(e);
-            });
+                for( let i in $(".card-small.chosen") )
+                {
+                    localStorage.removeItem( $(".card-small.chosen").eq(i).closest(".card-big").attr("id") );
+                }
+                
+                await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+                {
+                    console.log(e);
+                });
+
+            }, ( dismiss ) => {});
         }
     }
+}
+
+function getHardwareCsv( chosenTableID )
+{
+    let table = JSON.parse(localStorage[chosenTableID]);
+    let chosen = table.chosen;
+
+    let csvData = "";
+
+    let header = ["項目", "型號", "價格", "數量", "備註", "是否已購得"];
+    let content = [["CPU", chosen.cpuList[0], "", "1", "", ""],
+                   ["CPU散熱器", chosen.coolerList[0], "", "1", "", ""],
+                   ["主機板", chosen.mbList[0], "", "1", "", ""],
+                   ["記憶體", ((chosen.ramList[0] === undefined) ? "未選取" : chosen.ramList[0]), "", chosen.ramNum[0], "", ""],
+                   ["硬碟", ((chosen.diskList[0] === undefined) ? "未選取" : chosen.diskList[0]), "", "1", "", ""],
+                   ["顯示卡", ((chosen.graphicList[0] === undefined) ? "未選取" : chosen.graphicList[0]), "", "1", "", ""],
+                   ["電源供應器", chosen.powerList[0], "", "1", "", ""],
+                   ["機殼", chosen.crateList[0], "", "1", "", ""]];
+
+    let ramIndex = 4;
+
+    if( chosen.ramList.length > 1 )
+    {
+        for( let i = 1; i < chosen.ramList.length; i++ )
+        {
+            content.splice(
+                ramIndex, 0,
+                ["", chosen.ramList[i], "", chosen.ramNum[i], "", ""]
+            );
+            ramIndex++;
+        }
+    }
+
+    let diskIndex = ramIndex + 1;
+
+    if( chosen.diskList.length > 1 )
+    {
+        for( let i = 1; i < chosen.diskList.length; i++ )
+        {
+            content.splice(
+                diskIndex, 0,
+                ["", chosen.diskList[i], "", "1", "", ""]
+            );
+            diskIndex++;
+        }
+    }
+
+    let graphicIndex = diskIndex + 1;
+
+    if( chosen.graphicList.length > 1 )
+    {
+        for( let i = 1; i < chosen.graphicList.length; i++ )
+        {
+            content.splice(
+                graphicIndex, 0,
+                ["", chosen.graphicList[i], "", "1", "", ""]
+            );
+            graphicIndex++;
+        }
+    }
+
+    csvData += header.join(",");
+    csvData += "\r\n";
+
+    for( let i in content )
+    {
+        csvData += content[i].join(",");
+        csvData += "\r\n";
+    }
+    
+    return csvData;
 }
 
 function renderRecordTables(resolve, reject)
@@ -61,7 +156,8 @@ function renderRecordTables(resolve, reject)
 
     for( let i = 0; i < localStorage.length; i++ )
     {
-        if( localStorage.key(i).startsWith("GeeGee-"))
+        if( localStorage.key(i).startsWith("GeeGee-") && 
+            !localStorage.key(i).startsWith("GeeGee-Remain-Selection"))
         {
             keys.push(localStorage.key(i));
         }
@@ -95,7 +191,7 @@ function renderRecordTables(resolve, reject)
         {
             let recordData = JSON.parse(localStorage[keys[i]]);
     
-            recordTable = makeHardwareTable(recordData);
+            recordTable = makeHardwareTable(recordData.chosen);
     
             if( tableNum % 3 == 0 )
             {

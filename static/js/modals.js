@@ -441,7 +441,7 @@ var smartModal =
         "</div>" +
 
         "<div class='modal-body px-5' style='background-color: rgb(234, 240, 248);'>" +
-            "<p>是否確定要更換為一般模式？</p>" +
+            "<p>是否確定要更換為<span class='text-white' style='text-shadow: black 0em 0em 0.2em ;'>一般模式</span>？</p>" +
         "</div>" +
 
         "<div class='modal-footer'>" +
@@ -463,7 +463,7 @@ var normalModal =
         "</div>" +
 
         "<div class='modal-body px-5' style='background-color: rgb(234, 240, 248);'>" +
-            "<p>是否確定要更換為智慧模式？<br/><span class='text-danger'>&lt;將會清空已選列表&gt;</span></p>" +
+            "<p>是否確定要更換為<span class='text-success'>智慧模式</span>？<br/><span class='text-danger'>&lt;將會清空已選列表&gt;</span></p>" +
         "</div>" +
 
         "<div class='modal-footer'>" +
