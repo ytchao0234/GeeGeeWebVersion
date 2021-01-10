@@ -9,6 +9,7 @@ var dataAttr = {'ramExceed': false,
                 'diskType': "pcie/sata" };
 var lastChange = null;
 var currentList = {};
+var normalSizeClasses = "card-deck mt-3 ml-2 mr-2 mb-2";
 
 // 點上方列表會亮
 $("#menu-main-nav a").on("click", function () {
@@ -895,7 +896,24 @@ async function chooseCustom( customStr )
 
 $( "#featureBar input[type=search]" ).keydown( async function(e)
 {
-    if( e.key == "Enter" && $(this).val() )
+    search( e, $(this).val(), e.key );
+});
+
+$( "#featureBar .fa-search" ).parent().click( async function(e)
+{
+    search( e, $( "#featureBar input[type=search]" ).val() );
+});
+
+async function search( e, searchStr, enterKey )
+{
+    e.stopPropagation();
+
+    if( currentItem == "power" && searchStr == "sleep" )
+    {
+        console.log("sleep");
+        $("#forRWD, #loadingCat").toggleClass("d-none");
+    }
+    else if( !enterKey || (enterKey == "Enter" && searchStr) )
     {
         if( currentItem == "motherBoard" )
         {
@@ -909,12 +927,12 @@ $( "#featureBar input[type=search]" ).keydown( async function(e)
         searchItem = currentItem;
 
         searchList = await new Promise((resolve, reject) => 
-            loadSearch( resolve, reject, currentItem, searchList, $(this).val() )).catch(
+            loadSearch( resolve, reject, currentItem, searchList, searchStr )).catch(
             (e) => {
                 console.log(e);
             });
     }
-    else if( e.key == "Enter" )
+    else if( !enterKey || enterKey == "Enter" )
     {
         searchItem = null;
 
@@ -932,46 +950,21 @@ $( "#featureBar input[type=search]" ).keydown( async function(e)
             $("#listLeft").parent().show();            
         }, 100);
     }
+}
+
+$(document).click(function()
+{
+    if(!$("#loadingCat").hasClass("d-none"))
+    {
+        $("#forRWD, #loadingCat").toggleClass("d-none");
+    }
 });
 
-$( "#featureBar .fa-search" ).parent().click( async function()
+$(document).keydown(function()
 {
-    if( $( "#featureBar input[type=search]" ).val() )
+    if(!$("#loadingCat").hasClass("d-none"))
     {
-        if( currentItem == "motherBoard" )
-        {
-            searchList = currentList['mbList'];
-        }
-        else
-        {
-            searchList = currentList[currentItem + "List" ];
-        }
-    
-        searchItem = currentItem;
-        
-        searchList = await new Promise((resolve, reject) => 
-            loadSearch( resolve, reject, currentItem, searchList, $( "#featureBar input[type=search]" ).val() )).catch(
-            (e) => {
-                console.log(e);
-            });
-    }
-    else
-    {
-        searchItem = null;
-
-        await new Promise((resolve, reject) => {
-            $("#listLeftLoading").parent().show();
-            $("#listLeft").parent().hide();
-
-            resolve(0);
-        });
-
-        setTimeout(async () => {
-            await renderListLeft( currentList, currentItem );    
-
-            $("#listLeftLoading").parent().hide();
-            $("#listLeft").parent().show();
-        }, 100);
+        $("#forRWD, #loadingCat").toggleClass("d-none");
     }
 });
 
@@ -1204,4 +1197,33 @@ $(document).ready(async function() {
     changeCustom();
 
     $( "#customDialog" ).modal( {backdrop: "static", show: false} );
+
+    $("#forRWD").removeClass("d-none");
+    $("#loadingCat").addClass("d-none");
+
+    if( $(window).width() < 1245 )
+    {
+        $("#forRWD").removeClass();
+        $(".collapseHeader").removeClass("d-none");
+        $(".collapseHeaderBlock").removeClass("bg-transparent border-0");
+        $("#collapseListLeft, #collapseChosenItems, #collapseSuggestions").addClass("collapse");
+    }
+
+    $(window).resize(function()
+    {
+        if( $(window).width() < 1245 )
+        {
+            $("#forRWD").removeClass();
+            $(".collapseHeader").removeClass("d-none");
+            $(".collapseHeaderBlock").removeClass("bg-transparent border-0");
+            $("#collapseListLeft, #collapseChosenItems, #collapseSuggestions").addClass("collapse");
+        }
+        else
+        {
+            $("#forRWD").addClass( normalSizeClasses );
+            $(".collapseHeader").addClass("d-none");
+            $(".collapseHeaderBlock").addClass("bg-transparent border-0");
+            $("#collapseListLeft, #collapseChosenItems, #collapseSuggestions").removeClass("collapse");
+        }
+    });
 });
