@@ -837,3 +837,7 @@ function makeHardwareTable( chosen )
 
     return content;
 }
+
+$('form').submit(function(e){
+    e.preventDefault();
+});

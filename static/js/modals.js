@@ -463,7 +463,7 @@ var normalModal =
         "</div>" +
 
         "<div class='modal-body px-5' style='background-color: rgb(234, 240, 248);'>" +
-            "<p>是否確定要更換為智慧模式？</p>" +
+            "<p>是否確定要更換為智慧模式？<br/><span class='text-danger'>&lt;將會清空已選列表&gt;</span></p>" +
         "</div>" +
 
         "<div class='modal-footer'>" +
