@@ -150,7 +150,7 @@ function getHardwareCsv( chosenTableID )
     return csvData;
 }
 
-function renderRecordTables(resolve, reject)
+function renderRecordTables(resolve, reject, forRWD )
 {
     let keys = [];
 
@@ -187,43 +187,68 @@ function renderRecordTables(resolve, reject)
         let tableNum = 0;
         keys.sort();
 
+        if( forRWD )
+        {
+            $(".container-fluid").append("<div class='card-column my-3 mx-3' />");
+        }
+
         for( let i in keys )
         {
             let recordData = JSON.parse(localStorage[keys[i]]);
     
             recordTable = makeHardwareTable(recordData.chosen);
     
-            if( tableNum % 3 == 0 )
+            if( tableNum % 3 == 0 && !forRWD )
             {
                 $(".container-fluid").append("<div class='card-deck my-3 mx-2' />");
             }
     
-            $(".container-fluid .card-deck:last").append(
-                "<div class='card overflow-auto card-big' id='" + keys[i] + "'>" +
-                    "<div class='card-body'>" +
-                        "<div class='card mb-2 card-small'>" +
-                            "<div class='card-body'>" +
-                                "<div class='card-text'>" +
-                                    recordTable + 
+            if( forRWD )
+            {
+                $(".container-fluid .card-column").append(
+                    "<div class='card card-big my-2' style='height: auto;' id='" + keys[i] + "'>" +
+                        "<div class='card-body'>" +
+                            "<div class='card mb-2 card-small'>" +
+                                "<div class='card-body'>" +
+                                    "<div class='card-text'>" +
+                                        recordTable + 
+                                    "</div>" +
                                 "</div>" +
                             "</div>" +
                         "</div>" +
-                    "</div>" +
-                "</div>"
-            );
+                    "</div>");
+            }
+            else
+            {
+                $(".container-fluid .card-deck:last").append(
+                    "<div class='card overflow-auto card-big' id='" + keys[i] + "'>" +
+                        "<div class='card-body'>" +
+                            "<div class='card mb-2 card-small'>" +
+                                "<div class='card-body'>" +
+                                    "<div class='card-text'>" +
+                                        recordTable + 
+                                    "</div>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>");
+            }
     
             $(".container-fluid .card-big:last").click( function(){ clickTable(this); } );
     
             tableNum++;
             if( tableNum == 3 ) tableNum = 0;
         }
-    
-        for( ; tableNum % 3 != 0 && tableNum < 3; tableNum++ )
+
+        if( !forRWD )
         {
-            $(".container-fluid .card-deck:last").append(
-                "<div class='card overflow-auto card-big invisible'>" +
-                "</div>"
-            );
+            for( ; tableNum % 3 != 0 && tableNum < 3; tableNum++ )
+            {
+                $(".container-fluid .card-deck:last").append(
+                    "<div class='card overflow-auto card-big invisible'>" +
+                    "</div>"
+                );
+            }
         }
     }
 
@@ -232,10 +257,20 @@ function renderRecordTables(resolve, reject)
 
 $(document).ready( async function()
 {
-    await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+    if( $(window).width() < 1245 )
     {
-        console.log(e);
-    });
+        await new Promise((resolve, reject) => renderRecordTables(resolve, reject, true)).catch((e) =>
+        {
+            console.log(e);
+        });
+    }
+    else
+    {
+        await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+        {
+            console.log(e);
+        });
+    }
 
     $( "#selectAllButton" ).click( function () {
         selectAll();
@@ -243,5 +278,23 @@ $(document).ready( async function()
 
     $(".nav-link").click(function () {
         clickNavLink(this);
+    });
+
+    $(window).resize(async function()
+    {
+        if( $(window).width() < 1245 )
+        {
+            await new Promise((resolve, reject) => renderRecordTables(resolve, reject, true)).catch((e) =>
+            {
+                console.log(e);
+            });
+        }
+        else
+        {
+            await new Promise((resolve, reject) => renderRecordTables(resolve, reject)).catch((e) =>
+            {
+                console.log(e);
+            });
+        }
     });
 });

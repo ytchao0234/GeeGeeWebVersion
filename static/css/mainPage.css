@@ -132,10 +132,17 @@ table tbody th {
     font-size: 1em;
 }
 
-/* main cards for RWD */
-#accordion { display: none; }
-#accordion .card-header { text-align: center; }
-/* .card-deck { display: none; } */
+@keyframes eee {
+    0%,100% { filter: hue-rotate(0deg); }
+    25% { filter: hue-rotate(180deg); }
+    50% { filter: hue-rotate(360deg); }
+    75% { filter: hue-rotate(-180deg); }
+}
+
+.pptIntroduction {
+    color:rgb(102, 161, 34) !important; 
+    animation: eee 5s linear infinite !important;
+}
 
 /* mode switch button */
 .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }

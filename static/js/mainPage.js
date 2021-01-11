@@ -255,7 +255,7 @@ function changeRamNumKey()
 
 function solveRamExceed( previous )
 {
-    lastChange = $("#chosenItems input[type=number]");
+    lastChange = $("#chosenItems input[type=number].chosen");
 
     if( !isNaN(parseInt(previous)) )
         $(lastChange).val(previous);
@@ -1187,7 +1187,7 @@ $(document).ready(async function() {
             console.log(e);
         });
     else
-        await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
+        currentList = await new Promise((resolve, reject) => loadOriginList( resolve, reject, currentItem )).catch((e) =>
         {
             console.log(e);
         });
