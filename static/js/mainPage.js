@@ -361,6 +361,11 @@ function checkValidCustom()
 
         }).then(( result ) => {}, ( dismiss ) => {});
     }
+    else if( currentItem == "ram" )
+    {
+        $("#chosenItems input[type=number].chosen").removeClass("disabledRamNum");
+        $("#chosenItems input[type=number].chosen").removeAttr("disabled");
+    }
 }
 
 //取得左方內容放入中間的列表
@@ -640,7 +645,7 @@ async function minusButton( thisItem )
         {
             boundRamType();
             boundDiskType();
-            
+
             currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
             {
                 console.log(e);
