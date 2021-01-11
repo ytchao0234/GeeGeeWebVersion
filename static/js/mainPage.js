@@ -918,7 +918,6 @@ async function search( e, searchStr, enterKey )
 
     if( currentItem == "power" && searchStr == "sleep" )
     {
-        console.log("sleep");
         $("#forRWD, #loadingCat").toggleClass("d-none");
     }
     else if( !enterKey || (enterKey == "Enter" && searchStr) )
