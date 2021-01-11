@@ -957,6 +957,7 @@ $(document).click(function()
     if(!$("#loadingCat").hasClass("d-none"))
     {
         $("#forRWD, #loadingCat").toggleClass("d-none");
+        $("#featureBar input[type=search]").val("");
     }
 });
 
@@ -965,6 +966,7 @@ $(document).keydown(function()
     if(!$("#loadingCat").hasClass("d-none"))
     {
         $("#forRWD, #loadingCat").toggleClass("d-none");
+        $("#featureBar input[type=search]").val("");
     }
 });
 
