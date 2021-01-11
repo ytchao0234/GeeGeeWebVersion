@@ -631,20 +631,21 @@ async function minusButton( thisItem )
     
         let chosen = getChosen(true);
 
+        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
+        {
+            console.log(e);
+        });
+
         if( currentMode == "smart" )
         {
             boundRamType();
             boundDiskType();
+            
             currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
             {
                 console.log(e);
             });
         }
-        
-        dataAttr = await new Promise((resolve, reject) => loadSuggestion( resolve, reject, chosen )).catch((e) =>
-        {
-            console.log(e);
-        });
 
         localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
                                                                          "chosen": getChosen() }));
