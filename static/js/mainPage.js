@@ -633,6 +633,9 @@ async function minusButton( thisItem )
 
         if( currentMode == "smart" )
         {
+            boundRamType();
+            boundDiskType();
+            
             currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
             {
                 console.log(e);
