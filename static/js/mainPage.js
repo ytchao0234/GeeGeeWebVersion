@@ -635,7 +635,6 @@ async function minusButton( thisItem )
         {
             boundRamType();
             boundDiskType();
-            
             currentList = await new Promise((resolve, reject) => loadHardwareList( resolve, reject, currentItem, chosen, !searchItem )).catch((e) =>
             {
                 console.log(e);
