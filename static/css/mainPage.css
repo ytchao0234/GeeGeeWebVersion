@@ -68,7 +68,7 @@ nav a:hover.navbar-brand {
 }
 
 /* top cards */
-#listLeft .card-big {
+#listLeft .card-small {
     cursor: pointer;
 }
 
