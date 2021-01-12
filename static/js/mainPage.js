@@ -540,7 +540,7 @@ function plusButton( thisItem )
             let memory = $("div[items=ram] .card-text");
 
             memory.append(
-                "<form class='form-inline my-2 my-lg-0 w-100 d-inline '>" +
+                "<form class='form-inline my-3 my-lg-0 w-100 d-inline '>" +
                 '<div class="input-group mt-3">'
                 + '<span class="input-group-prepend">'
                 + '<button class="btn rounded-circle minusButton" type="button">'
