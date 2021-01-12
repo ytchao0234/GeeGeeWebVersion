@@ -559,6 +559,7 @@ function plusButton( thisItem )
             $(".form-control", memory ).click(function(e){clickChosenRow(e,this)});
             changeRamNumArrow();
             changeRamNumKey();
+            preventFormSubmit();
             break;
 
         case "disk":
@@ -1229,6 +1230,7 @@ $(document).ready(async function() {
     changeRamNumArrow();
     changeRamNumKey();
     changeCustom();
+    preventFormSubmit();
 
     $( "#customDialog" ).modal( {backdrop: "static", show: false} );
 

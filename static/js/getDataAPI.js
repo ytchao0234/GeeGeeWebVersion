@@ -838,6 +838,10 @@ function makeHardwareTable( chosen )
     return content;
 }
 
-$('form').submit(function(e){
-    e.preventDefault();
-});
+function preventFormSubmit()
+{
+    $('form').submit(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    });
+}
