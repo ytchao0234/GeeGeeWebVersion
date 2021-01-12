@@ -184,7 +184,8 @@ function changeRamNumArrow()
         {
             console.log(e);
         });
-        
+
+        console.log(dataAttr.ramExceed);
 
         let thisRam = $(this).parent().prev();
 
