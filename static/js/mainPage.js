@@ -1000,7 +1000,7 @@ function numberBounding( thisInput )
             $(thisInput).val(1);
         });
     }
-    else if( $(thisInput).val() > 999 )
+    else if( $(thisInput).val() > 999 && currentItem != "power" )
     {
         swal({
             type: "error",
@@ -1012,6 +1012,20 @@ function numberBounding( thisInput )
         }, ( dismiss ) =>
         {
             $(thisInput).val(999);
+        });
+    }
+    else if( $(thisInput).val() > 2000 )
+    {
+        swal({
+            type: "error",
+            title: "輸入值不可大於 2000",
+            confirmButtonText: "確定",
+        }).then(( result ) =>
+        {
+            $(thisInput).val(2000);
+        }, ( dismiss ) =>
+        {
+            $(thisInput).val(2000);
         });
     }
 }
