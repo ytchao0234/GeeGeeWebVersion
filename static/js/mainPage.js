@@ -235,6 +235,8 @@ function changeRamNumArrow()
         else
         {
             previous = $(this).val();
+            
+            boundRamType();
 
             localStorage.setItem("GeeGee-Remain-Selection", JSON.stringify({ "currentMode": currentMode,
                                                                              "chosen": getChosen() }));
@@ -252,6 +254,8 @@ function changeRamNumKey()
         {
             e.preventDefault();
         }
+
+        boundRamType();
     });
 }
 
