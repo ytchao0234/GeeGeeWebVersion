@@ -993,7 +993,23 @@ $( "#customDialog input[type=number]" ).change( function()
 
 function numberBounding( thisInput )
 {
-    if( $(thisInput).val() < 1 )
+    if( currentItem == "power" &&
+        $(thisInput).closest("td").prev().find("span").text() == "瓦數" &&
+        $(thisInput).val() > 2000 )
+    {
+        swal({
+            type: "error",
+            title: "輸入值不可大於 2000",
+            confirmButtonText: "確定",
+        }).then(( result ) =>
+        {
+            $(thisInput).val(2000);
+        }, ( dismiss ) =>
+        {
+            $(thisInput).val(2000);
+        });
+    }
+    else if( $(thisInput).val() < 1 )
     {
         swal({
             type: "error",
