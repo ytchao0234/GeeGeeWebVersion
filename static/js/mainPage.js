@@ -184,6 +184,7 @@ function changeRamNumArrow()
         {
             console.log(e);
         });
+        
 
         let thisRam = $(this).parent().prev();
 
