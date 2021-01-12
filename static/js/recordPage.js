@@ -94,7 +94,8 @@ function getHardwareCsv( chosenTableID )
                    ["硬碟", ((chosen.diskList[0] === undefined) ? "未選取" : chosen.diskList[0]), "", "1", "", ""],
                    ["顯示卡", ((chosen.graphicList[0] === undefined) ? "未選取" : chosen.graphicList[0]), "", "1", "", ""],
                    ["電源供應器", chosen.powerList[0], "", "1", "", ""],
-                   ["機殼", chosen.crateList[0], "", "1", "", ""]];
+                   ["", "", "", "", "", ""],
+                   ["總價", "", "", "", "", ""]];
 
     let ramIndex = 4;
 
